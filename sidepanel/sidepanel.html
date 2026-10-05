@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page Audit Lens</title>
+  <link rel="stylesheet" href="sidepanel.css">
+  <script type="module" src="sidepanel.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="../icons/icon32.png" alt="" width="20" height="20">
+      <span class="brand-name">Page Audit Lens</span>
+    </div>
+    <span class="version" id="version">v0.1.0</span>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Audit sections">
+    <button class="tab is-active" role="tab" aria-selected="true" data-tab="setup">Setup</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="summary" disabled title="Coming in M5">Summary</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Coming in M2">Head</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="body" disabled title="Coming in M3">Body</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="health" disabled title="Coming in M4">Health</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Coming in M6">Report</button>
+  </nav>
+
+  <main>
+    <section class="panel" id="panel-setup" role="tabpanel">
+      <form class="context" id="context-form" novalidate>
+        <fieldset>
+          <legend>Page context</legend>
+          <p class="hint">Context changes the verdict. Example: noindex is a launch blocker on a pre-launch site, but critical on a live one.</p>
+          <div class="field-grid">
+            <label class="field">
+              <span>Page type</span>
+              <select id="ctx-page-type" name="pageType">
+                <option value="product">Product</option>
+                <option value="service">Service</option>
+                <option value="location">City / location</option>
+                <option value="category">Category</option>
+                <option value="homepage">Homepage</option>
+                <option value="article">Blog / article</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Site status</span>
+              <select id="ctx-status" name="status">
+                <option value="live">Live</option>
+                <option value="prelaunch">Pre-launch</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Business model</span>
+              <select id="ctx-model" name="model">
+                <option value="d2c">D2C / ecommerce</option>
+                <option value="b2b">B2B / lead gen</option>
+                <option value="local">Local business</option>
+                <option value="content">Content / media</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn-primary" id="audit-btn">Audit this page</button>
+      </form>
+
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+
+      <article class="card" id="result" hidden>
+        <h2 class="card-title">Page</h2>
+        <dl class="kv">
+          <div class="kv-row">
+            <dt>URL</dt>
+            <dd id="out-url" class="mono wrap"></dd>
+          </div>
+          <div class="kv-row">
+            <dt>Title</dt>
+            <dd id="out-title" class="wrap"></dd>
+          </div>
+          <div class="kv-row">
+            <dt>Title length</dt>
+            <dd><span id="out-title-len"></span> <span id="out-title-flag" class="flag"></span></dd>
+          </div>
+          <div class="kv-row">
+            <dt>lang</dt>
+            <dd id="out-lang" class="mono"></dd>
+          </div>
+        </dl>
+        <p class="meta" id="out-time"></p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>Runs only on the tab where you click the toolbar icon. No data leaves your browser.</span>
+  </footer>
+</body>
+</html>

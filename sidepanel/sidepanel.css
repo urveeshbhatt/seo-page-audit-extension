@@ -270,3 +270,29 @@ select {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* M3: buttons side by side, wrap on narrow panels */
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-row .btn-secondary { flex: 1 1 9rem; width: auto; }
+.btn-row .btn-secondary[hidden] { display: none; }
+
+/* Expandable detail lists under a finding */
+.finding-details { margin-top: 6px; }
+.finding-details summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  list-style-position: inside;
+}
+.detail-list {
+  margin: 6px 0 0;
+  padding: 6px 0 0 0;
+  list-style: none;
+  border-top: 1px dashed var(--border);
+  max-height: 16rem;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+.detail-list li { padding: 3px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.detail-list li:last-child { border-bottom: 0; }

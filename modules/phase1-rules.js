@@ -7,7 +7,7 @@
 //   label: short text on the pill (defaults by flag)
 //   why:   one line a client could read
 
-const REVENUE_TYPES = new Set(['product', 'service', 'location', 'category', 'homepage']);
+export const REVENUE_TYPES = new Set(['product', 'service', 'location', 'category', 'homepage']);
 
 const DEFAULT_LABEL = {
   critical: 'Critical',
@@ -16,11 +16,13 @@ const DEFAULT_LABEL = {
   info: 'Info',
 };
 
-function finding(id, check, value, flag, why, label) {
-  return { id, check, value: value === '' || value == null ? '(none)' : String(value), flag, label: label || DEFAULT_LABEL[flag], why };
+export function finding(id, check, value, flag, why, label, items) {
+  const f = { id, check, value: value === '' || value == null ? '(none)' : String(value), flag, label: label || DEFAULT_LABEL[flag], why };
+  if (items && items.length) f.items = items.slice(0, 50).map(String);
+  return f;
 }
 
-const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+export const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 function stripUrl(url) {
   try {
@@ -33,7 +35,7 @@ function stripUrl(url) {
   }
 }
 
-function isPrelaunch(ctx) {
+export function isPrelaunch(ctx) {
   return ctx && ctx.status === 'prelaunch';
 }
 

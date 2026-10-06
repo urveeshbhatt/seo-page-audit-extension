@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v0.2.0, milestone M2 of 6 (head checks). See [Roadmap](#roadmap).
+> **Status:** v0.3.0, milestone M3 of 6 (body checks). See [Roadmap](#roadmap).
 
 ## Why
 
@@ -31,7 +31,7 @@ If you switch to another tab, click the toolbar icon again (or press **Alt+Shift
 
 - **No permanent website access.** The extension has no host permissions. It runs only on the tab where you click its icon, using Chrome's `activeTab` grant
 - **Read-only.** Collectors only read the page; they never change it
-- **No network calls.** No analytics, no remote code, no external fonts or CDNs. Audit data stays in your browser
+- **No outside network calls.** No analytics, no remote code, no external fonts or CDNs. The only request is the audited page re-fetching its own URL (same origin) to compare raw HTML with the rendered page. Audit data stays in your browser
 - **Strict Content Security Policy** on extension pages: scripts only from the extension itself
 - **No `innerHTML` with page data.** Everything from the audited page is rendered as text, so a malicious page cannot run code inside the extension
 
@@ -45,7 +45,8 @@ background.js            Opens the side panel on toolbar click
 sidepanel/               UI (HTML, CSS, JS)
 modules/
   phase1-elements.js     Phase 1 collectors (injected into the page)
-  phase1-rules.js        Phase 1 rules: flags, labels, reasons
+  phase1-rules.js        Phase 1 head rules: flags, labels, reasons
+  phase1-body-rules.js   Phase 1 body rules: raw vs rendered, headings, images, links, placeholders
 tests/                   Golden tests from real pages (npm test)
 icons/
 ```
@@ -58,8 +59,8 @@ Each learning phase becomes one module. Collector, rules and report stay the sam
 | --- | --- | --- |
 | M1 | Side panel, context form, page basics | Done |
 | M2 | Head checks: robots, canonical, viewport, title, description, OG, schema, lang | Done |
-| M3 | Raw vs rendered, headings, images, links, placeholders | Next |
-| M4 | Page health: DOM size, hidden content, CSS text, shadow DOM, tech stack | |
+| M3 | Raw vs rendered, headings, images, links, placeholders | Done |
+| M4 | Page health: DOM size, hidden content, CSS text, shadow DOM, tech stack | Next |
 | M5 | Rules engine: auto-ignore known traps, suggested verdicts, summary | |
 | M6 | Report: edit verdicts, copy, download, highlight on page | |
 

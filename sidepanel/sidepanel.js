@@ -207,7 +207,8 @@ function judge(name, context) {
   if (name === 'business') {
     ui.businessLine.textContent = `Checks for: ${MODELS[context.model] || context.model}${context.ymyl ? ' + YMYL topic' : ''}. Change the business model on Setup to see other checks.`;
   }
-  view.result = view.evaluate(view.data, context);
+  // Body rules also compare schema (from Head) with what the page shows
+  view.result = view.evaluate(view.data, context, name === 'body' ? views.head.data : undefined);
   renderView(view);
 }
 

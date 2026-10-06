@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v1.1.0. All six Phase 1 milestones are done, plus business-model checks. See [Roadmap](#roadmap).
+> **Status:** v1.2.0. Covers every check in the Phase 1 (Elements panel) playbook, plus business-model checks. See [Roadmap](#roadmap).
 
 ## Why
 
@@ -30,9 +30,9 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 | Tab | What it checks |
 | --- | --- |
 | Summary | Overall verdict, top 7 fixes ranked by impact, launch checklist, ignored traps |
-| Head | Robots, canonical, viewport, title, description, Open Graph, schema, lang, hreflang |
-| Body | Raw HTML vs rendered, headings, images, links, placeholders and test content |
-| Health | Hidden content, CSS-injected text, shadow DOM, DOM size, render-blocking files, embeds, tech stack |
+| Head | Robots, canonical, viewport, title, description, Open Graph, schema (per page type), lang, hreflang, minor tags |
+| Body | Raw HTML vs rendered, X-Robots-Tag header, schema vs visible price and reviews, headings, images, links, placeholders |
+| Health | Hidden content, CSS-injected text, shadow DOM, DOM size, render-blocking files, embeds, tech stack, HTML comments |
 | Business | Checks for the chosen business model (see below), plus stricter E-E-A-T checks for YMYL topics |
 | Report | Edit verdicts and notes, export to Markdown or CSV |
 

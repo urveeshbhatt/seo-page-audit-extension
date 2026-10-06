@@ -74,7 +74,11 @@ function canonicalFindings(d, ctx) {
     if (noindex) {
       return [finding('canonical', 'Canonical', '0 tags', 'info', 'SEO plugins often drop the canonical on noindex pages. Re-check after noindex is removed: you should see exactly 1.', 'Re-check later')];
     }
-    return [finding('canonical', 'Canonical', '0 tags', 'warning', 'No canonical. Parameter, slash and www variants of this URL can split ranking signals.')];
+    // Step 1B: important where filters and parameters multiply URLs (shops, listings), low on small brochure sites
+    const manyUrls = ['d2c', 'marketplace'].includes(ctx.model) || ctx.pageType === 'category' || ctx.pageType === 'product';
+    return [manyUrls
+      ? finding('canonical', 'Canonical', '0 tags', 'warning', 'No canonical on a shop or listing page. Filter, sort and tracking parameters create duplicate URLs that split ranking signals.')
+      : finding('canonical', 'Canonical', '0 tags', 'info', 'No canonical. Low risk on a small site without filters; still worth adding a self-referencing canonical (SEO plugins do it in one click).')];
   }
   if (c.length > 1) {
     return [finding('canonical', 'Canonical', `${c.length} tags: ${c.join(' | ')}`, 'warning', 'More than one canonical. Google may ignore all of them. Usually a theme and a plugin both add one.')];
@@ -179,11 +183,42 @@ function ogFindings(d, ctx) {
 
 // ---------------- Step 3: schema ----------------
 
+// Step 3D table: which schema each page type should carry
+const ORG_TYPES = /^(Organization|Corporation|OnlineStore|OnlineBusiness|NGO|EducationalOrganization|MedicalOrganization|LocalBusiness|Store|Dentist|Restaurant|ProfessionalService|Physician|MedicalClinic|Hotel)$/;
+const LOCAL_TYPES = /LocalBusiness|Place|Store|Dentist|Restaurant|Physician|MedicalClinic|Hotel|ProfessionalService|LodgingBusiness|FoodEstablishment/;
+
+function schemaTypeFindings(types, ctx) {
+  const out = [];
+  const has = (re) => types.some((t) => re.test(t));
+  if (ctx.pageType === 'homepage') {
+    const missing = [!has(ORG_TYPES) && 'Organization', !types.includes('WebSite') && 'WebSite'].filter(Boolean);
+    out.push(missing.length
+      ? finding('schema-type', 'Homepage schema', `Missing: ${missing.join(', ')}`, missing.includes('Organization') ? 'warning' : 'info',
+        'A homepage should carry Organization (name, logo, contact, sameAs) and WebSite. It feeds the brand knowledge panel.')
+      : finding('schema-type', 'Homepage schema', 'Organization + WebSite', 'good', 'Brand entity is described.'));
+  } else if (ctx.pageType === 'article') {
+    out.push(has(/^(Article|BlogPosting|NewsArticle|TechArticle|MedicalWebPage)$/)
+      ? finding('schema-type', 'Article schema', 'Found', 'good', 'Article markup present. Check it names the author and dates.')
+      : finding('schema-type', 'Article schema', 'Missing', 'warning', 'Blog page without Article or BlogPosting schema (with author, datePublished, dateModified).'));
+  } else if (ctx.pageType === 'location') {
+    out.push(has(LOCAL_TYPES)
+      ? finding('schema-type', 'Location schema', types.filter((t) => LOCAL_TYPES.test(t)).slice(0, 3).join(', '), 'good', 'Location is described with address-ready markup.')
+      : finding('schema-type', 'Location schema', 'No LocalBusiness or Place', 'info', 'City and centre pages should carry LocalBusiness or Place with PostalAddress, phone and opening hours.'));
+  }
+  if (ctx.pageType !== 'homepage') {
+    out.push(types.includes('BreadcrumbList')
+      ? finding('schema-breadcrumb', 'Breadcrumb schema', 'Found', 'good', 'Breadcrumb path can show in search results.')
+      : finding('schema-breadcrumb', 'Breadcrumb schema', 'Not found', 'info', 'Bonus: BreadcrumbList shows the page path in search results instead of a long URL.'));
+  }
+  return out;
+}
+
 function schemaFindings(d, ctx) {
   const s = d.jsonld;
   const out = [];
   if (s.scriptCount === 0) {
     out.push(finding('schema', 'Structured data', '0 JSON-LD blocks', 'warning', 'No schema. Google cannot show rich results like price or stars.'));
+    out.push(...schemaTypeFindings([], ctx));
     return out;
   }
   out.push(finding('schema', 'Structured data', s.types.join(', ') || '(no @type)', 'good', `${plural(s.scriptCount, 'JSON-LD block')} found.`));
@@ -192,6 +227,7 @@ function schemaFindings(d, ctx) {
   if (ctx.pageType === 'product' && !s.types.includes('Product')) {
     out.push(finding('schema-product', 'Product schema', 'MISSING', 'warning', 'Product page without Product schema. No price or stock in search results.'));
   }
+  out.push(...schemaTypeFindings(s.types, ctx));
 
   s.products.slice(0, 1).forEach((p) => {
     if (/\s[|–—-]\s/.test(p.name) && p.name === d.title) {
@@ -232,6 +268,24 @@ function langFindings(d) {
   return out;
 }
 
+// ---------------- Step 3: MINOR bucket ----------------
+
+function minorFindings(d) {
+  const e = d.extras;
+  if (!e) return [];
+  const out = [];
+  if (e.metaKeywords) {
+    out.push(finding('meta-keywords', 'Meta keywords', e.metaKeywords, 'info', 'Google has ignored this tag since 2009. It only shows competitors your keyword list. Safe to remove.'));
+  }
+  out.push(e.favicon
+    ? finding('favicon', 'Favicon', 'Found', 'good', 'Shows next to the site name in mobile search results.')
+    : finding('favicon', 'Favicon', 'Not found', 'info', 'No favicon link. Google shows a generic globe icon next to your result on mobile.'));
+  if (e.preconnect.length) {
+    out.push(finding('preconnect', 'Preconnect hints', e.preconnect.join(', '), 'info', 'Early connections to these hosts. Keep only the ones used above the fold (fonts, CDN); extra hints waste bandwidth.'));
+  }
+  return out;
+}
+
 // ---------------- public ----------------
 
 export function evaluateHead(d, ctx) {
@@ -241,7 +295,8 @@ export function evaluateHead(d, ctx) {
     { id: 'social', title: 'Social preview', findings: ogFindings(d, ctx) },
     { id: 'schema', title: 'Structured data', findings: schemaFindings(d, ctx) },
     { id: 'language', title: 'Language', findings: langFindings(d) },
-  ];
+    { id: 'minor', title: 'Minor (note only)', findings: minorFindings(d) },
+  ].filter((g) => g.findings.length);
   const counts = { critical: 0, warning: 0, good: 0, info: 0 };
   groups.forEach((g) => g.findings.forEach((f) => { counts[f.flag] += 1; }));
   return { groups, counts };

@@ -23,6 +23,75 @@ function target(out, id, targets) {
 const imgT = (imgs) => imgs.filter((i) => i.file).map((i) => ({ kind: 'img', value: i.file }));
 const hrefT = (links) => links.filter((l) => l.hasHref).map((l) => ({ kind: 'href', value: l.href }));
 
+// ---------------- Step 1A extra: X-Robots-Tag HTTP header ----------------
+// Read from the same-origin fetch of the page. A noindex here blocks the page
+// even when the HTML robots tag says index.
+
+function xRobotsFindings(r, ctx) {
+  if (!r.bytes) return [];
+  const v = r.xRobots || '';
+  if (!v) return [finding('x-robots', 'X-Robots-Tag header', 'None', 'good', 'No HTTP header is blocking indexing.')];
+  if (!/\bnoindex\b|\bnone\b/i.test(v)) return [finding('x-robots', 'X-Robots-Tag header', v, 'info', 'Header present without noindex. Check it matches the robots meta tag.')];
+  if (isPrelaunch(ctx)) return [finding('x-robots', 'X-Robots-Tag header', v, 'warning', 'The server sends noindex in the HTTP header. Remove it at launch as well as the meta tag (server or plugin setting).', 'Launch blocker')];
+  return [finding('x-robots', 'X-Robots-Tag header', v, isRevenue(ctx) ? 'critical' : 'warning',
+    'The server tells Google not to index this page in the HTTP header. The HTML looks fine, so this is easy to miss. Check server config, CDN or security plugin.')];
+}
+
+// ---------------- Step 3D: schema vs what the page shows ----------------
+
+const MAIN_TYPES = /^(Product|Organization|WebSite|LocalBusiness|Article|BlogPosting|NewsArticle|FAQPage|BreadcrumbList|Recipe|Event|Course|SoftwareApplication|Service|VideoObject|Review|AggregateRating|Place)$/;
+
+function schemaPageFindings(d, ctx, head) {
+  const out = [];
+  if (!head || !head.jsonld) return out;
+  const pre = isPrelaunch(ctx);
+  const p = head.jsonld.products[0];
+
+  if (p && p.hasOffers && Array.isArray(d.visiblePrices)) {
+    const schemaPrices = [p.price, p.highPrice].filter(Boolean).map((x) => String(Number(String(x).replace(/,/g, '')))).filter((x) => x !== 'NaN');
+    if (schemaPrices.length === 2 && d.visiblePrices.length) {
+      // AggregateOffer (variants): the page usually shows one variant's price at a time
+      const [low, high] = schemaPrices.map(Number);
+      const inRange = d.visiblePrices.map(Number).filter((v) => v >= low && v <= high);
+      out.push(inRange.length
+        ? finding('schema-price-match', 'Schema price vs page', `Schema range ${low} - ${high} · page shows ${inRange.slice(0, 4).join(', ')}`, 'good',
+          'Visible price sits inside the schema price range. Check each variant shows its own price when selected.')
+        : finding('schema-price-match', 'Schema price vs page', `Schema range ${low} - ${high} · page shows ${d.visiblePrices.slice(0, 6).join(', ')}`, pre ? 'warning' : 'critical',
+          'No visible price falls inside the schema price range. Markup that differs from the page breaks Google rules and Merchant listings.', pre ? 'Launch blocker' : undefined));
+    } else if (schemaPrices.length && d.visiblePrices.length) {
+      const missing = schemaPrices.filter((x) => !d.visiblePrices.includes(x));
+      out.push(missing.length
+        ? finding('schema-price-match', 'Schema price vs page', `Schema ${schemaPrices.join(' - ')} · page shows ${d.visiblePrices.slice(0, 6).join(', ')}`, pre ? 'warning' : 'critical',
+          'Schema price is not shown on the page. Google treats markup that differs from visible content as spam (manual action risk) and Merchant listings get disapproved.', pre ? 'Launch blocker' : undefined)
+        : finding('schema-price-match', 'Schema price vs page', `${schemaPrices.join(' - ')} shown on page`, 'good', 'Schema price matches what visitors see.'));
+    } else if (schemaPrices.length) {
+      out.push(finding('schema-price-match', 'Schema price vs page', 'No visible price found', 'info', 'Could not find a price on the page to compare. Check by hand that the schema price is visible.'));
+    }
+  }
+
+  if (p && p.hasRating) {
+    const rs = d.reviewSignals || {};
+    const visible = rs.ratingText || (rs.reviewCount && rs.reviewCount > 0);
+    out.push(visible
+      ? finding('schema-rating-visible', 'Schema rating vs page', 'Reviews visible on page', 'good', 'Rating in schema is backed by reviews people can see.')
+      : finding('schema-rating-visible', 'Schema rating vs page', rs.reviewCount === 0 ? 'Schema has rating, page shows 0 reviews' : 'Schema has rating, no reviews visible', pre ? 'warning' : 'critical',
+        'Stars in schema without visible reviews break Google review-snippet rules. This is the classic fake-rating penalty.', pre ? 'Launch blocker' : undefined));
+  }
+
+  const r = d.raw || {};
+  if (r.ok && Array.isArray(r.jsonldTypes)) {
+    const jsOnly = head.jsonld.types.filter((t) => MAIN_TYPES.test(t) && !r.jsonldTypes.includes(t));
+    if (jsOnly.length) {
+      const key = jsOnly.includes('Product') && ctx.pageType === 'product';
+      out.push(finding('schema-js', 'Schema added by JavaScript', jsOnly.join(', '), key ? 'warning' : 'info',
+        'This schema is not in the server HTML; a script adds it later. Google usually reads it after rendering, but late and less reliably. Prefer server-side output (SEO plugin, not a tag manager).'));
+    } else if (head.jsonld.scriptCount) {
+      out.push(finding('schema-js', 'Schema in server HTML', `${r.jsonldCount} block${r.jsonldCount === 1 ? '' : 's'}`, 'good', 'All main schema types are in the HTML the server sends.'));
+    }
+  }
+  return out;
+}
+
 // ---------------- Step 2: raw HTML vs rendered page ----------------
 
 function renderingFindings(d, ctx) {
@@ -61,6 +130,7 @@ function renderingFindings(d, ctx) {
     out.push(finding('raw-links', 'Links in raw HTML', `${r.linkCount} raw vs ${rendered} rendered`, 'good', 'Links exist in the server HTML, so crawlers can follow them.'));
   }
 
+  out.push(...xRobotsFindings(r, ctx));
   out.push(finding('raw-size', 'Page weight', `${Math.round(r.bytes / 1024)} KB HTML · ${r.words} words raw · ${d.renderedWords} words visible`, 'info',
     r.bytes > 1500 * 1024
       ? 'Large HTML. Often inline JSON from the framework; it slows the first byte-to-paint on mobile.'
@@ -324,14 +394,15 @@ function placeholderFindings(d, ctx) {
 
 // ---------------- public ----------------
 
-export function evaluateBody(d, ctx) {
+export function evaluateBody(d, ctx, head) {
   const groups = [
     { id: 'placeholders', title: 'Unfinished content', findings: placeholderFindings(d, ctx) },
+    { id: 'schema-page', title: 'Schema vs page (Step 3D)', findings: schemaPageFindings(d, ctx, head) },
     { id: 'rendering', title: 'Raw HTML vs rendered (Step 2)', findings: renderingFindings(d, ctx) },
     { id: 'headings', title: 'Headings (Step 4A)', findings: headingFindings(d, ctx) },
     { id: 'images', title: 'Images (Step 4B)', findings: imageFindings(d, ctx) },
     { id: 'links', title: 'Links (Step 4C)', findings: linkFindings(d) },
-  ];
+  ].filter((g) => g.findings.length);
   const counts = { critical: 0, warning: 0, good: 0, info: 0 };
   groups.forEach((g) => g.findings.forEach((f) => { counts[f.flag] += 1; }));
   return { groups, counts };

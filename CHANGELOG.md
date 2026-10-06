@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0 (Phase 1 gaps closed)
+
+Every check in the Phase 1 playbook (Elements panel) is now covered.
+
+- **Schema vs page** (Body tab): schema price must be visible on the page (variant price ranges supported), and a schema rating must be backed by visible reviews. Mismatch = Critical on live sites, Launch blocker before launch
+- **Schema per page type** (Head tab): homepage needs Organization + WebSite, blog needs Article/BlogPosting, city pages LocalBusiness or Place, BreadcrumbList as a bonus everywhere else
+- **Schema added by JavaScript**: compares JSON-LD in the server HTML with the rendered page
+- **X-Robots-Tag header**: read from the same-origin page fetch; a noindex header is caught even when the HTML looks fine
+- **Minor bucket** (Head tab, note only): meta keywords, favicon, preconnect hints
+- **HTML comments** (Health tab): stack clues listed; developer notes, staging URLs or secrets flagged
+- **Canonical missing** now depends on the site: warning for shops and listings, info for small sites
+- 42 golden tests
+
 ## 1.1.0 (business models)
 
 - Business model now changes the audit. Seven models: D2C / ecommerce, B2B / lead gen, Local business, SaaS / software, Marketplace / listings, Content / affiliate / blog, Other / mixed

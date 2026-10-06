@@ -1,39 +1,162 @@
 {
-  "_note": "Captured live 2026-10-06 with collectHealth() (366px viewport). hidden[] trimmed: 3 of 17 collapsed product cards kept; categories reflect the later collector (cards = expandable, S:n = React streaming placeholders); the nomodule polyfills script is no longer counted as render-blocking.",
+  "_note": "Captured live 2026-10-06 with collectHealth() (366px viewport). hidden[] trimmed: 3 of 17 collapsed product cards kept; categories reflect the later collector (cards = expandable, S:n = React streaming placeholders); the nomodule polyfills script is no longer counted as render-blocking. v1.2 comments captured live 2026-10-06.",
   "url": "https://www.regus.com/en/in/mumbai",
-  "dom": { "nodes": 2042, "maxDepth": 12, "maxChildren": 142, "maxChildrenAt": "body.__className_5211c7", "htmlBytes": 2701515 },
+  "dom": {
+    "nodes": 2042,
+    "maxDepth": 12,
+    "maxChildren": 142,
+    "maxChildrenAt": "body.__className_5211c7",
+    "htmlBytes": 2701515
+  },
   "hidden": [
-    { "el": "ul.index-module_navbarList__eZ5CS", "reason": "display:none", "chars": 43, "category": "ui", "sample": "Products Solutions Enterprise Explore Resources" },
-    { "el": "section#geo-city-search-upper-web42221.GeoSearchLocations_geoSearchWrapper", "reason": "display:none", "chars": 138, "category": "ui", "sample": "Explore our locations in Mumbai Find your ideal workspace, w" },
-    { "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY", "reason": "display:none", "chars": 50, "category": "expandable", "sample": "Day coworking north_east Prices from INR 1,290 Per day" },
-    { "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY", "reason": "display:none", "chars": 63, "category": "expandable", "sample": "Hourly coworking north_east Prices from INR 161 Per person p" },
-    { "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY", "reason": "display:none", "chars": 64, "category": "expandable", "sample": "Specialist offices north_east Prices from INR 440 Per person" },
-    { "el": "dialog.NagPopupContent_popup__vA7dP", "reason": "display:none", "chars": 123, "category": "ui", "sample": "Help finding the right workspace. close Advisors provide tai" },
-    { "el": "div#S:1", "reason": "display:none", "chars": 894, "category": "framework", "sample": "Platina 11F-BKC Bandra Kurla Complex Plot C 59 11th Floor, G" },
-    { "el": "div#S:3", "reason": "display:none", "chars": 894, "category": "framework", "sample": "Platina 11F-BKC Bandra Kurla Complex Plot C 59 11th Floor, G" }
+    {
+      "el": "ul.index-module_navbarList__eZ5CS",
+      "reason": "display:none",
+      "chars": 43,
+      "category": "ui",
+      "sample": "Products Solutions Enterprise Explore Resources"
+    },
+    {
+      "el": "section#geo-city-search-upper-web42221.GeoSearchLocations_geoSearchWrapper",
+      "reason": "display:none",
+      "chars": 138,
+      "category": "ui",
+      "sample": "Explore our locations in Mumbai Find your ideal workspace, w"
+    },
+    {
+      "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY",
+      "reason": "display:none",
+      "chars": 50,
+      "category": "expandable",
+      "sample": "Day coworking north_east Prices from INR 1,290 Per day"
+    },
+    {
+      "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY",
+      "reason": "display:none",
+      "chars": 63,
+      "category": "expandable",
+      "sample": "Hourly coworking north_east Prices from INR 161 Per person p"
+    },
+    {
+      "el": "li.GeoProductsGallery_card__nqu09.GeoProductsGallery_cardHidden__EBzqY",
+      "reason": "display:none",
+      "chars": 64,
+      "category": "expandable",
+      "sample": "Specialist offices north_east Prices from INR 440 Per person"
+    },
+    {
+      "el": "dialog.NagPopupContent_popup__vA7dP",
+      "reason": "display:none",
+      "chars": 123,
+      "category": "ui",
+      "sample": "Help finding the right workspace. close Advisors provide tai"
+    },
+    {
+      "el": "div#S:1",
+      "reason": "display:none",
+      "chars": 894,
+      "category": "framework",
+      "sample": "Platina 11F-BKC Bandra Kurla Complex Plot C 59 11th Floor, G"
+    },
+    {
+      "el": "div#S:3",
+      "reason": "display:none",
+      "chars": 894,
+      "category": "framework",
+      "sample": "Platina 11F-BKC Bandra Kurla Complex Plot C 59 11th Floor, G"
+    }
   ],
   "hiddenChars": 2964,
   "visibleChars": 10214,
   "cssText": [],
-  "shadow": { "open": 1, "openWithText": 0, "customElements": 1, "emptyCustom": [] },
+  "shadow": {
+    "open": 1,
+    "openWithText": 0,
+    "customElements": 1,
+    "emptyCustom": []
+  },
   "iframes": [
-    { "host": "a247012668.cdn.optimizely.com", "visible": false, "lazy": false, "title": "Optimizely Internal Frame" },
-    { "host": "(no src yet)", "visible": false, "lazy": false, "title": "" },
-    { "host": "(no src yet)", "visible": false, "lazy": false, "title": "" },
-    { "host": "insight.adsrvr.org", "visible": false, "lazy": false, "title": "TTD Universal Pixel" }
+    {
+      "host": "a247012668.cdn.optimizely.com",
+      "visible": false,
+      "lazy": false,
+      "title": "Optimizely Internal Frame"
+    },
+    {
+      "host": "(no src yet)",
+      "visible": false,
+      "lazy": false,
+      "title": ""
+    },
+    {
+      "host": "(no src yet)",
+      "visible": false,
+      "lazy": false,
+      "title": ""
+    },
+    {
+      "host": "insight.adsrvr.org",
+      "visible": false,
+      "lazy": false,
+      "title": "TTD Universal Pixel"
+    }
   ],
-  "resources": { "scripts": 158, "externalScripts": 50, "inlineScriptKB": 1891, "stylesheets": 1, "blockingCss": 1, "blockingScripts": [], "blockingScriptCount": 0 },
+  "resources": {
+    "scripts": 158,
+    "externalScripts": 50,
+    "inlineScriptKB": 1891,
+    "stylesheets": 1,
+    "blockingCss": 1,
+    "blockingScripts": [],
+    "blockingScriptCount": 0
+  },
   "generator": [],
   "stack": [
-    { "name": "Next.js", "group": "framework" },
-    { "name": "Google Tag Manager", "group": "tracking" },
-    { "name": "Google Analytics 4", "group": "tracking" },
-    { "name": "Meta Pixel", "group": "tracking" },
-    { "name": "Microsoft Ads (UET)", "group": "tracking" },
-    { "name": "LinkedIn Insight", "group": "tracking" },
-    { "name": "Optimizely", "group": "testing" },
-    { "name": "The Trade Desk", "group": "tracking" }
+    {
+      "name": "Next.js",
+      "group": "framework"
+    },
+    {
+      "name": "Google Tag Manager",
+      "group": "tracking"
+    },
+    {
+      "name": "Google Analytics 4",
+      "group": "tracking"
+    },
+    {
+      "name": "Meta Pixel",
+      "group": "tracking"
+    },
+    {
+      "name": "Microsoft Ads (UET)",
+      "group": "tracking"
+    },
+    {
+      "name": "LinkedIn Insight",
+      "group": "tracking"
+    },
+    {
+      "name": "Optimizely",
+      "group": "testing"
+    },
+    {
+      "name": "The Trade Desk",
+      "group": "tracking"
+    }
   ],
-  "tags": { "gtm": ["GTM-5P553N6R"], "ga4": ["G-PBMHVP5S33"], "ua": [], "aw": [] },
-  "collectedAt": "2026-10-06T03:45:02.436Z"
+  "tags": {
+    "gtm": [
+      "GTM-5P553N6R"
+    ],
+    "ga4": [
+      "G-PBMHVP5S33"
+    ],
+    "ua": [],
+    "aw": []
+  },
+  "collectedAt": "2026-10-06T03:45:02.436Z",
+  "comments": [
+    "0.100.26-3; EA"
+  ]
 }

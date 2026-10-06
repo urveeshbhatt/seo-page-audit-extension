@@ -1,5 +1,5 @@
 {
-  "_note": "Captured live 2026-10-06 from the pre-launch product page with collectBody(). links[] trimmed to the interesting ones (no href, UI controls, external, placeholders, empty text); linkTotal is the real count.",
+  "_note": "Captured live 2026-10-06 from the pre-launch product page with collectBody(). links[] trimmed to the interesting ones (no href, UI controls, external, placeholders, empty text); linkTotal is the real count. v1.2 fields (raw.xRobots, raw.jsonld*, visiblePrices, reviewSignals, renderedJsonld) captured live 2026-10-06.",
   "url": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
   "viewportHeight": 707,
   "renderedWords": 959,
@@ -9,78 +9,570 @@
     "bytes": 280071,
     "words": 959,
     "tests": [
-      { "kind": "H1", "text": "A2 Desi Cow Bilona Ghee", "inRaw": true },
-      { "kind": "Price", "text": "₹999", "inRaw": true },
-      { "kind": "Paragraph", "text": "Matka curd → wooden churner by hand → butter rises → slow heat → golden ghee. Real family, real place, date on screen. Y", "inRaw": true },
-      { "kind": "Paragraph", "text": "New to checking ghee? Learn how to test ghee purity at home — and exactly what our report rules out.", "inRaw": true },
-      { "kind": "Paragraph", "text": "Our cows roam free in chemical-free buransh & oak forests, grazing on wild grass and herbs. The medicinal essence of the", "inRaw": true },
-      { "kind": "H2", "text": "The bilona process, on real footage", "inRaw": true },
-      { "kind": "H2", "text": "Third-party lab report — every batch", "inRaw": true }
+      {
+        "kind": "H1",
+        "text": "A2 Desi Cow Bilona Ghee",
+        "inRaw": true
+      },
+      {
+        "kind": "Price",
+        "text": "₹999",
+        "inRaw": true
+      },
+      {
+        "kind": "Paragraph",
+        "text": "Matka curd → wooden churner by hand → butter rises → slow heat → golden ghee. Real family, real place, date on screen. Y",
+        "inRaw": true
+      },
+      {
+        "kind": "Paragraph",
+        "text": "New to checking ghee? Learn how to test ghee purity at home — and exactly what our report rules out.",
+        "inRaw": true
+      },
+      {
+        "kind": "Paragraph",
+        "text": "Our cows roam free in chemical-free buransh & oak forests, grazing on wild grass and herbs. The medicinal essence of the",
+        "inRaw": true
+      },
+      {
+        "kind": "H2",
+        "text": "The bilona process, on real footage",
+        "inRaw": true
+      },
+      {
+        "kind": "H2",
+        "text": "Third-party lab report — every batch",
+        "inRaw": true
+      }
     ],
     "linkCount": 92,
-    "h1Count": 1
+    "h1Count": 1,
+    "xRobots": "",
+    "jsonldCount": 1,
+    "jsonldTypes": [
+      "Place",
+      "PostalAddress",
+      "Organization",
+      "ImageObject",
+      "ContactPoint",
+      "WebSite",
+      "ItemPage",
+      "Product",
+      "AggregateOffer",
+      "Brand"
+    ]
   },
   "headings": [
-    { "level": 1, "text": "A2 Desi Cow Bilona Ghee", "visible": true },
-    { "level": 2, "text": "The bilona process, on real footage", "visible": true },
-    { "level": 2, "text": "Third-party lab report — every batch", "visible": true },
-    { "level": 3, "text": "100%", "visible": true },
-    { "level": 3, "text": "[__]%", "visible": true },
-    { "level": 3, "text": "[__]%", "visible": true },
-    { "level": 2, "text": "A named village — not a vague “Himalayas”", "visible": true },
-    { "level": 2, "text": "Grass-fed Badri & Desi cows", "visible": true },
-    { "level": 3, "text": "A2 is a protein — not a breed, not a sticker", "visible": true },
-    { "level": 2, "text": "A face, a name, a reason", "visible": true },
-    { "level": 2, "text": "Buranshvalley vs the shelf", "visible": true },
-    { "level": 2, "text": "More than a cooking fat", "visible": true },
-    { "level": 2, "text": "What early buyers say", "visible": true },
-    { "level": 2, "text": "Additional information", "visible": true },
-    { "level": 2, "text": "Reviews", "visible": true },
-    { "level": 2, "text": "Your questions, answered", "visible": true },
-    { "level": 2, "text": "Go deeper into ghee", "visible": true }
+    {
+      "level": 1,
+      "text": "A2 Desi Cow Bilona Ghee",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "The bilona process, on real footage",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Third-party lab report — every batch",
+      "visible": true
+    },
+    {
+      "level": 3,
+      "text": "100%",
+      "visible": true
+    },
+    {
+      "level": 3,
+      "text": "[__]%",
+      "visible": true
+    },
+    {
+      "level": 3,
+      "text": "[__]%",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "A named village — not a vague “Himalayas”",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Grass-fed Badri & Desi cows",
+      "visible": true
+    },
+    {
+      "level": 3,
+      "text": "A2 is a protein — not a breed, not a sticker",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "A face, a name, a reason",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Buranshvalley vs the shelf",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "More than a cooking fat",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "What early buyers say",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Additional information",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Reviews",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Your questions, answered",
+      "visible": true
+    },
+    {
+      "level": 2,
+      "text": "Go deeper into ghee",
+      "visible": true
+    }
   ],
   "headingTotal": 17,
   "images": [
-    { "src": "https://cdn-cookieyes.com/assets/images/revisit.svg", "file": "revisit.svg", "hasAltAttr": true, "alt": "Revisit consent button", "tracker": false, "lazy": false, "fetchpriority": "", "aboveFold": true, "visible": true, "shownWidth": 30, "naturalWidth": 36, "hasWidthHeight": false, "decorativeHint": true },
-    { "src": "https://cdn-cookieyes.com/assets/images/close.svg", "file": "close.svg", "hasAltAttr": true, "alt": "", "tracker": false, "lazy": false, "fetchpriority": "", "aboveFold": false, "visible": false, "shownWidth": 10, "naturalWidth": 10, "hasWidthHeight": false, "decorativeHint": true },
-    { "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-1-main-600x600.jpg", "file": "buransh-test-1-main-600x600.jpg", "hasAltAttr": true, "alt": "test main image", "tracker": false, "lazy": false, "fetchpriority": "high", "aboveFold": true, "visible": true, "shownWidth": 298, "naturalWidth": 364, "hasWidthHeight": true, "decorativeHint": false },
-    { "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-4-sizes-100x100.jpg", "file": "buransh-test-4-sizes-100x100.jpg", "hasAltAttr": true, "alt": "A2 Desi Cow Bilona Ghee - Image 2", "tracker": false, "lazy": false, "fetchpriority": "low", "aboveFold": true, "visible": true, "shownWidth": 75, "naturalWidth": 91, "hasWidthHeight": true, "decorativeHint": false },
-    { "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-3-lifestyle-100x100.jpg", "file": "buransh-test-3-lifestyle-100x100.jpg", "hasAltAttr": true, "alt": "A2 Desi Cow Bilona Ghee - Image 3", "tracker": false, "lazy": false, "fetchpriority": "low", "aboveFold": true, "visible": true, "shownWidth": 75, "naturalWidth": 91, "hasWidthHeight": true, "decorativeHint": false },
-    { "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-2-texture-100x100.jpg", "file": "buransh-test-2-texture-100x100.jpg", "hasAltAttr": true, "alt": "A2 Desi Cow Bilona Ghee - Image 4", "tracker": false, "lazy": false, "fetchpriority": "low", "aboveFold": true, "visible": true, "shownWidth": 75, "naturalWidth": 91, "hasWidthHeight": true, "decorativeHint": false },
-    { "src": "", "file": "", "hasAltAttr": true, "alt": "Map showing Maitoli village near Berinag, Pithoragarh, Uttarakhand", "tracker": false, "lazy": true, "fetchpriority": "", "aboveFold": false, "visible": true, "shownWidth": 318, "naturalWidth": 0, "hasWidthHeight": true, "decorativeHint": false }
+    {
+      "src": "https://cdn-cookieyes.com/assets/images/revisit.svg",
+      "file": "revisit.svg",
+      "hasAltAttr": true,
+      "alt": "Revisit consent button",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "",
+      "aboveFold": true,
+      "visible": true,
+      "shownWidth": 30,
+      "naturalWidth": 36,
+      "hasWidthHeight": false,
+      "decorativeHint": true
+    },
+    {
+      "src": "https://cdn-cookieyes.com/assets/images/close.svg",
+      "file": "close.svg",
+      "hasAltAttr": true,
+      "alt": "",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "",
+      "aboveFold": false,
+      "visible": false,
+      "shownWidth": 10,
+      "naturalWidth": 10,
+      "hasWidthHeight": false,
+      "decorativeHint": true
+    },
+    {
+      "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-1-main-600x600.jpg",
+      "file": "buransh-test-1-main-600x600.jpg",
+      "hasAltAttr": true,
+      "alt": "test main image",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "high",
+      "aboveFold": true,
+      "visible": true,
+      "shownWidth": 298,
+      "naturalWidth": 364,
+      "hasWidthHeight": true,
+      "decorativeHint": false
+    },
+    {
+      "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-4-sizes-100x100.jpg",
+      "file": "buransh-test-4-sizes-100x100.jpg",
+      "hasAltAttr": true,
+      "alt": "A2 Desi Cow Bilona Ghee - Image 2",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "low",
+      "aboveFold": true,
+      "visible": true,
+      "shownWidth": 75,
+      "naturalWidth": 91,
+      "hasWidthHeight": true,
+      "decorativeHint": false
+    },
+    {
+      "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-3-lifestyle-100x100.jpg",
+      "file": "buransh-test-3-lifestyle-100x100.jpg",
+      "hasAltAttr": true,
+      "alt": "A2 Desi Cow Bilona Ghee - Image 3",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "low",
+      "aboveFold": true,
+      "visible": true,
+      "shownWidth": 75,
+      "naturalWidth": 91,
+      "hasWidthHeight": true,
+      "decorativeHint": false
+    },
+    {
+      "src": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-2-texture-100x100.jpg",
+      "file": "buransh-test-2-texture-100x100.jpg",
+      "hasAltAttr": true,
+      "alt": "A2 Desi Cow Bilona Ghee - Image 4",
+      "tracker": false,
+      "lazy": false,
+      "fetchpriority": "low",
+      "aboveFold": true,
+      "visible": true,
+      "shownWidth": 75,
+      "naturalWidth": 91,
+      "hasWidthHeight": true,
+      "decorativeHint": false
+    },
+    {
+      "src": "",
+      "file": "",
+      "hasAltAttr": true,
+      "alt": "Map showing Maitoli village near Berinag, Pithoragarh, Uttarakhand",
+      "tracker": false,
+      "lazy": true,
+      "fetchpriority": "",
+      "aboveFold": false,
+      "visible": true,
+      "shownWidth": 318,
+      "naturalWidth": 0,
+      "hasWidthHeight": true,
+      "decorativeHint": false
+    }
   ],
   "imageTotal": 7,
   "links": [
-    { "href": "https://www.cookieyes.com/product/cookie-consent/?ref=cypbcyb&utm_source=cookie-banner&utm_medium=fl-branding", "hasHref": true, "text": "", "label": "Visit CookieYes website", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "noopener", "internal": false, "external": true, "generic": false, "visible": false },
-    { "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.", "hasHref": true, "text": "Order", "label": "", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": false },
-    { "href": "#", "hasHref": true, "text": "₹0.00 0 Cart", "label": "", "imgAlt": "", "hasSvg": true, "cls": "elementor-menu-cart__toggle_button", "role": "", "expandable": true, "uiControl": true, "rel": "", "internal": true, "external": false, "generic": false, "visible": true },
-    { "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.", "hasHref": true, "text": "", "label": "Order on WhatsApp", "imgAlt": "", "hasSvg": true, "cls": "bv-wa-float", "role": "", "expandable": false, "uiControl": false, "rel": "noopener", "internal": false, "external": true, "generic": false, "visible": false },
-    { "href": "#", "hasHref": true, "text": "Clear", "label": "Clear options", "imgAlt": "", "hasSvg": false, "cls": "reset_variations", "role": "", "expandable": false, "uiControl": true, "rel": "", "internal": true, "external": false, "generic": false, "visible": false },
-    { "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20A2%20Bilona%20Ghee.", "hasHref": true, "text": "Order on WhatsApp", "label": "", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": true },
-    { "href": "http://[LAB_REPORT_PDF_URL]", "hasHref": true, "text": "Download full lab report (PDF)", "label": "", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": false, "generic": false, "visible": true },
-    { "href": "https://maps.app.goo.gl/L9EYJnCLfBTP9EgCA", "hasHref": true, "text": "", "label": "", "imgAlt": "Map showing Maitoli village near Berinag, Pithoragarh, Uttarakhand", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": true },
-    { "href": "https://maps.app.goo.gl/L9EYJnCLfBTP9EgCA", "hasHref": true, "text": "Open in Google Maps ↗", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": true },
-    { "href": "#tab-reviews", "hasHref": true, "text": "Reviews (0)", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "tab", "expandable": true, "uiControl": true, "rel": "", "internal": true, "external": false, "generic": false, "visible": true },
-    { "href": "", "hasHref": false, "text": "Is this genuinely bilona, or just a label?", "label": "", "imgAlt": "", "hasSvg": false, "cls": "elementor-accordion-title", "role": "", "expandable": false, "uiControl": true, "rel": "", "internal": false, "external": false, "generic": false, "visible": true },
-    { "href": "", "hasHref": false, "text": "Why is it 2–3× the price of Amul?", "label": "", "imgAlt": "", "hasSvg": false, "cls": "elementor-accordion-title", "role": "", "expandable": false, "uiControl": true, "rel": "", "internal": false, "external": false, "generic": false, "visible": true },
-    { "href": "https://wa.me/916397529948", "hasHref": true, "text": "Order on WhatsApp", "label": "", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": true },
-    { "href": "https://instagram.com/buranshvalley", "hasHref": true, "text": "Instagram", "label": "", "imgAlt": "", "hasSvg": true, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": true, "generic": false, "visible": true }
+    {
+      "href": "https://www.cookieyes.com/product/cookie-consent/?ref=cypbcyb&utm_source=cookie-banner&utm_medium=fl-branding",
+      "hasHref": true,
+      "text": "",
+      "label": "Visit CookieYes website",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "noopener",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": false
+    },
+    {
+      "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.",
+      "hasHref": true,
+      "text": "Order",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": false
+    },
+    {
+      "href": "#",
+      "hasHref": true,
+      "text": "₹0.00 0 Cart",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "elementor-menu-cart__toggle_button",
+      "role": "",
+      "expandable": true,
+      "uiControl": true,
+      "rel": "",
+      "internal": true,
+      "external": false,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.",
+      "hasHref": true,
+      "text": "",
+      "label": "Order on WhatsApp",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "bv-wa-float",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "noopener",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": false
+    },
+    {
+      "href": "#",
+      "hasHref": true,
+      "text": "Clear",
+      "label": "Clear options",
+      "imgAlt": "",
+      "hasSvg": false,
+      "cls": "reset_variations",
+      "role": "",
+      "expandable": false,
+      "uiControl": true,
+      "rel": "",
+      "internal": true,
+      "external": false,
+      "generic": false,
+      "visible": false
+    },
+    {
+      "href": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20A2%20Bilona%20Ghee.",
+      "hasHref": true,
+      "text": "Order on WhatsApp",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "http://[LAB_REPORT_PDF_URL]",
+      "hasHref": true,
+      "text": "Download full lab report (PDF)",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": false,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "https://maps.app.goo.gl/L9EYJnCLfBTP9EgCA",
+      "hasHref": true,
+      "text": "",
+      "label": "",
+      "imgAlt": "Map showing Maitoli village near Berinag, Pithoragarh, Uttarakhand",
+      "hasSvg": false,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "https://maps.app.goo.gl/L9EYJnCLfBTP9EgCA",
+      "hasHref": true,
+      "text": "Open in Google Maps ↗",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": false,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "#tab-reviews",
+      "hasHref": true,
+      "text": "Reviews (0)",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": false,
+      "cls": "",
+      "role": "tab",
+      "expandable": true,
+      "uiControl": true,
+      "rel": "",
+      "internal": true,
+      "external": false,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "",
+      "hasHref": false,
+      "text": "Is this genuinely bilona, or just a label?",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": false,
+      "cls": "elementor-accordion-title",
+      "role": "",
+      "expandable": false,
+      "uiControl": true,
+      "rel": "",
+      "internal": false,
+      "external": false,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "",
+      "hasHref": false,
+      "text": "Why is it 2–3× the price of Amul?",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": false,
+      "cls": "elementor-accordion-title",
+      "role": "",
+      "expandable": false,
+      "uiControl": true,
+      "rel": "",
+      "internal": false,
+      "external": false,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "https://wa.me/916397529948",
+      "hasHref": true,
+      "text": "Order on WhatsApp",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": true
+    },
+    {
+      "href": "https://instagram.com/buranshvalley",
+      "hasHref": true,
+      "text": "Instagram",
+      "label": "",
+      "imgAlt": "",
+      "hasSvg": true,
+      "cls": "",
+      "role": "",
+      "expandable": false,
+      "uiControl": false,
+      "rel": "",
+      "internal": false,
+      "external": true,
+      "generic": false,
+      "visible": true
+    }
   ],
   "linkTotal": 99,
   "placeholders": [
-    { "match": "[____]", "where": "text", "context": "report — every batch Lab Report Batch: [____] Purity: PASS Vanaspati: Not d" },
-    { "match": "[__]%", "where": "text", "context": "S Vanaspati: Not detected Butyric acid: [__]% Heavy metals: Within limits 1" },
-    { "match": "[__]%", "where": "text", "context": "urity — zero vegetable oil / vanaspati [__]% Butyric acid (higher than co" },
-    { "match": "[__]%", "where": "text", "context": "Butyric acid (higher than commercial) [__]% CLA — conjugated linoleic ac" },
-    { "match": "[Manju bhatt]", "where": "text", "context": "es together to make it the old way.” — [Manju bhatt], Buranshvalley Why us Buransh" },
-    { "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.", "where": "link", "context": "Order" },
-    { "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.", "where": "link", "context": "Order on WhatsApp" },
-    { "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20A2%20Bilona%20Ghee.", "where": "link", "context": "Order on WhatsApp" },
-    { "match": "http://[LAB_REPORT_PDF_URL]", "where": "link", "context": "Download full lab report (PDF)" },
-    { "match": "buransh-test-1-main-600x600.jpg", "where": "image", "context": "test main image" },
-    { "match": "buransh-test-4-sizes-100x100.jpg", "where": "image", "context": "A2 Desi Cow Bilona Ghee - Image 2" },
-    { "match": "buransh-test-3-lifestyle-100x100.jpg", "where": "image", "context": "A2 Desi Cow Bilona Ghee - Image 3" },
-    { "match": "buransh-test-2-texture-100x100.jpg", "where": "image", "context": "A2 Desi Cow Bilona Ghee - Image 4" }
+    {
+      "match": "[____]",
+      "where": "text",
+      "context": "report — every batch Lab Report Batch: [____] Purity: PASS Vanaspati: Not d"
+    },
+    {
+      "match": "[__]%",
+      "where": "text",
+      "context": "S Vanaspati: Not detected Butyric acid: [__]% Heavy metals: Within limits 1"
+    },
+    {
+      "match": "[__]%",
+      "where": "text",
+      "context": "urity — zero vegetable oil / vanaspati [__]% Butyric acid (higher than co"
+    },
+    {
+      "match": "[__]%",
+      "where": "text",
+      "context": "Butyric acid (higher than commercial) [__]% CLA — conjugated linoleic ac"
+    },
+    {
+      "match": "[Manju bhatt]",
+      "where": "text",
+      "context": "es together to make it the old way.” — [Manju bhatt], Buranshvalley Why us Buransh"
+    },
+    {
+      "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.",
+      "where": "link",
+      "context": "Order"
+    },
+    {
+      "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20pure%20bilona%20ghee.",
+      "where": "link",
+      "context": "Order on WhatsApp"
+    },
+    {
+      "match": "https://wa.me/91XXXXXXXXXX?text=Hi%20Buranshvalley%2C%20I%27d%20like%20to%20order%20A2%20Bilona%20Ghee.",
+      "where": "link",
+      "context": "Order on WhatsApp"
+    },
+    {
+      "match": "http://[LAB_REPORT_PDF_URL]",
+      "where": "link",
+      "context": "Download full lab report (PDF)"
+    },
+    {
+      "match": "buransh-test-1-main-600x600.jpg",
+      "where": "image",
+      "context": "test main image"
+    },
+    {
+      "match": "buransh-test-4-sizes-100x100.jpg",
+      "where": "image",
+      "context": "A2 Desi Cow Bilona Ghee - Image 2"
+    },
+    {
+      "match": "buransh-test-3-lifestyle-100x100.jpg",
+      "where": "image",
+      "context": "A2 Desi Cow Bilona Ghee - Image 3"
+    },
+    {
+      "match": "buransh-test-2-texture-100x100.jpg",
+      "where": "image",
+      "context": "A2 Desi Cow Bilona Ghee - Image 4"
+    }
   ],
-  "collectedAt": "2026-10-06T03:29:19.403Z"
+  "collectedAt": "2026-10-06T03:29:19.403Z",
+  "visiblePrices": [
+    "999"
+  ],
+  "reviewSignals": {
+    "ratingText": false,
+    "reviewCount": 0
+  },
+  "renderedJsonld": 1
 }

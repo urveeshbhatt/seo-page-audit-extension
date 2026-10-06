@@ -13,7 +13,7 @@
 export const MODULE_INFO = {
   id: 'phase1-elements',
   name: 'Phase 1: Elements',
-  version: '1.1.0',
+  version: '1.2.0',
 };
 
 /**
@@ -121,6 +121,14 @@ export function collectHead() {
     },
     lang: clip(document.documentElement.getAttribute('lang') || '', 35),
     hreflang,
+    // MINOR bucket (Step 3): note, never top of the report
+    extras: {
+      metaKeywords: clip(metaByName('keywords')[0] || '', 200),
+      favicon: !!document.querySelector('link[rel~="icon" i], link[rel="shortcut icon" i], link[rel="apple-touch-icon" i]'),
+      preconnect: [...new Set([...document.querySelectorAll('link[rel="preconnect"], link[rel="dns-prefetch"]')].slice(0, 30).map((l) => {
+        try { return clip(new URL(l.href).hostname, 80); } catch (e) { return ''; }
+      }).filter(Boolean))].slice(0, 15),
+    },
     collectedAt: new Date().toISOString(),
   };
 }
@@ -157,7 +165,7 @@ export async function collectBody() {
   const viewportH = window.innerHeight;
 
   // ---------- Step 2: raw vs rendered ----------
-  const raw = { ok: false, reason: '', bytes: 0, words: 0, tests: [], linkCount: 0, h1Count: 0 };
+  const raw = { ok: false, reason: '', bytes: 0, words: 0, tests: [], linkCount: 0, h1Count: 0, xRobots: '', jsonldCount: 0, jsonldTypes: [] };
   const renderedText = norm(document.body ? document.body.innerText : '');
   const renderedWords = renderedText ? renderedText.split(' ').length : 0;
   const samples = [];
@@ -178,12 +186,25 @@ export async function collectBody() {
     const res = await fetch(location.href, { credentials: 'include', cache: 'no-store', redirect: 'follow' });
     const html = await res.text();
     raw.bytes = html.length;
+    raw.xRobots = clip(res.headers.get('x-robots-tag') || '', 200); // same-origin: header is readable
     if (!res.ok) {
       raw.reason = `HTTP ${res.status}`;
     } else if (html.length < 2000 && renderedWords > 200) {
       raw.reason = 'Very small response (possible bot protection). Check with Ctrl+U.';
     } else {
       const doc = new DOMParser().parseFromString(html, 'text/html');
+      // Schema present in the server HTML (before scripts are stripped)
+      const rawLd = [...doc.querySelectorAll('script[type="application/ld+json"]')];
+      raw.jsonldCount = rawLd.length;
+      const rawTypes = new Set();
+      const walkT = (n, depth) => {
+        if (!n || typeof n !== 'object' || depth > 8) return;
+        if (Array.isArray(n)) { n.forEach((x) => walkT(x, depth + 1)); return; }
+        [].concat(n['@type'] || []).forEach((t) => rawTypes.add(String(t)));
+        Object.values(n).forEach((v) => { if (v && typeof v === 'object') walkT(v, depth + 1); });
+      };
+      rawLd.forEach((sc) => { try { walkT(JSON.parse(sc.textContent), 0); } catch (e) { /* parse errors reported by head checks */ } });
+      raw.jsonldTypes = [...rawTypes].slice(0, 40).map((t) => clip(t, 60));
       doc.querySelectorAll('script, style, noscript, template').forEach((n) => n.remove());
       const rawText = norm(doc.body ? doc.body.textContent : '');
       raw.ok = true;
@@ -283,10 +304,23 @@ export async function collectBody() {
     }
   });
 
+  // ---------- Visible prices and review signals (schema vs page) ----------
+  const visiblePrices = [...new Set((renderedText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/g) || [])
+    .map((m) => m.replace(/^[^\d]+/, '').replace(/,/g, '')).map((n) => String(Number(n))))].slice(0, 30);
+  const reviewCountMatch = renderedText.match(/reviews?\s*\((\d+)\)|(\d+)\s+(customer\s+)?reviews?\b|(\d+)\s+ratings?\b/i);
+  const reviewSignals = {
+    ratingText: /\b[1-5](\.\d)?\s?(\/|out of)\s?5\b|★|⭐/.test(renderedText),
+    reviewCount: reviewCountMatch ? Number(reviewCountMatch[1] || reviewCountMatch[2] || reviewCountMatch[4]) : null,
+  };
+  const renderedJsonld = document.querySelectorAll('script[type="application/ld+json"]').length;
+
   return {
     url: clip(location.href, 2048),
     viewportHeight: viewportH,
     renderedWords,
+    visiblePrices,
+    reviewSignals,
+    renderedJsonld,
     raw,
     headings,
     headingTotal: headingEls.length,
@@ -501,9 +535,18 @@ export function collectHealth() {
   const ids = (re) => [...new Set((srcs + inline).match(re) || [])].slice(0, 10);
   const tags = { gtm: ids(/GTM-[A-Z0-9]{4,9}/g), ga4: ids(/\bG-[A-Z0-9]{6,12}\b/g), ua: ids(/\bUA-\d{4,10}-\d{1,4}\b/g), aw: ids(/\bAW-\d{6,12}\b/g) };
 
+  // ---------- HTML comments (Step 5E: plugin and version clues, leaks) ----------
+  const comments = [];
+  const cw = document.createTreeWalker(document, NodeFilter.SHOW_COMMENT);
+  for (let n = cw.nextNode(); n && comments.length < 40; n = cw.nextNode()) {
+    const t = norm(n.nodeValue);
+    if (t.length > 3) comments.push(clip(t, 120));
+  }
+
   return {
     url: clip(location.href, 2048),
     dom,
+    comments,
     hidden,
     hiddenChars,
     visibleChars,

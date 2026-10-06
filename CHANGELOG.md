@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0 (business models)
+
+- Business model now changes the audit. Seven models: D2C / ecommerce, B2B / lead gen, Local business, SaaS / software, Marketplace / listings, Content / affiliate / blog, Other / mixed
+- New YMYL toggle (health, food safety, money, legal) that adds expert author, expert review, visible last-updated date and authoritative-source checks to any model
+- New Business tab and collector: contact paths, calls to action (buy, lead, trial, demo, booking), NAP, map, hours, store policies, proof, pricing link, pagination and filter links, affiliate links and their `rel`, bylines, credentials and dates, business JSON-LD
+- Known false alarms filtered: cookie-banner "powered by" links are not affiliate links; review-form "author" fields are not bylines
+- Business findings are ranked in Summary and included in the report
+- 33 golden tests (live Buranshvalley and Regus data, plus synthetic local, SaaS and affiliate pages)
+
 ## 1.0.0 (M6: report)
 
 - New Report tab: every finding with a verdict dropdown (suggested verdict marked) and a note field

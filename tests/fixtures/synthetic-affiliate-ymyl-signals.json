@@ -1,0 +1,115 @@
+{
+  "url": "https://example.test/synthetic-affiliate-ymyl",
+  "schema": {
+    "types": [
+      "Article"
+    ],
+    "localBusiness": "",
+    "hasAddress": false,
+    "telephone": "",
+    "openingHours": false,
+    "geo": false,
+    "author": false,
+    "authorName": "",
+    "reviewedBy": false,
+    "datePublished": "2026-01-10",
+    "dateModified": "",
+    "itemList": false,
+    "software": false,
+    "article": true,
+    "offers": false,
+    "rating": false,
+    "faq": false
+  },
+  "contact": {
+    "tel": 0,
+    "telVisible": 0,
+    "telSample": "",
+    "mail": 0,
+    "whatsapp": 0,
+    "contactLinks": 0,
+    "forms": 0,
+    "leadForms": 0,
+    "leadFormVisible": false,
+    "phoneText": ""
+  },
+  "ctas": {
+    "buy": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "lead": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "trial": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "demo": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "appointment": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    }
+  },
+  "local": {
+    "addressEl": false,
+    "addressText": false,
+    "mapEmbed": false,
+    "mapLink": false,
+    "hoursText": false
+  },
+  "policies": {
+    "refund": false,
+    "shipping": false,
+    "privacy": false,
+    "terms": false
+  },
+  "trust": {
+    "testimonials": false,
+    "caseStudies": false,
+    "clients": false,
+    "certifications": false
+  },
+  "saas": {
+    "pricingLink": false
+  },
+  "listing": {
+    "relNext": false,
+    "pageLinks": 0,
+    "paramLinks": 0
+  },
+  "outbound": {
+    "total": 3,
+    "affiliate": 3,
+    "affiliateNoRel": 2,
+    "affiliateSamples": [
+      "https://amzn.to/3abc",
+      "https://www.flipkart.com/p?affid=me"
+    ],
+    "citations": 0
+  },
+  "authorship": {
+    "authorEl": false,
+    "authorText": false,
+    "credentials": false,
+    "reviewedText": false,
+    "dateEl": false,
+    "updatedText": false
+  },
+  "collectedAt": "2026-10-06T04:14:50.891Z",
+  "_note": "Synthetic test page (not a real site), collected with collectSignals() in headless Chromium."
+}

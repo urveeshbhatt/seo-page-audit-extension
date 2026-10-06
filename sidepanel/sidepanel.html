@@ -22,6 +22,7 @@
     <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Run an audit first">Head</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="body" disabled title="Run an audit first">Body</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="health" disabled title="Run an audit first">Health</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="business" disabled title="Run an audit first">Business</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Run an audit first">Report</button>
   </nav>
 
@@ -57,10 +58,17 @@
                 <option value="d2c">D2C / ecommerce</option>
                 <option value="b2b">B2B / lead gen</option>
                 <option value="local">Local business</option>
-                <option value="content">Content / media</option>
+                <option value="saas">SaaS / software</option>
+                <option value="marketplace">Marketplace / listings</option>
+                <option value="content">Content / affiliate / blog</option>
+                <option value="other">Other / mixed</option>
               </select>
             </label>
           </div>
+          <label class="toggle ymyl-toggle">
+            <input type="checkbox" id="ctx-ymyl" name="ymyl" value="1">
+            <span>YMYL topic: health, food safety, money or legal advice (stricter author and review checks)</span>
+          </label>
         </fieldset>
 
         <button type="submit" class="btn-primary" id="audit-btn">Audit this page</button>
@@ -93,6 +101,7 @@
           <button type="button" class="btn-secondary" id="go-head" hidden>Head checks →</button>
           <button type="button" class="btn-secondary" id="go-body" hidden>Body checks →</button>
           <button type="button" class="btn-secondary" id="go-health" hidden>Health checks →</button>
+          <button type="button" class="btn-secondary" id="go-business" hidden>Business checks →</button>
         </div>
       </article>
     </section>
@@ -105,6 +114,18 @@
       </article>
       <div class="section-chips" id="sum-sections" aria-label="Open a section"></div>
       <div id="sum-body"></div>
+    </section>
+
+    <section class="panel" id="panel-business" role="tabpanel" hidden>
+      <p class="hint" id="business-model-line"></p>
+      <div class="counts" id="business-counts" aria-label="Finding counts"></div>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="business-hide-good">
+          <span>Hide passed checks</span>
+        </label>
+      </div>
+      <div id="business-groups"></div>
     </section>
 
     <section class="panel" id="panel-report" role="tabpanel" hidden>

@@ -468,3 +468,7 @@ input[type="text"], textarea {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* v1.1: YMYL toggle */
+.ymyl-toggle { margin-top: 12px; align-items: flex-start; line-height: 1.4; }
+.ymyl-toggle input { margin-top: 2px; flex: 0 0 auto; }

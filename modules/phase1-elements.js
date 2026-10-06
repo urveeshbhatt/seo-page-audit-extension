@@ -13,7 +13,7 @@
 export const MODULE_INFO = {
   id: 'phase1-elements',
   name: 'Phase 1: Elements',
-  version: '1.0.0',
+  version: '1.1.0',
 };
 
 /**
@@ -514,6 +514,181 @@ export function collectHealth() {
     generator,
     stack,
     tags,
+    collectedAt: new Date().toISOString(),
+  };
+}
+
+/**
+ * v1.1 collector: business signals (used by the business-model rules).
+ * Contact paths, calls to action, address and opening hours, policies,
+ * trust signals, pricing/signup, pagination, affiliate links, authorship and
+ * dates, and the business-related parts of JSON-LD. Read-only.
+ */
+export function collectSignals() {
+  const clip = (value, max = 120) => (typeof value === 'string' ? value.slice(0, max) : '');
+  const norm = (s) => (s || '').replace(/\s+/g, ' ').trim();
+  const visible = (el) => {
+    const r = el.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return false;
+    const cs = getComputedStyle(el);
+    return cs.visibility !== 'hidden' && cs.display !== 'none';
+  };
+  const above = (el) => { const r = el.getBoundingClientRect(); return r.top < window.innerHeight && r.bottom > 0; };
+  const bodyText = norm(document.body ? document.body.innerText : '');
+  const lower = bodyText.toLowerCase();
+  const anchors = [...document.querySelectorAll('a[href]')].slice(0, 2000);
+  const host = location.hostname.replace(/^www\./, '');
+  const hrefOf = (a) => a.getAttribute('href') || '';
+
+  // ---------- JSON-LD (flattened) ----------
+  const nodes = [];
+  const walk = (n) => {
+    if (!n || typeof n !== 'object' || nodes.length > 300) return;
+    if (Array.isArray(n)) { n.forEach(walk); return; }
+    nodes.push(n);
+    Object.values(n).forEach((v) => { if (v && typeof v === 'object') walk(v); });
+  };
+  document.querySelectorAll('script[type="application/ld+json"]').forEach((s) => { try { walk(JSON.parse(s.textContent)); } catch (e) { /* parse errors are reported by the head checks */ } });
+  const typesOf = (n) => [].concat(n['@type'] || []).map(String);
+  const LOCAL = /LocalBusiness|Store|Restaurant|Dentist|Physician|MedicalClinic|Hospital|Hotel|LodgingBusiness|Attorney|LegalService|AutoRepair|BeautySalon|HealthAndBeautyBusiness|RealEstateAgent|FoodEstablishment|ProfessionalService|HomeAndConstructionBusiness|SportsActivityLocation|TravelAgency|Plumber|Electrician|Locksmith|ChildCare|School|Library|GymOrFitness|ExerciseGym|Bakery|CafeOrCoffeeShop|DaySpa|VeterinaryCare|Optician|Pharmacy/;
+  const allTypes = [...new Set(nodes.flatMap(typesOf))];
+  const localNode = nodes.find((n) => typesOf(n).some((t) => LOCAL.test(t)));
+  const schema = {
+    types: allTypes.slice(0, 40).map((t) => clip(t, 60)),
+    localBusiness: localNode ? clip(typesOf(localNode).join(', '), 80) : '',
+    hasAddress: nodes.some((n) => n.address && (typeof n.address === 'string' || n.address.streetAddress || n.address.addressLocality || n.address.postalCode)),
+    telephone: clip(String((nodes.find((n) => n.telephone) || {}).telephone || ''), 40),
+    openingHours: nodes.some((n) => n.openingHours || n.openingHoursSpecification),
+    geo: nodes.some((n) => n.geo),
+    author: nodes.some((n) => n.author),
+    authorName: clip(String(((nodes.find((n) => n.author) || {}).author || {}).name || ''), 60),
+    reviewedBy: nodes.some((n) => n.reviewedBy || n.medicalReviewer || n.lastReviewed),
+    datePublished: clip(String((nodes.find((n) => n.datePublished) || {}).datePublished || ''), 30),
+    dateModified: clip(String((nodes.find((n) => n.dateModified) || {}).dateModified || ''), 30),
+    itemList: allTypes.includes('ItemList') || allTypes.includes('OfferCatalog'),
+    software: allTypes.some((t) => /SoftwareApplication|WebApplication|MobileApplication/.test(t)),
+    article: allTypes.some((t) => /Article|BlogPosting|NewsArticle|MedicalWebPage/.test(t)),
+    offers: nodes.some((n) => n.offers),
+    rating: nodes.some((n) => n.aggregateRating || n.review),
+    faq: allTypes.includes('FAQPage'),
+  };
+
+  // ---------- Contact paths ----------
+  const tel = anchors.filter((a) => /^tel:\s*\+?[\d(]/i.test(hrefOf(a)));
+  const mail = anchors.filter((a) => /^mailto:.+@/i.test(hrefOf(a)));
+  const whatsapp = anchors.filter((a) => /wa\.me\/\d|api\.whatsapp\.com\/send\?phone=\d/i.test(hrefOf(a)));
+  const contactLinks = anchors.filter((a) => /contact|get-in-touch|enquir|inquir|support/i.test(hrefOf(a)));
+  const forms = [...document.querySelectorAll('form')].filter((f) => !f.closest('header [role="search"]') && !/search/i.test(`${f.getAttribute('role') || ''} ${f.className} ${f.id} ${f.action}`));
+  const leadForms = forms.filter((f) => f.querySelector('input[type="email"], input[type="tel"], input[name*="email" i], input[name*="phone" i], textarea'));
+  const phoneText = bodyText.match(/(?:\+91[\s-]?|\b0)?[6-9]\d{4}[\s-]?\d{5}\b|\+?1?[\s.-]?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}\b|\b0\d{2,4}[\s-]\d{3,4}[\s-]\d{4}\b/);
+
+  // ---------- Calls to action (visible buttons and links) ----------
+  const CTA = {
+    buy: /add to cart|add to bag|buy now|order now|shop now|checkout|order on whatsapp/i,
+    lead: /get a quote|request a quote|get quote|contact us|contact sales|talk to (sales|an expert|us)|book a (call|consultation|tour|visit|demo|meeting|appointment)|enquire|enquiry|inquire|schedule|get in touch|request a callback|call us/i,
+    trial: /start (your )?free trial|free trial|sign ?up|get started|try (it )?(for )?free|create (an )?account|start for free/i,
+    demo: /book a demo|request a demo|get a demo|watch demo|schedule a demo/i,
+    appointment: /book (an )?appointment|book now|reserve|book a (table|visit|slot)|call now|directions/i,
+  };
+  const clickables = [...document.querySelectorAll('a, button, input[type="submit"], [role="button"]')].slice(0, 3000);
+  const ctas = {};
+  Object.keys(CTA).forEach((k) => { ctas[k] = { count: 0, visible: 0, aboveFold: 0, sample: '' }; });
+  clickables.forEach((el) => {
+    const text = norm(el.innerText || el.value || el.getAttribute('aria-label') || '');
+    if (!text || text.length > 60) return;
+    Object.entries(CTA).forEach(([k, re]) => {
+      if (!re.test(text)) return;
+      const c = ctas[k];
+      c.count += 1;
+      if (visible(el)) { c.visible += 1; if (above(el)) c.aboveFold += 1; if (!c.sample) c.sample = clip(text, 40); }
+    });
+  });
+
+  // ---------- Address, map, hours ----------
+  const addressEl = document.querySelector('address, [itemprop="address"], .address, [class*="address" i]');
+  const pin = /\b\d{3}\s?\d{3}\b/.test(bodyText) && /(road|rd\.?|nagar|marg|street|st\.|sector|colony|floor|building|plot|near|opp\.?|lane|chowk|bazaar|mumbai|delhi|indore|bangalore|bengaluru|pune|india)/i.test(bodyText);
+  const zip = /\b[A-Z]{2}\s\d{5}(-\d{4})?\b/.test(bodyText);
+  const mapEmbed = [...document.querySelectorAll('iframe')].some((f) => /google\.[a-z.]+\/maps|maps\.google|openstreetmap|mapbox/i.test(f.getAttribute('src') || f.getAttribute('data-src') || ''));
+  const mapLink = anchors.some((a) => /maps\.app\.goo\.gl|google\.[a-z.]+\/maps|goo\.gl\/maps|maps\.apple\.com/i.test(hrefOf(a)));
+  const hoursText = /(opening hours|business hours|working hours|open (today|now|daily)|mon(day)?\s?[-–to]+\s?(fri|sat|sun)|\b\d{1,2}(:\d{2})?\s?(am|pm)\s?[-–to]+\s?\d{1,2}(:\d{2})?\s?(am|pm))/i.test(bodyText);
+
+  // ---------- Policies and trust ----------
+  const linkMatch = (re) => anchors.some((a) => re.test(`${hrefOf(a)} ${norm(a.textContent)}`));
+  const policies = {
+    refund: linkMatch(/refund|return|cancellation|exchange/i),
+    shipping: linkMatch(/shipping|delivery/i),
+    privacy: linkMatch(/privacy/i),
+    terms: linkMatch(/terms|conditions/i),
+  };
+  const trust = {
+    testimonials: /testimonial|what (our )?(clients|customers) say|reviews?\b|rated \d|★|⭐/i.test(bodyText),
+    caseStudies: linkMatch(/case-stud|case stud|success-stor|customer-stor/i) || /case stud/i.test(lower),
+    clients: /trusted by|our clients|clients include|companies (use|trust)|as seen in|featured in/i.test(bodyText),
+    certifications: /certified|certificate|iso \d|fssai|accredit|licen[cs]e no|registered with|award/i.test(bodyText),
+  };
+
+  // ---------- SaaS ----------
+  const pricingLink = anchors.some((a) => /\/pricing|\/plans|pricing|plans? (&|and) pricing/i.test(`${hrefOf(a)} ${norm(a.textContent)}`));
+
+  // ---------- Listings / pagination ----------
+  const relNext = !!document.querySelector('link[rel="next"], a[rel="next"]');
+  const pageLinks = anchors.filter((a) => /[?&](page|p|pg)=\d+|\/page\/\d+/i.test(hrefOf(a))).length;
+  const paramLinks = anchors.filter((a) => {
+    const h = hrefOf(a);
+    if (!/\?/.test(h)) return false;
+    try { const u = new URL(h, location.href); return u.hostname.replace(/^www\./, '') === host && /[?&](sort|order|filter|color|colour|size|price|min|max|brand|f|q|view|limit)=/i.test(u.search); } catch (e) { return false; }
+  }).length;
+
+  // ---------- Affiliate / outbound ----------
+  const AFF = /amzn\.to|amazon\.[a-z.]+\/.*[?&]tag=|[?&](tag|ref|aff|affiliate|affid|aff_id|partner|utm_medium=affiliate)=|\/go\/|\/recommends\/|\/out\/|clickbank|shareasale|awin1|impact\.com|partnerize|cj\.com|anrdoezrs|dpbolvw|tkqlhce|jdoqocy|kqzyfj|flipkart\.com\/.*affid|earnkaro|bitli|linksredirect/i;
+  const outbound = anchors.filter((a) => { try { const u = new URL(hrefOf(a), location.href); return /^https?:$/.test(u.protocol) && u.hostname.replace(/^www\./, '') !== host; } catch (e) { return false; } });
+  // Not affiliate: "powered by" links from cookie-consent and widget vendors use ?ref= too
+  const VENDOR = /cookieyes|onetrust|cookiebot|termly|iubenda|elfsight|trustindex|tawk\.to|wordpress\.org|elementor\.com|wix\.com|shopify\.com/i;
+  const affiliate = anchors.filter((a) => AFF.test(hrefOf(a)) && !VENDOR.test(hrefOf(a)) && !a.closest('[class*="cky" i], [class*="cookie" i], [id*="cookie" i], [class*="consent" i]'));
+  const affNoRel = affiliate.filter((a) => !/sponsored|nofollow/i.test(a.getAttribute('rel') || ''));
+  const citations = outbound.filter((a) => /\.gov\b|\.gov\.|\.edu\b|\.ac\.in|nih\.gov|pubmed|ncbi|who\.int|cdc\.gov|nhs\.uk|mayoclinic|rbi\.org|sebi\.gov|indiacode|legislation|doi\.org|sciencedirect|springer|wiley|nature\.com|thelancet|bmj\.com/i.test(hrefOf(a)));
+
+  // ---------- Authorship and dates ----------
+  // Byline on the page (not the "author" field of a comment or review form)
+  const authorEl = [...document.querySelectorAll('[rel="author"], [itemprop="author"], .author, .byline, [class*="author" i], [class*="byline" i]')]
+    .find((el) => !el.closest('form, #reviews, .comment-respond') && norm(el.textContent).length >= 3 && norm(el.textContent).length <= 120);
+  const authorText = /\b(written|reviewed|fact[- ]checked|medically reviewed|edited) by\b|\bby\s+(?:[Dd]r\.?|CA\.?|[Aa]dv\.?)?\s?[A-Z][a-z]+\s[A-Z][a-z]+/.test(bodyText);
+  const credentials = /\b(dr\.|md\b|mbbs|bds|mds|phd|ca\b|cfa|cfp|llb|llm|advocate|rd\b|registered dietitian|nutritionist|certified)\b/i.test(bodyText);
+  const reviewedText = /(medically|clinically|expert|fact[- ]?) ?(reviewed|checked) by|reviewed by/i.test(bodyText);
+  const timeEl = document.querySelector('time[datetime]');
+  const metaPub = document.querySelector('meta[property="article:published_time"], meta[property="article:modified_time"], meta[name="date"]');
+  const updatedText = /(last )?updated( on)?:?\s+\w+/i.test(bodyText) || /published( on)?:?\s+\w+/i.test(bodyText);
+
+  return {
+    url: clip(location.href, 2048),
+    schema,
+    contact: {
+      tel: tel.length,
+      telVisible: tel.filter(visible).length,
+      telSample: tel[0] ? clip(hrefOf(tel[0]), 40) : '',
+      mail: mail.length,
+      whatsapp: whatsapp.length,
+      contactLinks: contactLinks.length,
+      forms: forms.length,
+      leadForms: leadForms.length,
+      leadFormVisible: leadForms.some(visible),
+      phoneText: phoneText ? clip(phoneText[0], 30) : '',
+    },
+    ctas,
+    local: { addressEl: !!addressEl, addressText: pin || zip, mapEmbed, mapLink, hoursText },
+    policies,
+    trust,
+    saas: { pricingLink },
+    listing: { relNext, pageLinks, paramLinks },
+    outbound: { total: outbound.length, affiliate: affiliate.length, affiliateNoRel: affNoRel.length, affiliateSamples: affNoRel.slice(0, 15).map((a) => clip(hrefOf(a), 120)), citations: citations.length },
+    authorship: {
+      authorEl: !!authorEl,
+      authorText,
+      credentials,
+      reviewedText,
+      dateEl: !!timeEl || !!metaPub,
+      updatedText,
+    },
     collectedAt: new Date().toISOString(),
   };
 }

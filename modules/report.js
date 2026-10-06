@@ -2,11 +2,11 @@
 // Pure functions, no DOM. Page data is untrusted, so both formats escape it.
 
 import { VERDICTS } from './summary.js';
+import { MODELS as MODEL } from './business-rules.js';
 
 const ORDER = ['fix-now', 'fix-launch', 'manual', 'fix', 'later', 'review', 'ignore', 'ok'];
 const PAGE_TYPE = { product: 'Product', service: 'Service', location: 'City / location', category: 'Category', homepage: 'Homepage', article: 'Blog / article', other: 'Other' };
 const STATUS = { live: 'Live', prelaunch: 'Pre-launch' };
-const MODEL = { d2c: 'D2C / ecommerce', b2b: 'B2B / lead gen', local: 'Local business', content: 'Content / media' };
 
 // Markdown: neutralise characters that would turn page text into links, HTML,
 // tables or formatting in the reader's Markdown viewer.
@@ -32,7 +32,7 @@ function header(meta, summary) {
     '',
     `- **URL:** ${mdEscape(meta.url)}`,
     `- **Date:** ${mdEscape(meta.date)}`,
-    `- **Page context:** ${PAGE_TYPE[ctx.pageType] || mdEscape(ctx.pageType)} · ${STATUS[ctx.status] || mdEscape(ctx.status)} · ${MODEL[ctx.model] || mdEscape(ctx.model)}`,
+    `- **Page context:** ${PAGE_TYPE[ctx.pageType] || mdEscape(ctx.pageType)} · ${STATUS[ctx.status] || mdEscape(ctx.status)} · ${MODEL[ctx.model] || mdEscape(ctx.model)}${ctx.ymyl ? ' · YMYL topic' : ''}`,
   ];
   if (meta.auditor) lines.push(`- **Auditor:** ${mdEscape(meta.auditor)}`);
   lines.push(`- **Tool:** Page Audit Lens v${mdEscape(meta.version)}`, '');

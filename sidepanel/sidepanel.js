@@ -5,10 +5,11 @@
 //      Chrome gives when the user clicks the toolbar icon.
 //   3. Nothing is sent over the network.
 
-import { collectBasics, collectHead, collectBody, collectHealth } from '../modules/phase1-elements.js';
+import { collectBasics, collectHead, collectBody, collectHealth, collectSignals } from '../modules/phase1-elements.js';
 import { evaluateHead } from '../modules/phase1-rules.js';
 import { evaluateBody } from '../modules/phase1-body-rules.js';
 import { evaluateHealth } from '../modules/phase1-health-rules.js';
+import { evaluateBusiness, MODELS } from '../modules/business-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
 import { highlightTargets, clearHighlights } from '../modules/highlight.js';
@@ -30,6 +31,8 @@ const ui = {
   goHead: $('go-head'),
   goBody: $('go-body'),
   goHealth: $('go-health'),
+  goBusiness: $('go-business'),
+  businessLine: $('business-model-line'),
   sumVerdict: $('sum-verdict'),
   sumTitle: $('sum-title'),
   sumLine: $('sum-line'),
@@ -54,6 +57,7 @@ const views = {
   head: { evaluate: evaluateHead, counts: $('head-counts'), groups: $('head-groups'), hideGood: $('head-hide-good'), data: null, result: null },
   body: { evaluate: evaluateBody, counts: $('body-counts'), groups: $('body-groups'), hideGood: $('body-hide-good'), data: null, result: null },
   health: { evaluate: evaluateHealth, counts: $('health-counts'), groups: $('health-groups'), hideGood: $('health-hide-good'), data: null, result: null },
+  business: { evaluate: evaluateBusiness, counts: $('business-counts'), groups: $('business-groups'), hideGood: $('business-hide-good'), data: null, result: null },
 };
 
 ui.version.textContent = `v${chrome.runtime.getManifest().version}`;
@@ -82,6 +86,7 @@ function readContext() {
     pageType: String(data.get('pageType')),
     status: String(data.get('status')),
     model: String(data.get('model')),
+    ymyl: data.get('ymyl') === '1',
   };
 }
 
@@ -199,6 +204,9 @@ function renderView(view) {
 function judge(name, context) {
   const view = views[name];
   if (!view.data) return;
+  if (name === 'business') {
+    ui.businessLine.textContent = `Checks for: ${MODELS[context.model] || context.model}${context.ymyl ? ' + YMYL topic' : ''}. Change the business model on Setup to see other checks.`;
+  }
   view.result = view.evaluate(view.data, context);
   renderView(view);
 }
@@ -228,6 +236,7 @@ ui.form.addEventListener('change', () => {
 ui.goHead.addEventListener('click', () => showTab('head'));
 ui.goBody.addEventListener('click', () => showTab('body'));
 ui.goHealth.addEventListener('click', () => showTab('health'));
+ui.goBusiness.addEventListener('click', () => showTab('business'));
 
 // ---------------- show on page ----------------
 
@@ -573,6 +582,7 @@ async function runAudit(event) {
     const sections = [
       ['health', collectHealth, ui.goHealth],
       ['body', collectBody, ui.goBody],
+      ['business', collectSignals, ui.goBusiness],
     ];
     await Promise.all(sections.map(async ([name, collector, button]) => {
       const view = views[name];

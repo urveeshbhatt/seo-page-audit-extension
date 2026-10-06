@@ -1,0 +1,113 @@
+{
+  "url": "https://example.test/synthetic-saas",
+  "schema": {
+    "types": [
+      "SoftwareApplication",
+      "Offer"
+    ],
+    "localBusiness": "",
+    "hasAddress": false,
+    "telephone": "",
+    "openingHours": false,
+    "geo": false,
+    "author": false,
+    "authorName": "",
+    "reviewedBy": false,
+    "datePublished": "",
+    "dateModified": "",
+    "itemList": false,
+    "software": true,
+    "article": false,
+    "offers": true,
+    "rating": false,
+    "faq": false
+  },
+  "contact": {
+    "tel": 0,
+    "telVisible": 0,
+    "telSample": "",
+    "mail": 0,
+    "whatsapp": 0,
+    "contactLinks": 0,
+    "forms": 0,
+    "leadForms": 0,
+    "leadFormVisible": false,
+    "phoneText": ""
+  },
+  "ctas": {
+    "buy": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "lead": {
+      "count": 1,
+      "visible": 1,
+      "aboveFold": 1,
+      "sample": "Book a demo"
+    },
+    "trial": {
+      "count": 1,
+      "visible": 1,
+      "aboveFold": 1,
+      "sample": "Start free trial"
+    },
+    "demo": {
+      "count": 1,
+      "visible": 1,
+      "aboveFold": 1,
+      "sample": "Book a demo"
+    },
+    "appointment": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    }
+  },
+  "local": {
+    "addressEl": false,
+    "addressText": false,
+    "mapEmbed": false,
+    "mapLink": false,
+    "hoursText": false
+  },
+  "policies": {
+    "refund": false,
+    "shipping": false,
+    "privacy": false,
+    "terms": false
+  },
+  "trust": {
+    "testimonials": false,
+    "caseStudies": true,
+    "clients": true,
+    "certifications": false
+  },
+  "saas": {
+    "pricingLink": true
+  },
+  "listing": {
+    "relNext": false,
+    "pageLinks": 0,
+    "paramLinks": 0
+  },
+  "outbound": {
+    "total": 0,
+    "affiliate": 0,
+    "affiliateNoRel": 0,
+    "affiliateSamples": [],
+    "citations": 0
+  },
+  "authorship": {
+    "authorEl": false,
+    "authorText": false,
+    "credentials": false,
+    "reviewedText": false,
+    "dateEl": false,
+    "updatedText": false
+  },
+  "collectedAt": "2026-10-06T04:14:50.878Z",
+  "_note": "Synthetic test page (not a real site), collected with collectSignals() in headless Chromium."
+}

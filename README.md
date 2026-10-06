@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v1.0.0. All six Phase 1 milestones are done. See [Roadmap](#roadmap).
+> **Status:** v1.1.0. All six Phase 1 milestones are done, plus business-model checks. See [Roadmap](#roadmap).
 
 ## Why
 
@@ -33,9 +33,26 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 | Head | Robots, canonical, viewport, title, description, Open Graph, schema, lang, hreflang |
 | Body | Raw HTML vs rendered, headings, images, links, placeholders and test content |
 | Health | Hidden content, CSS-injected text, shadow DOM, DOM size, render-blocking files, embeds, tech stack |
+| Business | Checks for the chosen business model (see below), plus stricter E-E-A-T checks for YMYL topics |
 | Report | Edit verdicts and notes, export to Markdown or CSV |
 
 If you switch to another tab, click the toolbar icon again (or press **Alt+Shift+A**) on that tab before auditing. This is a security feature (see below). Change the shortcut at `chrome://extensions/shortcuts`.
+
+## Business models
+
+The business model on Setup decides which conversion and trust checks run on the **Business** tab:
+
+| Model | Checks |
+| --- | --- |
+| D2C / ecommerce | Visible buy button on product pages, returns and shipping policy links, reviews and certifications |
+| B2B / lead gen | Visible quote/contact CTA or form, click-to-call, proof (case studies, client logos, testimonials) |
+| Local business | Name, address, phone as text, LocalBusiness schema completeness, schema vs page phone match, map, hours, call/booking action |
+| SaaS / software | Pricing link, trial or demo CTA, SoftwareApplication schema, proof |
+| Marketplace / listings | Pagination, ItemList schema, filter and sort URL count |
+| Content / affiliate / blog | Affiliate links without `rel="sponsored"`, author byline, visible dates, Article schema |
+| Other / mixed | Contact paths only |
+
+Tick **YMYL topic** for health, food safety, money or legal pages to add expert-author, expert-review, last-updated and source checks to any model.
 
 ## Security and privacy
 
@@ -59,6 +76,7 @@ modules/
   phase1-body-rules.js   Phase 1 body rules: raw vs rendered, headings, images, links, placeholders
   phase1-health-rules.js Phase 1 health rules: hidden content, DOM, render-blocking, embeds, stack
   summary.js             Rules engine: suggested verdicts, ranking, overall verdict
+  business-rules.js      Business-model and YMYL rules
   report.js              Markdown and CSV export (escaped)
   highlight.js           "Show on page" overlay (closed shadow root)
 tests/                   Golden tests from real pages (npm test)

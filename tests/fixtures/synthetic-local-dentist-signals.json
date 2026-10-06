@@ -1,0 +1,113 @@
+{
+  "url": "https://example.test/synthetic-local-dentist",
+  "schema": {
+    "types": [
+      "Dentist",
+      "PostalAddress"
+    ],
+    "localBusiness": "Dentist",
+    "hasAddress": true,
+    "telephone": "+91 98260 12345",
+    "openingHours": true,
+    "geo": false,
+    "author": false,
+    "authorName": "",
+    "reviewedBy": false,
+    "datePublished": "",
+    "dateModified": "",
+    "itemList": false,
+    "software": false,
+    "article": false,
+    "offers": false,
+    "rating": false,
+    "faq": false
+  },
+  "contact": {
+    "tel": 1,
+    "telVisible": 1,
+    "telSample": "tel:+919826012345",
+    "mail": 0,
+    "whatsapp": 0,
+    "contactLinks": 0,
+    "forms": 0,
+    "leadForms": 0,
+    "leadFormVisible": false,
+    "phoneText": ""
+  },
+  "ctas": {
+    "buy": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "lead": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "trial": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "demo": {
+      "count": 0,
+      "visible": 0,
+      "aboveFold": 0,
+      "sample": ""
+    },
+    "appointment": {
+      "count": 3,
+      "visible": 3,
+      "aboveFold": 3,
+      "sample": "Call now"
+    }
+  },
+  "local": {
+    "addressEl": true,
+    "addressText": true,
+    "mapEmbed": false,
+    "mapLink": true,
+    "hoursText": true
+  },
+  "policies": {
+    "refund": false,
+    "shipping": false,
+    "privacy": true,
+    "terms": false
+  },
+  "trust": {
+    "testimonials": false,
+    "caseStudies": false,
+    "clients": false,
+    "certifications": false
+  },
+  "saas": {
+    "pricingLink": false
+  },
+  "listing": {
+    "relNext": false,
+    "pageLinks": 0,
+    "paramLinks": 0
+  },
+  "outbound": {
+    "total": 1,
+    "affiliate": 0,
+    "affiliateNoRel": 0,
+    "affiliateSamples": [],
+    "citations": 0
+  },
+  "authorship": {
+    "authorEl": false,
+    "authorText": true,
+    "credentials": true,
+    "reviewedText": false,
+    "dateEl": false,
+    "updatedText": false
+  },
+  "collectedAt": "2026-10-06T04:14:50.850Z",
+  "_note": "Synthetic test page (not a real site), collected with collectSignals() in headless Chromium."
+}

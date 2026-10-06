@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.0 (M4: page health)
+
+- New Health tab with five groups: Hidden content, DOM size, Render-blocking and weight, Embeds, Tech stack
+- Hidden content sorted by reason: menus/popups/tabs/cookie banners (ignored), React streaming placeholders (ignored), screen-reader text (ignored), "show more" lists, mobile/desktop duplicate sections, and hidden text with no known reason (flagged)
+- Text injected with CSS `::before` / `::after` (Elementor device marker ignored)
+- Shadow DOM and empty custom elements
+- DOM size, depth, widest element, HTML size
+- Render-blocking CSS and scripts (nomodule polyfills excluded), inline script weight; tips adapt to the stack (LiteSpeed, WP Rocket, Elementor)
+- Embeds: iframes not loaded yet (consent or lazy-load), third-party content, hidden tracking frames (ignored)
+- Tech stack from page signals: platform, framework, builder, SEO and cache plugins, consent tool, tracking tags with IDs; flags missing analytics, multiple GTM containers, old UA tags
+- Body and Health run in parallel after Head; one failing does not hide the others
+- Active tab scrolls into view on narrow panels
+- 14 golden tests
+
 ## 0.3.0 (M3: body checks)
 
 - New Body tab with five groups: Unfinished content, Raw HTML vs rendered (Step 2), Headings (4A), Images (4B), Links (4C)

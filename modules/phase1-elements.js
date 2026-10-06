@@ -13,7 +13,7 @@
 export const MODULE_INFO = {
   id: 'phase1-elements',
   name: 'Phase 1: Elements',
-  version: '0.5.0',
+  version: '1.0.0',
 };
 
 /**

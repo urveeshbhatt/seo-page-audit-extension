@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.0 (M6: report)
+
+- New Report tab: every finding with a verdict dropdown (suggested verdict marked) and a note field
+- Edits flow into the Summary tab and the overall verdict straight away
+- Copy the report as Markdown, or download it as `.md` or `.csv` (UTF-8 with BOM for Excel)
+- Report title and auditor name in the header; file names built from the page URL and date
+- "Show on page" on findings with page elements (placeholders, test images, alt issues, generic links, contact links, H1, CSS text, empty embeds): outlines them on the audited tab and scrolls to the first one
+- Highlight overlay lives in a closed shadow root; the page's own elements are never changed
+- CSV export blocks spreadsheet formula injection; Markdown export escapes page text
+- 23 golden tests
+
 ## 0.5.0 (M5: rules engine and summary)
 
 - New Summary tab, opened automatically after an audit

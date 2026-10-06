@@ -22,7 +22,7 @@
     <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Run an audit first">Head</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="body" disabled title="Run an audit first">Body</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="health" disabled title="Run an audit first">Health</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Coming in M6">Report</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Run an audit first">Report</button>
   </nav>
 
   <main>
@@ -107,6 +107,34 @@
       <div id="sum-body"></div>
     </section>
 
+    <section class="panel" id="panel-report" role="tabpanel" hidden>
+      <div class="card report-meta">
+        <div class="field-grid">
+          <label class="field">
+            <span>Report title</span>
+            <input type="text" id="rep-title" maxlength="120" autocomplete="off">
+          </label>
+          <label class="field">
+            <span>Auditor (optional)</span>
+            <input type="text" id="rep-auditor" maxlength="80" autocomplete="off">
+          </label>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn-secondary" id="rep-copy">Copy Markdown</button>
+          <button type="button" class="btn-secondary" id="rep-md">Download .md</button>
+          <button type="button" class="btn-secondary" id="rep-csv">Download .csv</button>
+        </div>
+      </div>
+      <p class="hint report-hint">Change any verdict or add a note. The Summary tab and the export follow your edits.</p>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="rep-show-all">
+          <span>Show passed checks and ignored traps</span>
+        </label>
+      </div>
+      <div id="rep-list"></div>
+    </section>
+
     <section class="panel" id="panel-head" role="tabpanel" hidden>
       <div class="counts" id="head-counts" aria-label="Finding counts"></div>
       <div class="filter-row">
@@ -140,6 +168,11 @@
       <div id="health-groups"></div>
     </section>
   </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toast-text"></span>
+    <button type="button" class="toast-btn" id="toast-clear" hidden>Clear highlight</button>
+  </div>
 
   <footer class="app-footer">
     <span>Runs only on the tab where you click the toolbar icon (or press Alt+Shift+A). No data leaves your browser.</span>

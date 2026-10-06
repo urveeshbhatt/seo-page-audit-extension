@@ -10,6 +10,8 @@ import { evaluateHead } from '../modules/phase1-rules.js';
 import { evaluateBody } from '../modules/phase1-body-rules.js';
 import { evaluateHealth } from '../modules/phase1-health-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
+import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
+import { highlightTargets, clearHighlights } from '../modules/highlight.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -34,6 +36,16 @@ const ui = {
   sumUrl: $('sum-url'),
   sumSections: $('sum-sections'),
   sumBody: $('sum-body'),
+  repTitle: $('rep-title'),
+  repAuditor: $('rep-auditor'),
+  repCopy: $('rep-copy'),
+  repMd: $('rep-md'),
+  repCsv: $('rep-csv'),
+  repShowAll: $('rep-show-all'),
+  repList: $('rep-list'),
+  toast: $('toast'),
+  toastText: $('toast-text'),
+  toastClear: $('toast-clear'),
 };
 
 // One view per audit section. Each keeps the raw page data so a context change
@@ -92,8 +104,8 @@ function friendlyError(error) {
   return `Audit failed: ${msg}`;
 }
 
-async function runInTab(tabId, func) {
-  const [injection] = await chrome.scripting.executeScript({ target: { tabId }, func });
+async function runInTab(tabId, func, args = []) {
+  const [injection] = await chrome.scripting.executeScript({ target: { tabId }, func, args });
   if (!injection || injection.result === undefined) throw new Error('The page returned no data.');
   return injection.result;
 }
@@ -147,6 +159,7 @@ function renderFinding(f) {
   const top = el('div', 'finding-top');
   top.append(el('span', 'finding-check', f.check), el('span', `flag flag-${f.flag}`, f.label));
   item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
+  if (f.targets && f.targets.length) item.append(showOnPageButton(f));
   if (f.items && f.items.length) {
     const details = el('details', 'finding-details');
     details.append(el('summary', null, `Show ${f.items.length} detail${f.items.length === 1 ? '' : 's'}`));
@@ -208,6 +221,7 @@ ui.form.addEventListener('change', () => {
   const context = readContext();
   Object.keys(views).forEach((name) => judge(name, context));
   renderSummary();
+  renderReport();
   const c = totals();
   setStatus(`Re-judged with new context. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
 });
@@ -215,10 +229,64 @@ ui.goHead.addEventListener('click', () => showTab('head'));
 ui.goBody.addEventListener('click', () => showTab('body'));
 ui.goHealth.addEventListener('click', () => showTab('health'));
 
+// ---------------- show on page ----------------
+
+let auditTabId = null;
+let toastTimer = null;
+
+function toast(message, { canClear = false, sticky = false } = {}) {
+  ui.toastText.textContent = message;
+  ui.toastClear.hidden = !canClear;
+  ui.toast.hidden = false;
+  clearTimeout(toastTimer);
+  if (!sticky) toastTimer = setTimeout(() => { ui.toast.hidden = true; }, 6000);
+}
+
+async function auditedTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  if (!tab || tab.id !== auditTabId) throw new Error('Switch back to the tab you audited, then try again.');
+  return tab;
+}
+
+async function showOnPage(f) {
+  try {
+    const tab = await auditedTab();
+    const res = await runInTab(tab.id, highlightTargets, [f.targets, f.check]);
+    if (res.shown) {
+      toast(`Showing ${res.shown} on the page${res.found > res.shown ? ` (${res.found - res.shown} more hidden: menu, tab or other screen size)` : ''}.`, { canClear: true, sticky: true });
+    } else if (res.found) {
+      toast(`Found ${res.found}, but hidden right now (closed menu, tab, or another screen size). Open it on the page and try again.`);
+    } else {
+      toast('Not found on the page any more. The page may have changed since the audit; run it again.');
+    }
+  } catch (error) {
+    const m = String(error && error.message ? error.message : error);
+    toast(m.startsWith('Switch back') ? m : friendlyError(error));
+  }
+}
+
+function showOnPageButton(f) {
+  const b = el('button', 'show-btn', 'Show on page');
+  b.type = 'button';
+  b.title = 'Outline these elements on the page';
+  b.addEventListener('click', () => showOnPage(f));
+  return b;
+}
+
+ui.toastClear.addEventListener('click', async () => {
+  try {
+    const tab = await auditedTab();
+    await runInTab(tab.id, clearHighlights);
+  } catch { /* tab changed: nothing to clear */ }
+  ui.toast.hidden = true;
+});
+
 // ---------------- summary ----------------
 
 let lastUrl = '';
+let lastTitle = '';
 const checklist = new Set(); // ticked launch items for this audit (in memory only)
+let overrides = {}; // auditor edits: { 'body:ph-text': { verdict, note } } (in memory only)
 
 function verdictPill(key) {
   const v = VERDICTS[key];
@@ -239,6 +307,7 @@ function summaryItem(f, index) {
   item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
   const meta = el('div', 'sum-meta');
   meta.append(jump, el('span', 'sum-group', f.group));
+  if (f.targets && f.targets.length) meta.append(showOnPageButton(f));
   item.append(meta);
   return item;
 }
@@ -283,7 +352,7 @@ function renderSummary() {
   const results = {};
   Object.entries(views).forEach(([key, v]) => { if (v.result) results[key] = v.result; });
   if (!results.head) return;
-  const s = buildSummary(results, readContext());
+  const s = buildSummary(results, readContext(), overrides);
 
   ui.sumVerdict.className = `verdict tone-${s.overall.tone}`;
   ui.sumTitle.textContent = s.overall.title;
@@ -331,6 +400,141 @@ function renderSummary() {
   ui.sumBody.replaceChildren(...parts);
 }
 
+// ---------------- report ----------------
+
+function currentSummary() {
+  const results = {};
+  Object.entries(views).forEach(([key, v]) => { if (v.result) results[key] = v.result; });
+  return results.head ? buildSummary(results, readContext(), overrides) : null;
+}
+
+function setOverride(f, patch) {
+  const next = { ...(overrides[f.key] || {}), ...patch };
+  if (next.verdict === f.suggested) delete next.verdict;
+  if (!next.note) delete next.note;
+  if (Object.keys(next).length) overrides[f.key] = next; else delete overrides[f.key];
+}
+
+function reportItem(f) {
+  const item = el('li', `finding rep-item finding-${f.flag}`);
+  const top = el('div', 'finding-top');
+  const jump = el('button', 'section-link', f.sectionName);
+  jump.type = 'button';
+  jump.addEventListener('click', () => showTab(f.section));
+  top.append(el('span', 'finding-check', f.check), jump);
+  item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
+
+  const controls = el('div', 'rep-controls');
+  const selectLabel = el('label', 'rep-verdict');
+  selectLabel.append(el('span', 'sr-only', `Verdict for ${f.check}`));
+  const select = el('select');
+  Object.entries(VERDICTS).forEach(([key, v]) => {
+    const opt = el('option', null, key === f.suggested ? `${v.label} (suggested)` : v.label);
+    opt.value = key;
+    opt.selected = key === f.verdict;
+    select.append(opt);
+  });
+  const mark = el('span', 'rep-edited', 'edited');
+  mark.hidden = !f.edited;
+  select.addEventListener('change', () => {
+    setOverride(f, { verdict: select.value });
+    mark.hidden = select.value === f.suggested;
+    renderSummary();
+  });
+  selectLabel.append(select);
+  controls.append(selectLabel, mark);
+  if (f.targets && f.targets.length) controls.append(showOnPageButton(f));
+  item.append(controls);
+
+  const note = el('textarea', 'rep-note');
+  note.rows = 1;
+  note.maxLength = 500;
+  note.placeholder = 'Note for the report (optional)';
+  note.value = f.note;
+  note.setAttribute('aria-label', `Note for ${f.check}`);
+  note.addEventListener('input', () => setOverride(f, { note: note.value.trim() }));
+  item.append(note);
+  return item;
+}
+
+function renderReport() {
+  const s = currentSummary();
+  if (!s) return;
+  const showAll = ui.repShowAll.checked;
+  const list = s.all.filter((f) => showAll || (f.verdict !== 'ok' && f.verdict !== 'ignore') || f.edited);
+  const ul = el('ul', 'findings');
+  list.forEach((f) => ul.append(reportItem(f)));
+  ui.repList.replaceChildren(list.length ? ul : el('p', 'hint', 'Nothing to report. Tick "Show passed checks" to see everything.'));
+}
+
+ui.repShowAll.addEventListener('change', renderReport);
+
+function today() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function reportMeta() {
+  return {
+    title: ui.repTitle.value.trim() || `SEO page audit: ${lastTitle || lastUrl}`,
+    auditor: ui.repAuditor.value.trim(),
+    url: lastUrl,
+    date: today(),
+    context: readContext(),
+    version: chrome.runtime.getManifest().version,
+  };
+}
+
+function download(text, name, type) {
+  const url = URL.createObjectURL(new Blob([text], { type }));
+  const a = el('a');
+  a.href = url;
+  a.download = name;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    // Fallback for when the clipboard API is not available in the side panel
+    const area = el('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.append(area);
+    area.select();
+    const ok = document.execCommand('copy');
+    area.remove();
+    return ok;
+  }
+}
+
+ui.repCopy.addEventListener('click', async () => {
+  const s = currentSummary();
+  if (!s) return;
+  const ok = await copyText(toMarkdown(s, reportMeta()));
+  toast(ok ? 'Report copied. Paste it into Docs, Notion or an email.' : 'Copy failed. Use Download .md instead.');
+});
+ui.repMd.addEventListener('click', () => {
+  const s = currentSummary();
+  if (!s) return;
+  download(toMarkdown(s, reportMeta()), `${fileStem(lastUrl, today())}.md`, 'text/markdown;charset=utf-8');
+  toast('Markdown report downloaded.');
+});
+ui.repCsv.addEventListener('click', () => {
+  const s = currentSummary();
+  if (!s) return;
+  download(toCsv(s), `${fileStem(lastUrl, today())}.csv`, 'text/csv;charset=utf-8');
+  toast('CSV downloaded. Opens in Excel or Google Sheets.');
+});
+
 // ---------------- audit ----------------
 
 async function runAudit(event) {
@@ -352,7 +556,11 @@ async function runAudit(event) {
 
     renderBasics(basics);
     lastUrl = basics.url;
+    lastTitle = basics.title;
+    auditTabId = tab.id;
     checklist.clear();
+    overrides = {};
+    ui.repTitle.value = `SEO page audit: ${basics.title || basics.url}`.slice(0, 120);
     views.head.data = head;
     judge('head', context);
     enableTab('head');
@@ -383,7 +591,9 @@ async function runAudit(event) {
       }
     }));
     renderSummary();
+    renderReport();
     enableTab('summary');
+    enableTab('report');
     if (failed.length) {
       setStatus(`Done, but ${failed.join(' and ')} checks failed on this page. See the other tabs.`, true);
       return;

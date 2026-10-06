@@ -1,0 +1,40 @@
+{
+  "_note": "Captured live 2026-10-06 with collectHealth() in a 366px-wide viewport (mobile layout). maxChildren re-measured without <head>; iframe host reflects the later collector (no src attribute yet: video blocked until cookie consent or lazy-load).",
+  "url": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
+  "dom": { "nodes": 1398, "maxDepth": 18, "maxChildren": 52, "maxChildrenAt": "body", "htmlBytes": 322741 },
+  "hidden": [
+    { "el": "div.cky-hide.cky-consent-container.cky-banner-bottom", "reason": "display:none", "chars": 174, "category": "ui", "sample": "We value your privacy We use cookies to improve your experience and understand site traffic. Accept to help us, or rejec" },
+    { "el": "div.cky-modal", "reason": "visibility:hidden", "chars": 1351, "category": "ui", "sample": "Customise Consent Preferences We use cookies to help you navigate efficiently and perform certain functions. You will fi" },
+    { "el": "nav.elementor-nav-menu--main.elementor-nav-menu__container.elementor-nav-menu--layout-horizontal", "reason": "display:none", "chars": 73, "category": "ui", "sample": "Shop A2 Ghee Bilona Method Benefits Pahadi ghee Price Ghee Brands Purity Contact" },
+    { "el": "div#elementor-tab-content-6522.elementor-tab-content.elementor-clearfix", "reason": "display:none", "chars": 192, "category": "ui", "sample": "Hand-churned bilona from grass-fed A2 cows yields a fraction of what a factory makes. You’re paying for the method, the " },
+    { "el": "div#elementor-tab-content-6523.elementor-tab-content.elementor-clearfix", "reason": "display:none", "chars": 119, "category": "ui", "sample": "Pure ghee is naturally shelf-stable for months without preservatives. Store cool and dry; a dry spoon keeps it perfect." },
+    { "el": "div#elementor-tab-content-6524.elementor-tab-content.elementor-clearfix", "reason": "display:none", "chars": 135, "category": "ui", "sample": "A2 refers to the beta-casein protein in native desi cows (Badri/Desi). Our breed and source are named and traceable — se" },
+    { "el": "div#elementor-tab-content-6525.elementor-tab-content.elementor-clearfix", "reason": "display:none", "chars": 160, "category": "ui", "sample": "Ghee is a traditional first fat for babies. Ours is pure and lab-verified with nothing added — read ghee for babies , an" },
+    { "el": "div#error-message.sib-form-message-panel", "reason": "display:none", "chars": 55, "category": "ui", "sample": "Your subscription could not be saved. Please try again." },
+    { "el": "div#success-message.sib-form-message-panel", "reason": "display:none", "chars": 190, "category": "ui", "sample": "You’re on the founding list! 🌿 Your free Spot Fake Ghee checklist is on its way to your inbox — check your email (peek " }
+  ],
+  "hiddenChars": 2449,
+  "visibleChars": 5488,
+  "cssText": [
+    { "el": "span#elementor-device-mode.elementor-screen-only", "pseudo": "::after", "text": "mobile" }
+  ],
+  "shadow": { "open": 0, "openWithText": 0, "customElements": 0, "emptyCustom": [] },
+  "iframes": [
+    { "host": "(no src yet)", "visible": true, "lazy": false, "title": "YouTube video player" }
+  ],
+  "resources": { "scripts": 77, "externalScripts": 32, "inlineScriptKB": 43, "stylesheets": 35, "blockingCss": 32, "blockingScripts": [], "blockingScriptCount": 0 },
+  "generator": ["Site Kit by Google 1.188.0", "Elementor 4.3.2; features: e_font_icon_svg, additional_custom_breakpoints; setti"],
+  "stack": [
+    { "name": "WordPress", "group": "platform" },
+    { "name": "WooCommerce", "group": "platform" },
+    { "name": "Elementor", "group": "builder" },
+    { "name": "Rank Math", "group": "seo" },
+    { "name": "Site Kit by Google", "group": "tracking" },
+    { "name": "LiteSpeed Cache", "group": "performance" },
+    { "name": "CookieYes", "group": "consent" },
+    { "name": "Google Analytics 4", "group": "tracking" },
+    { "name": "Microsoft Clarity", "group": "tracking" }
+  ],
+  "tags": { "gtm": [], "ga4": ["G-88PFF21FWP"], "ua": [], "aw": [] },
+  "collectedAt": "2026-10-06T03:43:23.267Z"
+}

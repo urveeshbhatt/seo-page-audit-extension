@@ -5,9 +5,10 @@
 //      Chrome gives when the user clicks the toolbar icon.
 //   3. Nothing is sent over the network.
 
-import { collectBasics, collectHead, collectBody } from '../modules/phase1-elements.js';
+import { collectBasics, collectHead, collectBody, collectHealth } from '../modules/phase1-elements.js';
 import { evaluateHead } from '../modules/phase1-rules.js';
 import { evaluateBody } from '../modules/phase1-body-rules.js';
+import { evaluateHealth } from '../modules/phase1-health-rules.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -25,6 +26,7 @@ const ui = {
   version: $('version'),
   goHead: $('go-head'),
   goBody: $('go-body'),
+  goHealth: $('go-health'),
 };
 
 // One view per audit section. Each keeps the raw page data so a context change
@@ -32,6 +34,7 @@ const ui = {
 const views = {
   head: { evaluate: evaluateHead, counts: $('head-counts'), groups: $('head-groups'), hideGood: $('head-hide-good'), data: null, result: null },
   body: { evaluate: evaluateBody, counts: $('body-counts'), groups: $('body-groups'), hideGood: $('body-hide-good'), data: null, result: null },
+  health: { evaluate: evaluateHealth, counts: $('health-counts'), groups: $('health-groups'), hideGood: $('health-hide-good'), data: null, result: null },
 };
 
 ui.version.textContent = `v${chrome.runtime.getManifest().version}`;
@@ -97,6 +100,7 @@ function showTab(name) {
     const active = b.dataset.tab === name;
     b.classList.toggle('is-active', active);
     b.setAttribute('aria-selected', String(active));
+    if (active) b.scrollIntoView({ block: 'nearest', inline: 'nearest' }); // narrow panels: keep the active tab in view
   });
   document.querySelectorAll('.panel').forEach((p) => {
     p.hidden = p.id !== `panel-${name}`;
@@ -193,7 +197,7 @@ Object.values(views).forEach((view) => {
 
 // Changing the context re-judges the same data, no need to audit again.
 ui.form.addEventListener('change', () => {
-  if (!views.head.data && !views.body.data) return;
+  if (!Object.values(views).some((v) => v.data)) return;
   const context = readContext();
   Object.keys(views).forEach((name) => judge(name, context));
   const c = totals();
@@ -201,6 +205,7 @@ ui.form.addEventListener('change', () => {
 });
 ui.goHead.addEventListener('click', () => showTab('head'));
 ui.goBody.addEventListener('click', () => showTab('body'));
+ui.goHealth.addEventListener('click', () => showTab('health'));
 
 // ---------------- audit ----------------
 
@@ -227,21 +232,32 @@ async function runAudit(event) {
     enableTab('head');
     ui.goHead.hidden = false;
 
-    // Body checks fetch the raw HTML, so they take a moment longer.
-    // A failure here should not hide the head results.
-    setStatus('Head done. Comparing raw HTML with the rendered page…');
-    views.body.data = null;
-    views.body.result = null;
-    try {
-      views.body.data = await runInTab(tab.id, collectBody);
-      judge('body', context);
-      enableTab('body');
-      ui.goBody.hidden = false;
-    } catch (bodyError) {
-      console.error('[Page Audit Lens] body', bodyError);
-      views.body.counts.replaceChildren();
-      views.body.groups.replaceChildren(el('p', 'hint', 'Body checks failed on this page. Head checks are still valid.'));
-      setStatus(`Head done, body checks failed: ${friendlyError(bodyError)}`, true);
+    // Body and health checks run after head. A failure in one should not hide
+    // the others. Body fetches the raw HTML, so it takes a moment longer.
+    setStatus('Head done. Checking body and page health…');
+    const failed = [];
+    const sections = [
+      ['health', collectHealth, ui.goHealth],
+      ['body', collectBody, ui.goBody],
+    ];
+    await Promise.all(sections.map(async ([name, collector, button]) => {
+      const view = views[name];
+      view.data = null;
+      view.result = null;
+      try {
+        view.data = await runInTab(tab.id, collector);
+        judge(name, context);
+        enableTab(name);
+        button.hidden = false;
+      } catch (sectionError) {
+        console.error(`[Page Audit Lens] ${name}`, sectionError);
+        failed.push(name);
+        view.counts.replaceChildren();
+        view.groups.replaceChildren(el('p', 'hint', `The ${name} checks failed on this page. Other tabs are still valid.`));
+      }
+    }));
+    if (failed.length) {
+      setStatus(`Done, but ${failed.join(' and ')} checks failed on this page. See the other tabs.`, true);
       return;
     }
 

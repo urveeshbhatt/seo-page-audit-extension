@@ -5,7 +5,8 @@
 //      Chrome gives when the user clicks the toolbar icon.
 //   3. Nothing is sent over the network.
 
-import { collectBasics } from '../modules/phase1-elements.js';
+import { collectBasics, collectHead } from '../modules/phase1-elements.js';
+import { evaluateHead } from '../modules/phase1-rules.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -21,12 +22,28 @@ const ui = {
   lang: $('out-lang'),
   time: $('out-time'),
   version: $('version'),
+  goHead: $('go-head'),
+  headCounts: $('head-counts'),
+  headGroups: $('head-groups'),
+  hideGood: $('head-hide-good'),
 };
 
 ui.version.textContent = `v${chrome.runtime.getManifest().version}`;
 
+let lastHeadData = null; // raw data from the page (latest audit)
+let lastHead = null; // { groups, counts } evaluated with the current context
+
 // Pages where Chrome never allows extensions to run scripts.
 const RESTRICTED = /^(chrome|chrome-extension|edge|about|devtools|view-source):/i;
+
+// ---------------- helpers ----------------
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text; // text only, never HTML
+  return node;
+}
 
 function setStatus(message, isError = false) {
   ui.status.textContent = message;
@@ -61,7 +78,37 @@ function friendlyError(error) {
   return `Audit failed: ${msg}`;
 }
 
-function render(data) {
+async function runInTab(tabId, func) {
+  const [injection] = await chrome.scripting.executeScript({ target: { tabId }, func });
+  if (!injection || injection.result === undefined) throw new Error('The page returned no data.');
+  return injection.result;
+}
+
+// ---------------- tabs ----------------
+
+const tabButtons = [...document.querySelectorAll('.tab')];
+
+function showTab(name) {
+  tabButtons.forEach((b) => {
+    const active = b.dataset.tab === name;
+    b.classList.toggle('is-active', active);
+    b.setAttribute('aria-selected', String(active));
+  });
+  document.querySelectorAll('.panel').forEach((p) => {
+    p.hidden = p.id !== `panel-${name}`;
+  });
+}
+
+tabButtons.forEach((b) => b.addEventListener('click', () => { if (!b.disabled) showTab(b.dataset.tab); }));
+
+function enableTab(name) {
+  const b = tabButtons.find((x) => x.dataset.tab === name);
+  if (b) { b.disabled = false; b.removeAttribute('title'); }
+}
+
+// ---------------- rendering ----------------
+
+function renderBasics(data) {
   ui.url.textContent = data.url;
   ui.title.textContent = data.title || '(empty)';
   ui.titleLen.textContent = `${data.titleLength} characters`;
@@ -73,6 +120,57 @@ function render(data) {
   ui.result.hidden = false;
 }
 
+const COUNT_LABELS = [
+  ['critical', 'Critical'],
+  ['warning', 'Check'],
+  ['info', 'Info'],
+  ['good', 'Passed'],
+];
+
+function renderHead(result) {
+  ui.headCounts.replaceChildren(
+    ...COUNT_LABELS.map(([key, label]) => {
+      const chip = el('div', `count count-${key}`);
+      chip.append(el('span', 'count-num', String(result.counts[key])), el('span', 'count-label', label));
+      return chip;
+    }),
+  );
+
+  const hideGood = ui.hideGood.checked;
+  const groups = result.groups.map((group) => {
+    const visible = group.findings.filter((f) => !(hideGood && f.flag === 'good'));
+    if (visible.length === 0) return null;
+    const section = el('section', 'group');
+    section.append(el('h3', 'group-title', group.title));
+    const list = el('ul', 'findings');
+    visible.forEach((f) => {
+      const item = el('li', `finding finding-${f.flag}`);
+      const top = el('div', 'finding-top');
+      top.append(el('span', 'finding-check', f.check), el('span', `flag flag-${f.flag}`, f.label));
+      item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
+      list.append(item);
+    });
+    section.append(list);
+    return section;
+  }).filter(Boolean);
+
+  ui.headGroups.replaceChildren(...(groups.length ? groups : [el('p', 'hint', 'Everything passed. Untick "Hide passed checks" to see all.')]));
+}
+
+ui.hideGood.addEventListener('change', () => { if (lastHead) renderHead(lastHead); });
+
+// Changing the context re-judges the same data, no need to audit again.
+ui.form.addEventListener('change', () => {
+  if (!lastHeadData) return;
+  lastHead = evaluateHead(lastHeadData, readContext());
+  renderHead(lastHead);
+  const c = lastHead.counts;
+  setStatus(`Re-judged with new context. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
+});
+ui.goHead.addEventListener('click', () => showTab('head'));
+
+// ---------------- audit ----------------
+
 async function runAudit(event) {
   event.preventDefault();
   ui.button.disabled = true;
@@ -82,19 +180,23 @@ async function runAudit(event) {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab || tab.id === undefined) throw new Error('No active tab found.');
-    if (tab.url && RESTRICTED.test(tab.url)) {
-      throw new Error('cannot be scripted');
-    }
+    if (tab.url && RESTRICTED.test(tab.url)) throw new Error('cannot be scripted');
 
-    const context = readContext(); // used by the rules engine from M5
-    const [injection] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: collectBasics,
-    });
+    const context = readContext();
+    const [basics, head] = await Promise.all([
+      runInTab(tab.id, collectBasics),
+      runInTab(tab.id, collectHead),
+    ]);
 
-    if (!injection || !injection.result) throw new Error('The page returned no data.');
-    render(injection.result);
-    setStatus(`Done. Context: ${context.pageType}, ${context.status}, ${context.model}.`);
+    renderBasics(basics);
+    lastHeadData = head;
+    lastHead = evaluateHead(head, context);
+    renderHead(lastHead);
+    enableTab('head');
+    ui.goHead.hidden = false;
+
+    const c = lastHead.counts;
+    setStatus(`Done. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
   } catch (error) {
     console.error('[Page Audit Lens]', error);
     setStatus(friendlyError(error), true);

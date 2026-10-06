@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 (M2: head checks)
+
+- New Head tab: indexing (robots, googlebot, canonical, viewport), search snippet (title, description), social preview (Open Graph, X card), structured data (types, Product name, brand, offer, rating), language (lang, hreflang)
+- Every finding has a flag, a short label and a one-line reason
+- Context-aware rules: noindex is a "Launch blocker" on pre-launch sites and Critical on live revenue pages; canonical 0 on a noindex page is "Re-check later"
+- Changing the context re-judges the last audit without re-running it
+- "Hide passed checks" filter and finding counts
+- Golden tests from real Buranshvalley and Regus pages (`npm test`)
+
 ## 0.1.1
 
 - Fix: toolbar click now reliably grants tab access (handled via `action.onClicked` instead of auto-open panel behaviour)

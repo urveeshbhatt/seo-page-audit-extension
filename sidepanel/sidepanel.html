@@ -19,7 +19,7 @@
   <nav class="tabs" role="tablist" aria-label="Audit sections">
     <button class="tab is-active" role="tab" aria-selected="true" data-tab="setup">Setup</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="summary" disabled title="Coming in M5">Summary</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Coming in M2">Head</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Run an audit first">Head</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="body" disabled title="Coming in M3">Body</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="health" disabled title="Coming in M4">Health</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Coming in M6">Report</button>
@@ -89,7 +89,19 @@
           </div>
         </dl>
         <p class="meta" id="out-time"></p>
+        <button type="button" class="btn-secondary" id="go-head" hidden>View head checks →</button>
       </article>
+    </section>
+
+    <section class="panel" id="panel-head" role="tabpanel" hidden>
+      <div class="counts" id="head-counts" aria-label="Finding counts"></div>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="head-hide-good">
+          <span>Hide passed checks</span>
+        </label>
+      </div>
+      <div id="head-groups"></div>
     </section>
   </main>
 

@@ -83,8 +83,9 @@ body {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none; /* still scrollable by swipe / shift+wheel, no visible bar */
 }
+.tabs::-webkit-scrollbar { display: none; }
 .tab {
   flex: 0 0 auto;
   padding: 8px 12px;

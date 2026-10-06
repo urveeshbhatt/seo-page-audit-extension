@@ -53,7 +53,7 @@ function titleFlag(length) {
 function friendlyError(error) {
   const msg = String(error && error.message ? error.message : error);
   if (/Cannot access|activeTab|permission/i.test(msg)) {
-    return 'No access to this tab yet. Click the Page Audit Lens icon in the toolbar while this tab is open, then press Audit again.';
+    return 'No access to this tab yet. Click the Page Audit Lens icon in the toolbar (or press Alt+Shift+A) on this tab, then press Audit again.';
   }
   if (/cannot be scripted|chrome:\/\/|Chrome Web Store|extensions gallery/i.test(msg)) {
     return 'Chrome does not allow audits on this page (browser or Web Store page). Open a normal website.';
@@ -104,3 +104,12 @@ async function runAudit(event) {
 }
 
 ui.form.addEventListener('submit', runAudit);
+
+// The background worker tells us when the user clicked the icon (or used the
+// shortcut) on a tab, which grants access to that tab.
+chrome.runtime.onMessage.addListener((message, sender) => {
+  if (sender.id !== chrome.runtime.id) return; // only trust our own extension
+  if (message && message.type === 'tab-access-granted') {
+    setStatus('Tab ready. Press "Audit this page".');
+  }
+});

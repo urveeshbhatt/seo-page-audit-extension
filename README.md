@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v0.1.0, milestone M1 of 6 (side panel + page basics). See [Roadmap](#roadmap).
+> **Status:** v0.1.1, milestone M1 of 6 (side panel + page basics). See [Roadmap](#roadmap).
 
 ## Why
 
@@ -25,7 +25,7 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 3. Set the page context (page type, live or pre-launch, business model)
 4. Click **Audit this page**
 
-If you switch to another tab, click the toolbar icon again on that tab before auditing. This is a security feature (see below).
+If you switch to another tab, click the toolbar icon again (or press **Alt+Shift+A**) on that tab before auditing. This is a security feature (see below). Change the shortcut at `chrome://extensions/shortcuts`.
 
 ## Security and privacy
 

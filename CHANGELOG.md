@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 (M3: body checks)
+
+- New Body tab with five groups: Unfinished content, Raw HTML vs rendered (Step 2), Headings (4A), Images (4B), Links (4C)
+- Raw vs rendered: fetches the page's own HTML (same origin, read-only) and checks that H1, price and main text exist without JavaScript; compares link counts; flags tiny responses (bot protection) for a manual Ctrl+U check
+- Unfinished content: `[____]`, `[__]%`, bracketed names, `lorem ipsum`, `{{ tokens }}`, dummy phone numbers (`91XXXXXXXXXX`), template links (`http://[URL]`) and test images. "Launch blocker" before launch, Critical when live
+- Headings: H1 count, empty headings, skipped levels, full outline
+- Images: missing / empty / generic / auto-generated alt, repeated alt, hero image lazy-load and fetchpriority, missing width/height, oversized files
+- Links: missing href, `#` links, links with no text, generic anchors ("here", "learn more"), empty `tel:` links, mismatched WhatsApp/phone numbers
+- Known traps auto-ignored: tracking pixels, icons, accordion/tab/cart/cookie toggles
+- "Show details" lists under findings (e.g. every placeholder with its surrounding text)
+- Link text ignores `<noscript>` fallbacks from lazy-load plugins
+- Golden tests extended with body fixtures from Buranshvalley and Regus (10 tests)
+
 ## 0.2.0 (M2: head checks)
 
 - New Head tab: indexing (robots, googlebot, canonical, viewport), search snippet (title, description), social preview (Open Graph, X card), structured data (types, Product name, brand, offer, rating), language (lang, hreflang)

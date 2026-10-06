@@ -5,8 +5,9 @@
 //      Chrome gives when the user clicks the toolbar icon.
 //   3. Nothing is sent over the network.
 
-import { collectBasics, collectHead } from '../modules/phase1-elements.js';
+import { collectBasics, collectHead, collectBody } from '../modules/phase1-elements.js';
 import { evaluateHead } from '../modules/phase1-rules.js';
+import { evaluateBody } from '../modules/phase1-body-rules.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -23,15 +24,18 @@ const ui = {
   time: $('out-time'),
   version: $('version'),
   goHead: $('go-head'),
-  headCounts: $('head-counts'),
-  headGroups: $('head-groups'),
-  hideGood: $('head-hide-good'),
+  goBody: $('go-body'),
+};
+
+// One view per audit section. Each keeps the raw page data so a context change
+// can re-judge it without touching the page again.
+const views = {
+  head: { evaluate: evaluateHead, counts: $('head-counts'), groups: $('head-groups'), hideGood: $('head-hide-good'), data: null, result: null },
+  body: { evaluate: evaluateBody, counts: $('body-counts'), groups: $('body-groups'), hideGood: $('body-hide-good'), data: null, result: null },
 };
 
 ui.version.textContent = `v${chrome.runtime.getManifest().version}`;
 
-let lastHeadData = null; // raw data from the page (latest audit)
-let lastHead = null; // { groups, counts } evaluated with the current context
 
 // Pages where Chrome never allows extensions to run scripts.
 const RESTRICTED = /^(chrome|chrome-extension|edge|about|devtools|view-source):/i;
@@ -127,8 +131,25 @@ const COUNT_LABELS = [
   ['good', 'Passed'],
 ];
 
-function renderHead(result) {
-  ui.headCounts.replaceChildren(
+function renderFinding(f) {
+  const item = el('li', `finding finding-${f.flag}`);
+  const top = el('div', 'finding-top');
+  top.append(el('span', 'finding-check', f.check), el('span', `flag flag-${f.flag}`, f.label));
+  item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
+  if (f.items && f.items.length) {
+    const details = el('details', 'finding-details');
+    details.append(el('summary', null, `Show ${f.items.length} detail${f.items.length === 1 ? '' : 's'}`));
+    const list = el('ul', 'detail-list mono');
+    f.items.forEach((text) => list.append(el('li', 'wrap', text)));
+    details.append(list);
+    item.append(details);
+  }
+  return item;
+}
+
+function renderView(view) {
+  const { result } = view;
+  view.counts.replaceChildren(
     ...COUNT_LABELS.map(([key, label]) => {
       const chip = el('div', `count count-${key}`);
       chip.append(el('span', 'count-num', String(result.counts[key])), el('span', 'count-label', label));
@@ -136,38 +157,50 @@ function renderHead(result) {
     }),
   );
 
-  const hideGood = ui.hideGood.checked;
+  const hideGood = view.hideGood.checked;
   const groups = result.groups.map((group) => {
     const visible = group.findings.filter((f) => !(hideGood && f.flag === 'good'));
     if (visible.length === 0) return null;
     const section = el('section', 'group');
     section.append(el('h3', 'group-title', group.title));
     const list = el('ul', 'findings');
-    visible.forEach((f) => {
-      const item = el('li', `finding finding-${f.flag}`);
-      const top = el('div', 'finding-top');
-      top.append(el('span', 'finding-check', f.check), el('span', `flag flag-${f.flag}`, f.label));
-      item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
-      list.append(item);
-    });
+    visible.forEach((f) => list.append(renderFinding(f)));
     section.append(list);
     return section;
   }).filter(Boolean);
 
-  ui.headGroups.replaceChildren(...(groups.length ? groups : [el('p', 'hint', 'Everything passed. Untick "Hide passed checks" to see all.')]));
+  view.groups.replaceChildren(...(groups.length ? groups : [el('p', 'hint', 'Everything passed. Untick "Hide passed checks" to see all.')]));
 }
 
-ui.hideGood.addEventListener('change', () => { if (lastHead) renderHead(lastHead); });
+function judge(name, context) {
+  const view = views[name];
+  if (!view.data) return;
+  view.result = view.evaluate(view.data, context);
+  renderView(view);
+}
+
+function totals() {
+  const t = { critical: 0, warning: 0, good: 0, info: 0 };
+  Object.values(views).forEach((v) => {
+    if (v.result) Object.keys(t).forEach((k) => { t[k] += v.result.counts[k]; });
+  });
+  return t;
+}
+
+Object.values(views).forEach((view) => {
+  view.hideGood.addEventListener('change', () => { if (view.result) renderView(view); });
+});
 
 // Changing the context re-judges the same data, no need to audit again.
 ui.form.addEventListener('change', () => {
-  if (!lastHeadData) return;
-  lastHead = evaluateHead(lastHeadData, readContext());
-  renderHead(lastHead);
-  const c = lastHead.counts;
+  if (!views.head.data && !views.body.data) return;
+  const context = readContext();
+  Object.keys(views).forEach((name) => judge(name, context));
+  const c = totals();
   setStatus(`Re-judged with new context. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
 });
 ui.goHead.addEventListener('click', () => showTab('head'));
+ui.goBody.addEventListener('click', () => showTab('body'));
 
 // ---------------- audit ----------------
 
@@ -189,13 +222,30 @@ async function runAudit(event) {
     ]);
 
     renderBasics(basics);
-    lastHeadData = head;
-    lastHead = evaluateHead(head, context);
-    renderHead(lastHead);
+    views.head.data = head;
+    judge('head', context);
     enableTab('head');
     ui.goHead.hidden = false;
 
-    const c = lastHead.counts;
+    // Body checks fetch the raw HTML, so they take a moment longer.
+    // A failure here should not hide the head results.
+    setStatus('Head done. Comparing raw HTML with the rendered page…');
+    views.body.data = null;
+    views.body.result = null;
+    try {
+      views.body.data = await runInTab(tab.id, collectBody);
+      judge('body', context);
+      enableTab('body');
+      ui.goBody.hidden = false;
+    } catch (bodyError) {
+      console.error('[Page Audit Lens] body', bodyError);
+      views.body.counts.replaceChildren();
+      views.body.groups.replaceChildren(el('p', 'hint', 'Body checks failed on this page. Head checks are still valid.'));
+      setStatus(`Head done, body checks failed: ${friendlyError(bodyError)}`, true);
+      return;
+    }
+
+    const c = totals();
     setStatus(`Done. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
   } catch (error) {
     console.error('[Page Audit Lens]', error);

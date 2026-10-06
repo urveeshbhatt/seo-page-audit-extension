@@ -1,0 +1,68 @@
+{
+  "_note": "Captured live 2026-10-06 from https://www.regus.com/en/in/mumbai with collectBody(). headings, images and links trimmed to representative entries; *Total fields are the real counts. Two edits for test coverage: hero aboveFold set true (desktop viewport), and one Bing pixel added (seen in an earlier capture after trackers loaded).",
+  "url": "https://www.regus.com/en/in/mumbai",
+  "viewportHeight": 707,
+  "renderedWords": 1452,
+  "raw": {
+    "ok": true,
+    "reason": "",
+    "bytes": 2685604,
+    "words": 2627,
+    "tests": [
+      { "kind": "H1", "text": "Welcome to Regus Mumbai", "inRaw": true },
+      { "kind": "Price", "text": "INR 440", "inRaw": true },
+      { "kind": "Paragraph", "text": "Mumbai's Nariman Point and Bandra Kurla Complex are prime locations for serviced offices, attracting top financial insti", "inRaw": true },
+      { "kind": "Paragraph", "text": "Receive personalized pricing and workspace solutions aligned perfectly to your business requirements.", "inRaw": true },
+      { "kind": "Paragraph", "text": "Reserve fully equipped meeting rooms ideal for presentations, client meetings, or team collaborations.", "inRaw": true },
+      { "kind": "H2", "text": "Ways to get started", "inRaw": true },
+      { "kind": "H2", "text": "Get a quote", "inRaw": true }
+    ],
+    "linkCount": 232,
+    "h1Count": 1
+  },
+  "headings": [
+    { "level": 1, "text": "Welcome to Regus Mumbai", "visible": true },
+    { "level": 2, "text": "Ways to get started", "visible": true },
+    { "level": 2, "text": "Get a quote", "visible": true },
+    { "level": 2, "text": "Book a center tour", "visible": true },
+    { "level": 2, "text": "Book a meeting room", "visible": true },
+    { "level": 3, "text": "Prime Office Space for Rent in Mumbai's Business Districts", "visible": true },
+    { "level": 3, "text": "Serviced Offices and Coworking Spaces in Emerging Areas", "visible": true },
+    { "level": 3, "text": "Meeting Rooms and Connectivity Across Mumbai", "visible": true },
+    { "level": 2, "text": "Manage everything with our app", "visible": true },
+    { "level": 3, "text": "Answers to your flexible workspace questions in Mumbai", "visible": true },
+    { "level": 4, "text": "What offices do you offer in Mumbai?", "visible": true },
+    { "level": 4, "text": "Can I use a Regus center as my business address in Mumbai?", "visible": true },
+    { "level": 4, "text": "Do you have coworking desks in Mumbai?", "visible": true }
+  ],
+  "headingTotal": 103,
+  "images": [
+    { "src": "https://www.regus.com/ark-prime-regus-assets/logos/regus-logo-light.svg", "file": "regus-logo-light.svg", "hasAltAttr": true, "alt": "Home", "tracker": false, "lazy": false, "fetchpriority": "", "aboveFold": true, "visible": true, "shownWidth": 114, "naturalWidth": 96, "hasWidthHeight": true, "decorativeHint": true },
+    { "src": "https://assets.iwgplc.com/image/upload/c_fill,f_auto,q_auto,w_380,h_257,g_auto:subject//v1761575815/DataGeo/AsiaPacific/India_Mumbai.jpg", "file": "India_Mumbai.jpg", "hasAltAttr": true, "alt": "Brand", "tracker": false, "lazy": false, "fetchpriority": "high", "aboveFold": true, "visible": true, "shownWidth": 334, "naturalWidth": 380, "hasWidthHeight": false, "decorativeHint": false },
+    { "src": "https://maps.googleapis.com/maps/api/staticmap%3Fcenter=19.0624,72.8671&zoom=15&size=320x180", "file": "staticmap%3Fcenter=19.0624,72.8671&zoom=15&size=320x180", "hasAltAttr": true, "alt": "Location image", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": true, "shownWidth": 334, "naturalWidth": 0, "hasWidthHeight": true, "decorativeHint": false },
+    { "src": "https://maps.googleapis.com/maps/api/staticmap%3Fcenter=19.0058,72.8305&zoom=15&size=320x180", "file": "staticmap%3Fcenter=19.0058,72.8305&zoom=15&size=320x180", "hasAltAttr": true, "alt": "Location image", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": true, "shownWidth": 334, "naturalWidth": 0, "hasWidthHeight": true, "decorativeHint": false },
+    { "src": "https://maps.googleapis.com/maps/api/staticmap%3Fcenter=18.9256,72.8242&zoom=15&size=320x180", "file": "staticmap%3Fcenter=18.9256,72.8242&zoom=15&size=320x180", "hasAltAttr": true, "alt": "Location image", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": true, "shownWidth": 334, "naturalWidth": 0, "hasWidthHeight": true, "decorativeHint": false },
+    { "src": "https://maps.googleapis.com/maps/api/staticmap%3Fcenter=19.1872,72.8424&zoom=15&size=320x180", "file": "staticmap%3Fcenter=19.1872,72.8424&zoom=15&size=320x180", "hasAltAttr": true, "alt": "Location image", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": false, "shownWidth": 0, "naturalWidth": 0, "hasWidthHeight": true, "decorativeHint": false },
+    { "src": "https://assets.iwgplc.com/image/upload/IPO_1.jpg", "file": "IPO_1.jpg", "hasAltAttr": true, "alt": "Regus Individual Private Offices", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": true, "shownWidth": 334, "naturalWidth": 0, "hasWidthHeight": false, "decorativeHint": false },
+    { "src": "https://assets.iwgplc.com/image/upload/DCD_1.jpg", "file": "DCD_1.jpg", "hasAltAttr": true, "alt": "Regus Dedicated Coworking Desk", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": true, "shownWidth": 334, "naturalWidth": 0, "hasWidthHeight": false, "decorativeHint": false },
+    { "src": "https://assets.iwgplc.com/image/upload/DC_1.jpg", "file": "DC_1.jpg", "hasAltAttr": true, "alt": "Regus Day Coworking", "tracker": false, "lazy": true, "fetchpriority": "auto", "aboveFold": false, "visible": false, "shownWidth": 0, "naturalWidth": 0, "hasWidthHeight": false, "decorativeHint": false },
+    { "src": "https://bat.bing.com/action/0?ti=000000&evt=pageLoad", "file": "0", "hasAltAttr": false, "alt": "", "tracker": true, "lazy": false, "fetchpriority": "", "aboveFold": false, "visible": false, "shownWidth": 0, "naturalWidth": 1, "hasWidthHeight": false, "decorativeHint": false }
+  ],
+  "imageTotal": 71,
+  "links": [
+    { "href": "/en/in/mumbai/office-space", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/in/mumbai/virtual-offices", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/virtual-offices/company-registration-rules", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/in/mumbai/coworking", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/in/mumbai/meeting-rooms", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/customer-support", "hasHref": true, "text": "here", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": true },
+    { "href": "/en/in/5651", "hasHref": true, "text": "Learn more", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": false },
+    { "href": "/en/in/3799", "hasHref": true, "text": "Learn more", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": true, "visible": false },
+    { "href": "/en/in/mumbai/office-space", "hasHref": true, "text": "Office space", "label": "", "imgAlt": "", "hasSvg": false, "cls": "", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": true, "external": false, "generic": false, "visible": false },
+    { "href": "tel:022 6786 9564", "hasHref": true, "text": "call 022 6786 9564", "label": "", "imgAlt": "", "hasSvg": false, "cls": "index-module_linkButton__HA-Nz index-module_phoneLink__94U0k", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": false, "generic": false, "visible": true },
+    { "href": "tel:", "hasHref": true, "text": "call", "label": "", "imgAlt": "", "hasSvg": false, "cls": "index-module_textButton__fqQ1D index-module_variantOutlineTransparent__mb4Vk", "role": "", "expandable": false, "uiControl": false, "rel": "", "internal": false, "external": false, "generic": false, "visible": false }
+  ],
+  "linkTotal": 235,
+  "placeholders": [],
+  "collectedAt": "2026-10-06T04:05:00.000Z"
+}

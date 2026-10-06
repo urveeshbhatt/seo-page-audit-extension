@@ -1,0 +1,10 @@
+{
+  "name": "page-audit-lens",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Chrome extension: one-click on-page SEO audit in a side panel",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "license": "MIT"
+}

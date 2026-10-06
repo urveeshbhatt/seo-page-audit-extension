@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v0.1.1, milestone M1 of 6 (side panel + page basics). See [Roadmap](#roadmap).
+> **Status:** v0.2.0, milestone M2 of 6 (head checks). See [Roadmap](#roadmap).
 
 ## Why
 
@@ -45,6 +45,8 @@ background.js            Opens the side panel on toolbar click
 sidepanel/               UI (HTML, CSS, JS)
 modules/
   phase1-elements.js     Phase 1 collectors (injected into the page)
+  phase1-rules.js        Phase 1 rules: flags, labels, reasons
+tests/                   Golden tests from real pages (npm test)
 icons/
 ```
 
@@ -55,13 +57,21 @@ Each learning phase becomes one module. Collector, rules and report stay the sam
 | Milestone | Scope | Status |
 | --- | --- | --- |
 | M1 | Side panel, context form, page basics | Done |
-| M2 | Head checks: robots, canonical, viewport, title, description, OG, schema, lang | Next |
-| M3 | Raw vs rendered, headings, images, links, placeholders | |
+| M2 | Head checks: robots, canonical, viewport, title, description, OG, schema, lang | Done |
+| M3 | Raw vs rendered, headings, images, links, placeholders | Next |
 | M4 | Page health: DOM size, hidden content, CSS text, shadow DOM, tech stack | |
 | M5 | Rules engine: auto-ignore known traps, suggested verdicts, summary | |
 | M6 | Report: edit verdicts, copy, download, highlight on page | |
 
 Later modules: Network (status codes, redirects, headers), JS rendering, performance, mobile parity.
+
+## Tests
+
+```
+npm test
+```
+
+Rules are tested against real page data captured from a pre-launch D2C product page and a live B2B city page.
 
 ## License
 

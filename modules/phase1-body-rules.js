@@ -12,6 +12,17 @@ const GENERIC_ALT = /^(image|img|photo|picture|pic|graphic|banner|brand|home|log
 // WooCommerce gallery fallback: "<Product name> - Image 2"
 const AUTO_ALT = /\s[-–]\s(image|photo)\s\d+$/i;
 
+// "Show on page" targets: how the side panel finds the elements behind a finding.
+// kinds: img (file name), href (exact href), linktext (anchor without href, by text),
+//        link (href + text), text (visible text), heading (level, optional empty)
+function target(out, id, targets) {
+  const f = out.find((x) => x.id === id);
+  const list = targets.filter(Boolean).slice(0, 40);
+  if (f && list.length) f.targets = list;
+}
+const imgT = (imgs) => imgs.filter((i) => i.file).map((i) => ({ kind: 'img', value: i.file }));
+const hrefT = (links) => links.filter((l) => l.hasHref).map((l) => ({ kind: 'href', value: l.href }));
+
 // ---------------- Step 2: raw HTML vs rendered page ----------------
 
 function renderingFindings(d, ctx) {
@@ -92,6 +103,8 @@ function headingFindings(d, ctx) {
     total > 60 ? 'info' : 'good',
     total > 60 ? 'Many headings. Check if headings are used just for styling (cards, footer). Real sections only.' : 'Read the outline below: it should tell the page story in order.',
     null, outline));
+  target(out, 'h1', [{ kind: 'heading', level: 1 }]);
+  target(out, 'h-empty', [{ kind: 'heading', level: 0, empty: true }]);
   return out;
 }
 
@@ -174,6 +187,13 @@ function imageFindings(d, ctx) {
   if (decorative.length) {
     out.push(finding('img-decorative', 'Icons and UI images', plural(decorative.length, 'image'), 'info', 'Ignored for alt checks (icons, logos, cookie widget).', 'Ignored'));
   }
+  target(out, 'img-noalt', imgT(noAlt));
+  target(out, 'img-emptyalt', imgT(emptyAlt));
+  target(out, 'img-genericalt', imgT(generic));
+  target(out, 'img-autoalt', imgT(auto));
+  target(out, 'img-hero', hero ? imgT([hero]) : []);
+  target(out, 'img-dims', imgT(noDims));
+  target(out, 'img-oversized', imgT(oversized));
   return out;
 }
 
@@ -248,6 +268,12 @@ function linkFindings(d) {
     out.push(finding('links-phones', 'Contact numbers', [...numbers].map(([n, c]) => `${n} ×${c}`).join(', '), 'warning',
       'WhatsApp / phone links use different numbers. Customers may message the wrong one. Use one number everywhere.'));
   }
+  target(out, 'links-nohref', noHref.map((l) => l.text && { kind: 'linktext', value: l.text }));
+  target(out, 'links-hash', hashOnly.map((l) => ({ kind: 'link', href: l.href, text: l.text })));
+  target(out, 'links-empty', hrefT(empty));
+  target(out, 'links-generic', generic.map((l) => ({ kind: 'link', href: l.href, text: l.text })));
+  target(out, 'links-blankcontact', hrefT(blankContact));
+  target(out, 'links-phones', hrefT(links.filter((l) => /^(?:https?:\/\/)?(?:wa\.me\/|api\.whatsapp\.com|tel:)/i.test(l.href))));
   return out;
 }
 
@@ -289,6 +315,10 @@ function placeholderFindings(d, ctx) {
       'Test or dummy images on the page. Replace with real photos (and real alt text).', label,
       images.map((x) => `${x.match}${x.context ? ` (alt: ${short(x.context, 40)})` : ''}`)));
   }
+  target(out, 'ph-text', [...new Set(text.map((x) => x.match))].map((m) => ({ kind: 'text', value: m })));
+  target(out, 'ph-phone', [...new Set(phoneLinks.map((x) => x.match))].map((m) => ({ kind: 'href', value: m })));
+  target(out, 'ph-link', [...new Set(otherLinks.map((x) => x.match))].map((m) => ({ kind: 'href', value: m })));
+  target(out, 'ph-image', images.map((x) => ({ kind: 'img', value: x.match })));
   return out;
 }
 

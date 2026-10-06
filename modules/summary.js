@@ -47,15 +47,23 @@ function score(f, verdict) {
 /**
  * @param {{head?: {groups}, body?: {groups}, health?: {groups}}} results evaluated sections
  * @param {{status: string}} ctx page context
+ * @param {Object<string, {verdict?: string, note?: string}>} overrides auditor edits keyed by findingKey()
  */
-export function buildSummary(results, ctx) {
+export const findingKey = (section, id) => `${section}:${id}`;
+
+export function buildSummary(results, ctx, overrides = {}) {
   const all = [];
   Object.entries(SECTIONS).forEach(([key, name], sectionIndex) => {
     const r = results[key];
     if (!r) return;
-    r.groups.forEach((g) => g.findings.forEach((f, i) => {
-      const verdict = suggestVerdict(f);
-      all.push({ ...f, section: key, sectionName: name, group: g.title, verdict, score: score(f, verdict), order: sectionIndex * 1000 + i });
+    let i = 0;
+    r.groups.forEach((g) => g.findings.forEach((f) => {
+      const suggested = suggestVerdict(f);
+      const fk = findingKey(key, f.id);
+      const o = overrides[fk] || {};
+      const verdict = o.verdict && VERDICTS[o.verdict] ? o.verdict : suggested;
+      all.push({ ...f, key: fk, section: key, sectionName: name, group: g.title, suggested, verdict, edited: verdict !== suggested, note: o.note || '', score: score(f, verdict), order: sectionIndex * 1000 + i });
+      i += 1;
     }));
   });
   all.sort((a, b) => b.score - a.score || a.order - b.order);

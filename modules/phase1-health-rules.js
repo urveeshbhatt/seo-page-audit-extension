@@ -94,9 +94,11 @@ function cssTextFindings(d) {
     return [finding('css-text', 'Text added by CSS', traps ? `None (${traps} builder marker ignored)` : 'None', 'good',
       'No words injected with ::before / ::after. All readable text is in the HTML.')];
   }
-  return [finding('css-text', 'Text added by CSS', plural(real.length, 'spot'), 'warning',
+  const f = finding('css-text', 'Text added by CSS', plural(real.length, 'spot'), 'warning',
     'Words in CSS content are not indexed by Google and not read by most screen readers. Move labels like prices or badges into the HTML.',
-    null, real.map((c) => `${short(c.el, 50)}${c.pseudo}: "${c.text}"`))];
+    null, real.map((c) => `${short(c.el, 50)}${c.pseudo}: "${c.text}"`));
+  f.targets = real.slice(0, 40).map((c) => ({ kind: 'desc', value: c.el }));
+  return [f];
 }
 
 // ---------------- Shadow DOM / custom elements ----------------
@@ -134,6 +136,7 @@ function iframeFindings(d) {
     out.push(finding('iframe-empty', 'Embed not loaded', plural(notLoaded.length, 'iframe'), 'info',
       'Visible embed with no source yet. Usually a cookie-consent blocker or lazy-load waiting for a click or scroll. Check that the video plays after accepting cookies, and that Google gets a thumbnail or VideoObject schema.',
       null, notLoaded.map((f) => f.title || '(no title)')));
+    out[out.length - 1].targets = [{ kind: 'iframe-empty' }];
   }
   if (loaded.length) {
     const videos = loaded.filter((f) => VIDEO_FRAME.test(f.host));

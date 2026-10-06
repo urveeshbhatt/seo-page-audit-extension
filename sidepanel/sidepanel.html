@@ -18,7 +18,7 @@
 
   <nav class="tabs" role="tablist" aria-label="Audit sections">
     <button class="tab is-active" role="tab" aria-selected="true" data-tab="setup">Setup</button>
-    <button class="tab" role="tab" aria-selected="false" data-tab="summary" disabled title="Coming in M5">Summary</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="summary" disabled title="Run an audit first">Summary</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="head" disabled title="Run an audit first">Head</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="body" disabled title="Run an audit first">Body</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="health" disabled title="Run an audit first">Health</button>
@@ -95,6 +95,16 @@
           <button type="button" class="btn-secondary" id="go-health" hidden>Health checks →</button>
         </div>
       </article>
+    </section>
+
+    <section class="panel" id="panel-summary" role="tabpanel" hidden>
+      <article class="verdict" id="sum-verdict">
+        <h2 class="verdict-title" id="sum-title"></h2>
+        <p class="verdict-line" id="sum-line"></p>
+        <p class="verdict-meta mono wrap" id="sum-url"></p>
+      </article>
+      <div class="section-chips" id="sum-sections" aria-label="Open a section"></div>
+      <div id="sum-body"></div>
     </section>
 
     <section class="panel" id="panel-head" role="tabpanel" hidden>

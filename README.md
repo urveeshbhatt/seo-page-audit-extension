@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v0.4.0, milestone M4 of 6 (page health). See [Roadmap](#roadmap).
+> **Status:** v0.5.0, milestone M5 of 6 (rules engine and summary). See [Roadmap](#roadmap).
 
 ## Why
 
@@ -48,6 +48,7 @@ modules/
   phase1-rules.js        Phase 1 head rules: flags, labels, reasons
   phase1-body-rules.js   Phase 1 body rules: raw vs rendered, headings, images, links, placeholders
   phase1-health-rules.js Phase 1 health rules: hidden content, DOM, render-blocking, embeds, stack
+  summary.js             Rules engine: suggested verdicts, ranking, overall verdict
 tests/                   Golden tests from real pages (npm test)
 icons/
 ```
@@ -62,8 +63,8 @@ Each learning phase becomes one module. Collector, rules and report stay the sam
 | M2 | Head checks: robots, canonical, viewport, title, description, OG, schema, lang | Done |
 | M3 | Raw vs rendered, headings, images, links, placeholders | Done |
 | M4 | Page health: DOM size, hidden content, CSS text, shadow DOM, tech stack | Done |
-| M5 | Rules engine: auto-ignore known traps, suggested verdicts, summary | Next |
-| M6 | Report: edit verdicts, copy, download, highlight on page | |
+| M5 | Rules engine: auto-ignore known traps, suggested verdicts, summary | Done |
+| M6 | Report: edit verdicts, copy, download, highlight on page | Next |
 
 Later modules: Network (status codes, redirects, headers), JS rendering, performance, mobile parity.
 

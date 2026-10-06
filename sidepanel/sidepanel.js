@@ -9,6 +9,7 @@ import { collectBasics, collectHead, collectBody, collectHealth } from '../modul
 import { evaluateHead } from '../modules/phase1-rules.js';
 import { evaluateBody } from '../modules/phase1-body-rules.js';
 import { evaluateHealth } from '../modules/phase1-health-rules.js';
+import { buildSummary, VERDICTS } from '../modules/summary.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -27,6 +28,12 @@ const ui = {
   goHead: $('go-head'),
   goBody: $('go-body'),
   goHealth: $('go-health'),
+  sumVerdict: $('sum-verdict'),
+  sumTitle: $('sum-title'),
+  sumLine: $('sum-line'),
+  sumUrl: $('sum-url'),
+  sumSections: $('sum-sections'),
+  sumBody: $('sum-body'),
 };
 
 // One view per audit section. Each keeps the raw page data so a context change
@@ -200,12 +207,129 @@ ui.form.addEventListener('change', () => {
   if (!Object.values(views).some((v) => v.data)) return;
   const context = readContext();
   Object.keys(views).forEach((name) => judge(name, context));
+  renderSummary();
   const c = totals();
   setStatus(`Re-judged with new context. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
 });
 ui.goHead.addEventListener('click', () => showTab('head'));
 ui.goBody.addEventListener('click', () => showTab('body'));
 ui.goHealth.addEventListener('click', () => showTab('health'));
+
+// ---------------- summary ----------------
+
+let lastUrl = '';
+const checklist = new Set(); // ticked launch items for this audit (in memory only)
+
+function verdictPill(key) {
+  const v = VERDICTS[key];
+  return el('span', `flag verdict-pill tone-${v.tone}`, v.label);
+}
+
+function summaryItem(f, index) {
+  const item = el('li', `sum-item finding finding-${f.flag}`);
+  const top = el('div', 'finding-top');
+  const left = el('span', 'sum-check');
+  if (index !== undefined) left.append(el('span', 'sum-num', `${index + 1}`));
+  left.append(el('span', 'finding-check', f.check));
+  const jump = el('button', 'section-link', f.sectionName);
+  jump.type = 'button';
+  jump.title = `Open the ${f.sectionName} tab`;
+  jump.addEventListener('click', () => showTab(f.section));
+  top.append(left, verdictPill(f.verdict));
+  item.append(top, el('div', 'finding-value mono wrap', f.value), el('p', 'finding-why', f.why));
+  const meta = el('div', 'sum-meta');
+  meta.append(jump, el('span', 'sum-group', f.group));
+  item.append(meta);
+  return item;
+}
+
+function launchItem(f) {
+  const item = el('li', 'check-item');
+  const label = el('label', 'check-label');
+  const box = el('input');
+  box.type = 'checkbox';
+  const key = `${f.section}:${f.id}`;
+  box.checked = checklist.has(key);
+  box.addEventListener('change', () => {
+    if (box.checked) checklist.add(key); else checklist.delete(key);
+    item.classList.toggle('is-done', box.checked);
+  });
+  item.classList.toggle('is-done', box.checked);
+  const text = el('span', 'check-text');
+  text.append(el('strong', null, f.check), el('span', 'check-value', ` · ${f.value}`));
+  label.append(box, text);
+  item.append(label);
+  return item;
+}
+
+function collapsible(title, findings, render) {
+  const details = el('details', 'sum-more');
+  details.append(el('summary', null, `${title} (${findings.length})`));
+  const list = el('ul', 'findings');
+  findings.forEach((f) => list.append(render(f)));
+  details.append(list);
+  return details;
+}
+
+function compactItem(f) {
+  const item = el('li', 'compact-item');
+  const top = el('div', 'finding-top');
+  top.append(el('span', 'finding-check', `${f.check}`), verdictPill(f.verdict));
+  item.append(top, el('div', 'compact-value mono wrap', `${f.sectionName} · ${f.value}`));
+  return item;
+}
+
+function renderSummary() {
+  const results = {};
+  Object.entries(views).forEach(([key, v]) => { if (v.result) results[key] = v.result; });
+  if (!results.head) return;
+  const s = buildSummary(results, readContext());
+
+  ui.sumVerdict.className = `verdict tone-${s.overall.tone}`;
+  ui.sumTitle.textContent = s.overall.title;
+  ui.sumLine.textContent = s.overall.line;
+  ui.sumUrl.textContent = lastUrl;
+
+  ui.sumSections.replaceChildren(...s.sections.map((sec) => {
+    const chip = el('button', 'section-chip');
+    chip.type = 'button';
+    chip.append(el('span', 'chip-name', sec.name));
+    const n = el('span', 'chip-counts');
+    if (sec.counts.critical) n.append(el('span', 'chip-c', `${sec.counts.critical} critical`));
+    if (sec.counts.warning) n.append(el('span', 'chip-w', `${sec.counts.warning} check`));
+    if (!sec.counts.critical && !sec.counts.warning) n.append(el('span', 'chip-g', 'all clear'));
+    chip.append(n);
+    chip.addEventListener('click', () => showTab(sec.key));
+    return chip;
+  }));
+
+  const parts = [];
+  if (s.top.length) {
+    parts.push(el('h3', 'group-title', 'Fix first'));
+    const list = el('ol', 'findings sum-top');
+    s.top.forEach((f, i) => list.append(summaryItem(f, i)));
+    parts.push(list);
+  } else {
+    parts.push(el('p', 'hint', 'Nothing to fix. See the review list below for small improvements.'));
+  }
+
+  if (s.prelaunch && s.launch.length) {
+    parts.push(el('h3', 'group-title', 'Launch checklist'));
+    parts.push(el('p', 'hint', 'Tick items as you fix them. Re-run the audit before launch day to confirm.'));
+    const list = el('ul', 'checklist');
+    s.launch.forEach((f) => list.append(launchItem(f)));
+    parts.push(list);
+  }
+
+  const shown = new Set(s.top);
+  const moreFixes = [...s.fixNow, ...s.launch, ...s.fixes].filter((f) => !shown.has(f));
+  if (moreFixes.length) parts.push(collapsible('More fixes', moreFixes, compactItem));
+  if (s.review.length) parts.push(collapsible('To review', s.review, compactItem));
+  if (s.ignored.length) parts.push(collapsible('Known traps ignored', s.ignored, compactItem));
+  parts.push(el('p', 'meta', `${s.passed} checks passed. Change the page context on Setup and the verdicts update instantly.`));
+
+  ui.sumBody.replaceChildren(...parts);
+}
 
 // ---------------- audit ----------------
 
@@ -227,6 +351,8 @@ async function runAudit(event) {
     ]);
 
     renderBasics(basics);
+    lastUrl = basics.url;
+    checklist.clear();
     views.head.data = head;
     judge('head', context);
     enableTab('head');
@@ -250,12 +376,14 @@ async function runAudit(event) {
         enableTab(name);
         button.hidden = false;
       } catch (sectionError) {
-        console.error(`[Page Audit Lens] ${name}`, sectionError);
+        if (!friendlyError(sectionError).startsWith('No access')) console.error(`[Page Audit Lens] ${name}`, sectionError);
         failed.push(name);
         view.counts.replaceChildren();
         view.groups.replaceChildren(el('p', 'hint', `The ${name} checks failed on this page. Other tabs are still valid.`));
       }
     }));
+    renderSummary();
+    enableTab('summary');
     if (failed.length) {
       setStatus(`Done, but ${failed.join(' and ')} checks failed on this page. See the other tabs.`, true);
       return;
@@ -263,9 +391,13 @@ async function runAudit(event) {
 
     const c = totals();
     setStatus(`Done. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`);
+    showTab('summary');
   } catch (error) {
-    console.error('[Page Audit Lens]', error);
-    setStatus(friendlyError(error), true);
+    const message = friendlyError(error);
+    // Missing tab access is expected (user has not clicked the icon on this tab yet).
+    // Show it in the panel only, so chrome://extensions → Errors stays for real bugs.
+    if (!message.startsWith('No access') && !message.startsWith('Chrome does not allow')) console.error('[Page Audit Lens]', error);
+    setStatus(message, true);
   } finally {
     ui.button.disabled = false;
   }

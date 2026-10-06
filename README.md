@@ -12,10 +12,10 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 
 ## Install (developer mode)
 
-1. Download or clone this repository
+1. Download the [latest release](https://github.com/urveeshbhatt/seo-page-audit-extension/releases) or clone: `git clone https://github.com/urveeshbhatt/seo-page-audit-extension.git`
 2. Open `chrome://extensions` in Chrome
 3. Turn on **Developer mode** (top right)
-4. Click **Load unpacked** and select the `page-audit-lens` folder
+4. Click **Load unpacked** and select the folder that contains `manifest.json`
 5. Pin the extension: puzzle icon in the toolbar → pin **Page Audit Lens**
 
 ## Use

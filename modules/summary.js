@@ -1,0 +1,99 @@
+// Rules engine, final layer: merges Head, Body and Health findings into one
+// prioritised list, gives every finding a suggested verdict, and an overall
+// verdict for the page. Pure functions, no DOM. Runs in the side panel.
+
+const SECTIONS = { head: 'Head', body: 'Body', health: 'Health' };
+
+// Business impact boost: how much a problem with this check costs the client.
+// Only used to order findings that share the same flag.
+const IMPACT = {
+  robots: 90, 'ph-phone': 95, 'raw-tests': 85, canonical: 80, 'schema-parse': 75, 'ph-image': 70, h1: 70,
+  'raw-h1': 65, title: 60, 'ph-text': 60, 'ph-link': 60, 'stack-tracking': 60, 'links-phones': 55,
+  'schema-product': 50, 'og-image': 45, 'hidden-unknown': 40, description: 40, 'links-blankcontact': 35,
+  'res-css': 30, 'img-hero': 30, 'links-nohref': 25, 'raw-links': 25, 'shadow-empty': 25, viewport: 25,
+  'links-generic': 20, 'css-text': 20, 'res-inline': 20, 'dom-html': 15, 'img-genericalt': 15, 'img-noalt': 15,
+  'schema-name': 15, 'schema-brand': 12, 'links-empty': 12, 'dom-size': 10, og: 10, 'title-count': 10,
+};
+
+// Suggested verdicts. M6 will let the auditor override them.
+export const VERDICTS = {
+  'fix-now': { label: 'Fix now', tone: 'critical' },
+  'fix-launch': { label: 'Fix before launch', tone: 'warning' },
+  fix: { label: 'Fix', tone: 'warning' },
+  manual: { label: 'Check manually', tone: 'warning' },
+  later: { label: 'Re-check after launch', tone: 'info' },
+  review: { label: 'Review', tone: 'info' },
+  ignore: { label: 'Ignore (known trap)', tone: 'muted' },
+  ok: { label: 'OK', tone: 'good' },
+};
+
+export function suggestVerdict(f) {
+  if (f.flag === 'critical') return 'fix-now';
+  if (f.label === 'Launch blocker') return 'fix-launch';
+  if (f.label === 'Check by hand') return 'manual';
+  if (f.label === 'Re-check later') return 'later';
+  if (f.label === 'Ignored') return 'ignore';
+  if (f.flag === 'warning') return 'fix';
+  if (f.flag === 'info') return 'review';
+  return 'ok';
+}
+
+const TIER = { 'fix-now': 1000, 'fix-launch': 800, manual: 600, fix: 500, later: 200, review: 100, ignore: 0, ok: -100 };
+
+function score(f, verdict) {
+  return TIER[verdict] + (IMPACT[f.id] || 0);
+}
+
+/**
+ * @param {{head?: {groups}, body?: {groups}, health?: {groups}}} results evaluated sections
+ * @param {{status: string}} ctx page context
+ */
+export function buildSummary(results, ctx) {
+  const all = [];
+  Object.entries(SECTIONS).forEach(([key, name], sectionIndex) => {
+    const r = results[key];
+    if (!r) return;
+    r.groups.forEach((g) => g.findings.forEach((f, i) => {
+      const verdict = suggestVerdict(f);
+      all.push({ ...f, section: key, sectionName: name, group: g.title, verdict, score: score(f, verdict), order: sectionIndex * 1000 + i });
+    }));
+  });
+  all.sort((a, b) => b.score - a.score || a.order - b.order);
+
+  const by = (v) => all.filter((f) => f.verdict === v);
+  const fixNow = by('fix-now');
+  const launch = by('fix-launch');
+  const fixes = [...by('manual'), ...by('fix')];
+  const review = [...by('later'), ...by('review')];
+  const ignored = by('ignore');
+  const ok = by('ok');
+  const prelaunch = ctx && ctx.status === 'prelaunch';
+
+  let overall;
+  if (fixNow.length) {
+    overall = { tone: 'critical', title: `Not ready: ${fixNow.length} critical issue${fixNow.length === 1 ? '' : 's'}`, line: 'These cost traffic or sales today. Fix them before anything else.' };
+  } else if (launch.length) {
+    overall = { tone: 'warning', title: `Not ready to launch: ${launch.length} blocker${launch.length === 1 ? '' : 's'}`, line: 'Expected on a pre-launch page. Clear this list before removing noindex.' };
+  } else if (fixes.length) {
+    overall = { tone: 'warning', title: `Good base, ${fixes.length} fix${fixes.length === 1 ? '' : 'es'} to make`, line: 'Nothing blocks indexing. Work through the list from the top.' };
+  } else {
+    overall = { tone: 'good', title: 'Healthy page', line: 'No blocking or important issues found. Review the info items when you have time.' };
+  }
+
+  const sections = Object.entries(SECTIONS).filter(([key]) => results[key]).map(([key, name]) => ({ key, name, counts: results[key].counts }));
+
+  return {
+    overall,
+    prelaunch,
+    top: [...fixNow, ...launch, ...fixes].slice(0, 7),
+    launch,
+    fixNow,
+    fixes,
+    review,
+    ignored,
+    passed: ok.length,
+    sections,
+    totals: { fixNow: fixNow.length, launch: launch.length, fixes: fixes.length, review: review.length, ignored: ignored.length, ok: ok.length },
+    all,
+  };
+}

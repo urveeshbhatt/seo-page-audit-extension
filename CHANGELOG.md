@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 (M5: rules engine and summary)
+
+- New Summary tab, opened automatically after an audit
+- Overall verdict for the page: "Not ready", "Not ready to launch", "Good base, N fixes" or "Healthy"
+- Every finding gets a suggested verdict: Fix now, Fix before launch, Fix, Check manually, Re-check after launch, Review, Ignore (known trap), OK
+- "Fix first" list: top 7 issues across Head, Body and Health, ranked by severity and business impact (a dummy order number outranks a missing alt)
+- Launch checklist for pre-launch pages (tick items as you fix them)
+- Section chips jump to the Head, Body or Health tab; "More fixes", "To review" and "Known traps ignored" lists
+- Changing the page context re-ranks the summary instantly
+- Missing tab access no longer shows up under chrome://extensions → Errors (it is expected; the panel explains what to do)
+- 18 golden tests
+
 ## 0.4.0 (M4: page health)
 
 - New Health tab with five groups: Hidden content, DOM size, Render-blocking and weight, Embeds, Tech stack

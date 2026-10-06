@@ -13,6 +13,7 @@ const IMPACT = {
   'res-css': 30, 'img-hero': 30, 'links-nohref': 25, 'raw-links': 25, 'shadow-empty': 25, viewport: 25,
   'links-generic': 20, 'css-text': 20, 'res-inline': 20, 'dom-html': 15, 'img-genericalt': 15, 'img-noalt': 15,
   'schema-name': 15, 'schema-brand': 12, 'links-empty': 12, 'dom-size': 10, og: 10, 'title-count': 10,
+  'x-robots': 92, 'schema-price-match': 78, 'schema-rating-visible': 76, 'html-comments-leak': 30, 'schema-type': 25, 'schema-js': 20,
   'biz-buy': 88, 'biz-lead': 82, 'biz-aff-rel': 75, 'biz-nap': 70, 'biz-signup': 62, 'biz-contact': 60,
   'biz-phone-match': 55, 'biz-pricing': 50, 'biz-local-cta': 50, 'ymyl-author': 50, 'biz-policies': 45,
   'ymyl-review': 45, 'biz-schema': 40, 'biz-trust': 30, 'ymyl-date': 30, 'biz-facets': 30, 'biz-author': 35,

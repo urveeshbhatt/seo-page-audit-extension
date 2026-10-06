@@ -224,6 +224,25 @@ function stackFindings(d, ctx) {
   return out;
 }
 
+// ---------------- HTML comments (Step 5E) ----------------
+
+const LEAK = /\b(todo|fixme|hack|staging|stage\.|dev\.|localhost|127\.0\.0\.1|password|passwd|api[_-]?key|secret|token|debug|test site|do not publish)\b/i;
+
+function commentFindings(d) {
+  const c = d.comments;
+  if (!Array.isArray(c)) return [];
+  if (!c.length) return [finding('html-comments', 'HTML comments', 'None', 'good', 'Production build with comments stripped.')];
+  const leaks = c.filter((t) => LEAK.test(t));
+  const out = [];
+  if (leaks.length) {
+    out.push(finding('html-comments-leak', 'Comments that leak info', plural(leaks.length, 'comment'), 'warning',
+      'Developer notes, staging URLs or secrets left in the HTML. Anyone can read them with View Source. Remove them.', null, leaks));
+  }
+  out.push(finding('html-comments', 'HTML comments', plural(c.length, 'comment'), 'info',
+    'Clues to the stack (SEO plugin, cache plugin, builder, versions). Useful for the audit; harmless unless they leak info.', null, c.filter((t) => !leaks.includes(t))));
+  return out;
+}
+
 // ---------------- public ----------------
 
 export function evaluateHealth(d, ctx) {
@@ -232,7 +251,7 @@ export function evaluateHealth(d, ctx) {
     { id: 'dom', title: 'DOM size', findings: domFindings(d) },
     { id: 'resources', title: 'Render-blocking and weight', findings: resourceFindings(d) },
     { id: 'embeds', title: 'Embeds', findings: iframeFindings(d) },
-    { id: 'stack', title: 'Tech stack', findings: stackFindings(d, ctx) },
+    { id: 'stack', title: 'Tech stack', findings: [...stackFindings(d, ctx), ...commentFindings(d)] },
   ].filter((g) => g.findings.length);
   const counts = { critical: 0, warning: 0, good: 0, info: 0 };
   groups.forEach((g) => g.findings.forEach((f) => { counts[f.flag] += 1; }));

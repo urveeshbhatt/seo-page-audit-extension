@@ -1,0 +1,868 @@
+{
+ "_note": "Live capture 2026-10-13 from the auditor's browser. Resources rebuilt from captured aggregates (1 own CSS, 26 own JS, 632,600 own bytes, 1,033,926 total, 38 third-party hosts). Cold samples are Imperva challenge pages. Sitemap children are .xml.gz behind Imperva for guests; sitemap0 has 86 URLs and no lastmod; URL count here is 4 children x 86 (estimate).",
+ "url": "https://www.regus.com/en/in/mumbai",
+ "origin": "https://www.regus.com",
+ "host": "www.regus.com",
+ "collectedAt": "2026-10-13T15:16:11.000Z",
+ "renderedBytes": 0,
+ "nav": {
+  "type": "reload",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "h2",
+  "dns": 0,
+  "connect": 0,
+  "ssl": 0,
+  "ttfb": 999,
+  "download": 830,
+  "transferSize": 563962,
+  "encodedBodySize": 563662,
+  "decodedBodySize": 3404706,
+  "fromCache": false,
+  "domContentLoaded": 1882,
+  "load": 29194
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "https://www.regus.com/en/in/mumbai",
+  "bytes": 3403260,
+  "encoded": 568684,
+  "decoded": 3404745,
+  "challengeHint": "",
+  "headers": {
+   "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+   "content-encoding": "gzip",
+   "content-type": "text/html; charset=utf-8",
+   "link": "<https://www.regus.com/sitemap.xml>; rel=\"sitemap\", </ark-prime-regus-static/_next/static/media/1e41be92c43b3255-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+   "strict-transport-security": "max-age=31536000; includeSubDomains",
+   "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Accept-Encoding",
+   "x-cdn": "Imperva",
+   "x-iinfo": "15-1776657-1776797 NNNN CT(98 206 0) RT(1791904529575 40832) q(0 0 3 -1) r(15 15) U12",
+   "x-pathname": "/en/in/mumbai"
+  }
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 1494,
+   "total": 1955,
+   "encoded": 568708,
+   "decoded": 3404790,
+   "cache": {
+    "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 853,
+   "total": 1225,
+   "encoded": 568627,
+   "decoded": 3404701,
+   "cache": {
+    "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 670,
+   "total": 1030,
+   "encoded": 568350,
+   "decoded": 3403994,
+   "cache": {
+    "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate"
+   },
+   "challenge": false
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 49,
+   "total": 232,
+   "encoded": 212,
+   "decoded": 212,
+   "cache": {
+    "cache-control": "no-cache, no-store"
+   },
+   "challenge": true
+  },
+  {
+   "status": 200,
+   "ttfb": 131,
+   "total": 139,
+   "encoded": 212,
+   "decoded": 212,
+   "cache": {
+    "cache-control": "no-cache, no-store"
+   },
+   "challenge": true
+  },
+  {
+   "status": 200,
+   "ttfb": 96,
+   "total": 103,
+   "encoded": 212,
+   "decoded": 212,
+   "cache": {
+    "cache-control": "no-cache, no-store"
+   },
+   "challenge": true
+  }
+ ],
+ "resources": {
+  "count": 103,
+  "entries": [
+   {
+    "host": "www.regus.com",
+    "name": "app.css",
+    "type": "css",
+    "initiator": "link",
+    "protocol": "h2",
+    "encoded": 30000,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk0.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk1.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk2.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk3.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk4.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk5.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk6.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk7.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk8.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk9.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk10.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk11.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk12.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk13.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk14.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk15.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk16.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk17.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk18.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk19.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk20.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk21.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk22.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk23.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk24.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.regus.com",
+    "name": "chunk25.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "h2",
+    "encoded": 23176,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "assets.iwgplc.com",
+    "name": "hero.webp",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "h2",
+    "encoded": 401326,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn.optimizely.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn3.optimizely.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "a247012668.cdn.optimizely.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "eu-assets.i.posthog.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "logx.optimizely.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "bat.bing.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.googletagmanager.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "utt.impactcdn.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "tvspix.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn.stape.io",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "snap.licdn.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "analytics.tiktok.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn.taboola.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "bzrcdn.openai.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "js.adsrvr.org",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "static.xingcdn.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "wcs.naver.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "client.lunio.ai",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "client.prod.mplat-ppcprotect.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "eu.i.posthog.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.google.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "ad.doubleclick.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "s.amazon-adsystem.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "analytics.google.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.google.co.in",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "stats.g.doubleclick.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "googleads.g.doubleclick.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "trc.taboola.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "connect.facebook.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "ssl.pstatic.net",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "wcs.naver.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "click.prod.mplat-ppcprotect.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "bzr.openai.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.xing.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "px.ads.linkedin.com",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "k6-e4e4123be8e54363900a90353991ca93.ecs.us-west-1.on.aws",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "insight.adsrvr.org",
+    "name": "x",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain",
+  "redirected": false,
+  "finalUrl": "https://www.regus.com/robots.txt",
+  "text": "# CONTENT SIGNALS POLICY (header comments shortened)\n\n# --- Legal, privacy & account pages: search only, no AI use ---\nUser-agent: *\nContent-Signal: search=yes, ai-input=no, ai-train=no\nAllow: /*/legal/\nAllow: /*/privacy-policy\nAllow: /*/cookies\nAllow: /*/account\nDisallow: /api/\nDisallow: /booking-rd/\nDisallow: /*/buy-virtual-office\nDisallow: /*/buy-access-plan\n\n# --- All other content: search + AI citation OK, no training ---\nUser-agent: *\nContent-Signal: search=yes, ai-input=yes, ai-train=no\nDisallow: /api/\nDisallow: /booking-rd/\nDisallow: /*/buy-virtual-office\nDisallow: /*/buy-access-plan\nAllow: /\n\nSitemap: https://www.regus.com/sitemap.xml\n"
+ },
+ "llms": {
+  "status": 404,
+  "contentType": "text/html; charset=utf-8",
+  "start": "<!DOCTYPE html><html id=\"__next_error__\">",
+  "looksLikeHtml": true
+ },
+ "sitemap": {
+  "declared": [
+   "https://www.regus.com/sitemap.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "https://www.regus.com/sitemap.xml",
+  "status": 200,
+  "isIndex": true,
+  "children": 9,
+  "filesRead": 5,
+  "urls": 344,
+  "lastmod": {
+   "withDate": 0,
+   "distinct": 0,
+   "today": 0
+  },
+  "samples": [],
+  "challenged": 4
+ },
+ "errors": []
+}

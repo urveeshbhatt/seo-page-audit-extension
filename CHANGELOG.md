@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.0 (Phase 2: Network)
+
+New **Network** tab, built from the Phase 2 (Network panel) playbook and tested on live Buranshvalley and Regus pages.
+
+- **Main document**: status, HTTP version, compression and sizes, charset, Cache-Control, Vary (cookie / user-agent split the cache), HSTS, version numbers in headers, `Link` header canonical vs HTML canonical. The WordPress REST API `Link` header is recognised and ignored (it is not a canonical)
+- **Cache layers read separately**: CDN (Cloudflare, Hostinger CDN, CloudFront, Fastly, Akamai, Vercel, Netlify, Imperva, Sucuri, Bunny) and server cache (LiteSpeed, Next.js, WP cache). "CDN BYPASS + LiteSpeed HIT" is explained as a cookie (for example `_lscache_vary`) skipping the edge while the server cache still answers
+- **TTFB, warm vs uncached**: 3 samples with your cookies, 3 as a guest on a fresh URL. Google's 800 ms / 1.8 s guide; spread between tries flagged
+- **Bot-protection walls**: tiny Imperva / Cloudflare challenge pages are detected, so a 212-byte answer is not reported as a fast server. Sitemap files behind the wall are re-read with your cookies and flagged
+- **Files and third parties**: page weight including HTML, own CSS/JS counts, HTTP/1.1 files, third-party domains, two tools doing the same job. Files that hide their size (no Timing-Allow-Origin) are counted and called out
+- **robots.txt**: Google's matching rules (longest match, Allow wins ties, `*` and `$`), whole site or this page blocked, CSS/JS folders blocked, missing Sitemap line, repeated user-agent groups, AI search vs training bots, Cloudflare `Content-Signal`
+- **Sitemap**: finds it from robots.txt or the usual paths, reads `.xml.gz`, samples 10 URLs for status, redirects, noindex and canonical; lastmod all the same date flagged. **llms.txt**: present, missing, or an HTML soft 404
+- **Redirect tests (optional, asked per site)**: http://, www, trailing slash, combined and a fake URL. Every hop with status; 302/307, 3+ hops, loops, DNS failures, duplicates that answer 200, soft 404s and redirects to the homepage. Chrome's HSTS upgrade is shown as "HSTS" and not counted as a server hop
+- Network findings are ranked in Summary and included in the report
+- New optional permissions: `webRequest` and host access, requested only from the **Run redirect tests** button, removable with **Remove access**. CSP `connect-src` now allows http(s) for those tests
+- 64 golden tests (22 new) plus an end-to-end run in Chromium against a local test site
+
 ## 1.2.0 (Phase 1 gaps closed)
 
 Every check in the Phase 1 playbook (Elements panel) is now covered.

@@ -15,6 +15,8 @@ import { evaluateBusiness, MODELS } from '../modules/business-rules.js';
 import { collectNetwork } from '../modules/phase2-network.js';
 import { evaluateNetwork } from '../modules/phase2-rules.js';
 import { runRedirectTests, originsFor } from '../modules/phase2-redirects.js';
+import { collectRendering } from '../modules/phase3-rendering.js';
+import { evaluateRendering } from '../modules/phase3-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
 import { highlightTargets, clearHighlights } from '../modules/highlight.js';
@@ -38,6 +40,7 @@ const ui = {
   goHealth: $('go-health'),
   goBusiness: $('go-business'),
   goNetwork: $('go-network'),
+  goRendering: $('go-rendering'),
   redirRun: $('redir-run'),
   redirRevoke: $('redir-revoke'),
   redirStatus: $('redir-status'),
@@ -68,6 +71,7 @@ const views = {
   health: { evaluate: evaluateHealth, counts: $('health-counts'), groups: $('health-groups'), hideGood: $('health-hide-good'), data: null, result: null },
   business: { evaluate: evaluateBusiness, counts: $('business-counts'), groups: $('business-groups'), hideGood: $('business-hide-good'), data: null, result: null },
   network: { evaluate: evaluateNetwork, counts: $('network-counts'), groups: $('network-groups'), hideGood: $('network-hide-good'), data: null, result: null },
+  rendering: { evaluate: evaluateRendering, counts: $('rendering-counts'), groups: $('rendering-groups'), hideGood: $('rendering-hide-good'), data: null, result: null },
 };
 let redirects = null; // redirect test results for the current audit (in memory only)
 
@@ -219,8 +223,11 @@ function judge(name, context) {
     ui.businessLine.textContent = `Checks for: ${MODELS[context.model] || context.model}${context.ymyl ? ' + YMYL topic' : ''}. Change the business model on Setup to see other checks.`;
   }
   // Body rules also compare schema (from Head) with what the page shows;
-  // Network compares the Link header canonical with Head and adds redirect tests.
-  const extra = name === 'body' ? views.head.data : name === 'network' ? { head: views.head.data, redirects } : undefined;
+  // Network compares the Link header canonical with Head and adds redirect tests;
+  // Rendering uses Network headers (build/cache) and TTFB (AI fetch timeouts).
+  const extra = name === 'body' ? views.head.data
+    : name === 'network' ? { head: views.head.data, redirects }
+      : name === 'rendering' ? { network: views.network.data } : undefined;
   view.result = view.evaluate(view.data, context, extra);
   renderView(view);
 }
@@ -252,6 +259,7 @@ ui.goBody.addEventListener('click', () => showTab('body'));
 ui.goHealth.addEventListener('click', () => showTab('health'));
 ui.goBusiness.addEventListener('click', () => showTab('business'));
 ui.goNetwork.addEventListener('click', () => showTab('network'));
+ui.goRendering.addEventListener('click', () => showTab('rendering'));
 
 // ---------------- show on page ----------------
 
@@ -597,10 +605,14 @@ async function runAudit(event) {
     // the others. Body fetches the raw HTML, so it takes a moment longer.
     setStatus('Head done. Checking body and page health…');
     const failed = [];
+    // Clear the previous page's network data now: Rendering (below) reads it.
+    views.network.data = null;
+    views.network.result = null;
     const sections = [
       ['health', collectHealth, ui.goHealth],
       ['body', collectBody, ui.goBody],
       ['business', collectSignals, ui.goBusiness],
+      ['rendering', collectRendering, ui.goRendering],
     ];
     await Promise.all(sections.map(async ([name, collector, button]) => {
       const view = views[name];
@@ -631,6 +643,7 @@ async function runAudit(event) {
     try {
       views.network.data = await runInTab(tab.id, collectNetwork);
       judge('network', context);
+      if (views.rendering.data) judge('rendering', context); // now with headers and TTFB
       enableTab('network');
       ui.goNetwork.hidden = false;
       ui.redirRun.disabled = !/^https?:/i.test(lastUrl);

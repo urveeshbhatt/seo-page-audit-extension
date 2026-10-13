@@ -1,5 +1,5 @@
 {
-  "_note": "Captured live 2026-10-06 from the pre-launch product page with collectBody(). links[] trimmed to the interesting ones (no href, UI controls, external, placeholders, empty text); linkTotal is the real count. v1.2 fields (raw.xRobots, raw.jsonld*, visiblePrices, reviewSignals, renderedJsonld) captured live 2026-10-06.",
+  "_note": "Captured live 2026-10-06 from the pre-launch product page with collectBody(). links[] trimmed to the interesting ones (no href, UI controls, external, placeholders, empty text); linkTotal is the real count. v1.2 fields (raw.xRobots, raw.jsonld*, visiblePrices, reviewSignals, renderedJsonld) captured live 2026-10-06. 2026-10-13: removed the 'Price ₹999' sample and visiblePrices ['999']: that text was the 'Free shipping over ₹999' announcement bar, not the product price (the page shows no price). The collector now skips header/announcement/cart zones.",
   "url": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
   "viewportHeight": 707,
   "renderedWords": 959,
@@ -12,11 +12,6 @@
       {
         "kind": "H1",
         "text": "A2 Desi Cow Bilona Ghee",
-        "inRaw": true
-      },
-      {
-        "kind": "Price",
-        "text": "₹999",
         "inRaw": true
       },
       {
@@ -567,9 +562,7 @@
     }
   ],
   "collectedAt": "2026-10-06T03:29:19.403Z",
-  "visiblePrices": [
-    "999"
-  ],
+  "visiblePrices": [],
   "reviewSignals": {
     "ratingText": false,
     "reviewCount": 0

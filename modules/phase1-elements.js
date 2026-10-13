@@ -167,6 +167,25 @@ export async function collectBody() {
   // ---------- Step 2: raw vs rendered ----------
   const raw = { ok: false, reason: '', bytes: 0, words: 0, tests: [], linkCount: 0, h1Count: 0, xRobots: '', jsonldCount: 0, jsonldTypes: [] };
   const renderedText = norm(document.body ? document.body.innerText : '');
+  // Prices are read from page content only. Header bars ("Free shipping over ₹999"),
+  // the mini-cart (₹0.00), menus, footer and cookie banners are not the product price.
+  const NOT_CONTENT = [
+    'header', 'nav', 'footer', '[role="banner"]', '[role="navigation"]', '[role="contentinfo"]',
+    '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
+    '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
+    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
+    '[class*="cookie"]', '[id*="cookie"]', '[class*="cky-"]',
+  ].join(',');
+  const contentText = (() => {
+    let t = renderedText;
+    if (!document.body) return t;
+    document.body.querySelectorAll(NOT_CONTENT).forEach((el) => {
+      if (el.parentElement && el.parentElement.closest(NOT_CONTENT)) return; // outermost zones only
+      const z = norm(el.innerText);
+      if (z) t = t.replace(z, ' ');
+    });
+    return norm(t);
+  })();
   const renderedWords = renderedText ? renderedText.split(' ').length : 0;
   const samples = [];
   const addSample = (kind, text) => {
@@ -174,7 +193,7 @@ export async function collectBody() {
     if (t.length >= 4 && samples.length < 8 && !samples.some((s) => s.text === t)) samples.push({ kind, text: clip(t, 160) });
   };
   [...document.querySelectorAll('h1')].filter(isVisible).slice(0, 2).forEach((h) => addSample('H1', h.textContent));
-  const priceMatch = renderedText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/);
+  const priceMatch = contentText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/);
   if (priceMatch) addSample('Price', priceMatch[0]);
   [...document.querySelectorAll('main p, article p, .entry-content p, p')]
     .filter((p) => isVisible(p) && norm(p.textContent).length > 80 && !p.closest('header, footer, nav, [class*="cookie"], [id*="cookie"], [class*="cky"]'))
@@ -305,7 +324,7 @@ export async function collectBody() {
   });
 
   // ---------- Visible prices and review signals (schema vs page) ----------
-  const visiblePrices = [...new Set((renderedText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/g) || [])
+  const visiblePrices = [...new Set((contentText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/g) || [])
     .map((m) => m.replace(/^[^\d]+/, '').replace(/,/g, '')).map((n) => String(Number(n))))].slice(0, 30);
   const reviewCountMatch = renderedText.match(/reviews?\s*\((\d+)\)|(\d+)\s+(customer\s+)?reviews?\b|(\d+)\s+ratings?\b/i);
   const reviewSignals = {

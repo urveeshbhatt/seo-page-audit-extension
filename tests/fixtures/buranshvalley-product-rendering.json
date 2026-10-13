@@ -1,0 +1,171 @@
+{
+ "_note": "Live capture 2026-10-13, auditor's browser. loadMore emptied: the only hit was the CookieYes 'Show more' button, now excluded by the collector. Words counted without header/nav/footer/cookie/cart zones.",
+ "url": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
+ "collectedAt": "2026-10-13T15:48:30.024Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 279921,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 322752,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": true,
+  "elementor": true,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 758,
+  "rendered": 758
+ },
+ "meta": {
+  "raw": {
+   "canonical": null,
+   "description": "Hand-churned A2 bilona ghee from Badri and desi cows in Maitoli, Berinag, Uttarakhand. Lab-tested every batch, no preservatives. 150g, 500g, 1kg.",
+   "h1": [
+    "A2 Desi Cow Bilona Ghee"
+   ],
+   "lang": "en-US",
+   "ogDescription": "Hand-churned A2 bilona ghee from Badri and desi cows in Maitoli, Berinag, Uttarakhand. Lab-tested every batch, no preservatives. 150g, 500g, 1kg.",
+   "ogImage": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-1-main.jpg",
+   "ogTitle": "A2 Desi Cow Bilona Ghee | Uttarakhand | Buranshvalley",
+   "robots": "nofollow, noindex",
+   "title": "A2 Desi Cow Bilona Ghee | Uttarakhand | Buranshvalley",
+   "twitterCard": "summary_large_image"
+  },
+  "rendered": {
+   "canonical": null,
+   "description": "Hand-churned A2 bilona ghee from Badri and desi cows in Maitoli, Berinag, Uttarakhand. Lab-tested every batch, no preservatives. 150g, 500g, 1kg.",
+   "h1": [
+    "A2 Desi Cow Bilona Ghee"
+   ],
+   "lang": "en-US",
+   "ogDescription": "Hand-churned A2 bilona ghee from Badri and desi cows in Maitoli, Berinag, Uttarakhand. Lab-tested every batch, no preservatives. 150g, 500g, 1kg.",
+   "ogImage": "https://buranshvalley.com/wp-content/uploads/2026/06/buransh-test-1-main.jpg",
+   "ogTitle": "A2 Desi Cow Bilona Ghee | Uttarakhand | Buranshvalley",
+   "robots": "nofollow, noindex",
+   "title": "A2 Desi Cow Bilona Ghee | Uttarakhand | Buranshvalley",
+   "twitterCard": "summary_large_image"
+  }
+ },
+ "schema": {
+  "raw": [
+   "Place",
+   "PostalAddress",
+   "Organization",
+   "ImageObject",
+   "ContactPoint",
+   "WebSite",
+   "ItemPage",
+   "Product",
+   "AggregateOffer",
+   "Brand"
+  ],
+  "rendered": [
+   "Place",
+   "PostalAddress",
+   "Organization",
+   "ImageObject",
+   "ContactPoint",
+   "WebSite",
+   "ItemPage",
+   "Product",
+   "AggregateOffer",
+   "Brand"
+  ],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": {
+  "prices": [
+   {
+    "key": "lowPrice",
+    "value": "349.00",
+    "currency": "INR",
+    "availability": "http://schema.org/InStock",
+    "visible": false,
+    "inRawText": false
+   },
+   {
+    "key": "highPrice",
+    "value": "2299.00",
+    "currency": "INR",
+    "availability": "http://schema.org/InStock",
+    "visible": false,
+    "inRawText": false
+   }
+  ],
+  "availability": "InStock",
+  "stockTextVisible": false,
+  "buyButton": true
+ },
+ "links": {
+  "raw": 37,
+  "rendered": 37,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [
+  {
+   "kind": "tab",
+   "text": "Additional informationSize150g, 500g, 1kg",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "ReviewsThere are no reviews yet. Be the first to review “A2 Desi Cow B",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "We show the actual churning on video with a date on screen, plus a bat",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "Hand-churned bilona from grass-fed A2 cows yields a fraction of what a",
+   "shown": false,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "Pure ghee is naturally shelf-stable for months without preservatives. ",
+   "shown": false,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "A2 refers to the beta-casein protein in native desi cows (Badri/Desi).",
+   "shown": false,
+   "inRaw": true
+  },
+  {
+   "kind": "tab",
+   "text": "Ghee is a traditional first fat for babies. Ours is pure and lab-verif",
+   "shown": false,
+   "inRaw": true
+  }
+ ],
+ "fakeLinks": [],
+ "errors": []
+}

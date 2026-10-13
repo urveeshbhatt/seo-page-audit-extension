@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.4.0 (Phase 3: JavaScript rendering)
+
+New **Rendering** tab, built from the Phase 3 playbook and checked against live Buranshvalley and Regus pages.
+
+- **How the page is built**: framework from the server HTML (Next.js App Router via `self.__next_f`, not only `__NEXT_DATA__`; Pages Router, Nuxt, Angular, Gatsby, Astro, Vue SSR, Shopify, WordPress + Elementor), empty app shell (`#root` with no text), share of content words in the server HTML. Server-rendered, hybrid (check by hand) or client-side rendered (critical on live revenue pages)
+- **Build vs cache**: read from framework headers (`x-nextjs-cache`, `x-vercel-cache`, prerender) or `no-store`. A low TTFB is never read as "static"
+- **Google vs AI readers**: the schema price and stock must also be in the page text and the server HTML. Price only in JSON-LD = launch blocker / critical, because shoppers cannot see it and AI live fetchers are reported not to read JSON-LD (Resoneo, Jan 2026). AI crawlers do not run JavaScript (Vercel, Dec 2024): share of text and schema they miss. Slow first byte vs AI fetch timeouts, with the "sources disagree" caveat
+- **Meta tags raw vs rendered**: noindex removed by JavaScript (Google may skip rendering, so the fix never runs), noindex added by JavaScript, canonical added or changed, title added or changed, Open Graph only after JavaScript (share previews blank)
+- **Links and pagination**: internal links that exist only after JavaScript, clickable elements that are not `<a href>` (`<style data-href>`, `<link>`, `<script>` are skipped), "Load more" buttons without page links (warning on listing pages, info elsewhere; cookie-banner "Show more" ignored)
+- **Tabs and accordions**: panel text present in the server HTML or loaded by JavaScript
+- **Confirm with Google**: reminder to use URL Inspection → Test live URL for Google's own view
+- Content words are counted without header, menus, footer, cart and cookie banners, so JavaScript-injected chrome does not make a server-rendered page look hybrid
+- Only prices inside a Product / Offer schema block count (`"price": 34900` in an analytics blob is ignored)
+
+### Fixed
+
+- **Phase 1 price check read "Free shipping over ₹999" as the product price.** Visible prices and the raw-HTML price sample now skip header, announcement bars, menus, mini-cart, footer and cookie banners. On Buranshvalley the Body tab used to pass "Schema price vs page"; it now says no price is shown in the page content
+- "Schema price vs page" with no visible price is now a **Check by hand** warning instead of info
+- 81 golden tests (16 new)
+
 ## 1.3.0 (Phase 2: Network)
 
 New **Network** tab, built from the Phase 2 (Network panel) playbook and tested on live Buranshvalley and Regus pages.

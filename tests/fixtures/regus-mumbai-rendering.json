@@ -1,0 +1,182 @@
+{
+ "_note": "Live capture 2026-10-13, auditor's browser, after 4 s wait. Words counted without header/nav/footer/cookie/cart zones.",
+ "url": "https://www.regus.com/en/in/mumbai",
+ "collectedAt": "2026-10-13T15:50:01.991Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 3403043,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 3403467,
+ "signals": {
+  "nextPages": false,
+  "nextApp": true,
+  "nextStatic": true,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 2729,
+  "rendered": 2751
+ },
+ "meta": {
+  "raw": {
+   "canonical": "https://www.regus.com/en/in/mumbai",
+   "description": "Work your way in Mumbai with Regus. Choose from fully serviced offices, coworking spaces, and meeting rooms in prime local locations. Enjoy flexible terms and access all of our locations.",
+   "h1": [
+    "Welcome to Regus Mumbai"
+   ],
+   "lang": "en",
+   "ogDescription": null,
+   "ogImage": null,
+   "ogTitle": null,
+   "robots": null,
+   "title": "Flexible Workspaces in Mumbai | Regus",
+   "twitterCard": null
+  },
+  "rendered": {
+   "canonical": "https://www.regus.com/en/in/mumbai",
+   "description": "Work your way in Mumbai with Regus. Choose from fully serviced offices, coworking spaces, and meeting rooms in prime local locations. Enjoy flexible terms and access all of our locations.",
+   "h1": [
+    "Welcome to Regus Mumbai"
+   ],
+   "lang": "en",
+   "ogDescription": null,
+   "ogImage": null,
+   "ogTitle": null,
+   "robots": null,
+   "title": "Flexible Workspaces in Mumbai | Regus",
+   "twitterCard": null
+  }
+ },
+ "schema": {
+  "raw": [
+   "BreadcrumbList",
+   "ListItem",
+   "FAQPage",
+   "Question",
+   "Answer"
+  ],
+  "rendered": [
+   "BreadcrumbList",
+   "ListItem",
+   "FAQPage",
+   "Question",
+   "Answer"
+  ],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": null,
+ "links": {
+  "raw": 745,
+  "rendered": 745,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [
+  {
+   "tag": "button",
+   "text": "Load more areas",
+   "href": "",
+   "realLink": false
+  },
+  {
+   "tag": "button",
+   "text": "Load more products",
+   "href": "",
+   "realLink": false
+  },
+  {
+   "tag": "button",
+   "text": "See more",
+   "href": "",
+   "realLink": false
+  },
+  {
+   "tag": "button",
+   "text": "View more",
+   "href": "",
+   "realLink": false
+  }
+ ],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [
+  {
+   "kind": "details",
+   "text": "What offices do you offer in Mumbai?Regus offers a range of fully-serv",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "Can I use a Regus center as my business address in Mumbai?Yes, you can",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "Do you have coworking desks in Mumbai?Regus coworking spaces in Mumbai",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "Do you offer meeting rooms in Mumbai?We offer a range of meeting rooms",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "How do I visit a Regus center in Mumbai?We are happy to arrange a visi",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "What are the opening hours for your centers in Mumbai?For customers wh",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "I am an existing Regus customer and have an enquiry or question.For ce",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "What facilities and amenities are available at Regus centers?All Regus",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "Do you offer workspace for enterprises in Mumbai?Our workspaces cater ",
+   "shown": true,
+   "inRaw": true
+  },
+  {
+   "kind": "details",
+   "text": "What support do you offer specific industries in Mumbai?Regus workspac",
+   "shown": true,
+   "inRaw": true
+  }
+ ],
+ "fakeLinks": [],
+ "errors": []
+}

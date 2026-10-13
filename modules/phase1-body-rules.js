@@ -65,7 +65,8 @@ function schemaPageFindings(d, ctx, head) {
           'Schema price is not shown on the page. Google treats markup that differs from visible content as spam (manual action risk) and Merchant listings get disapproved.', pre ? 'Launch blocker' : undefined)
         : finding('schema-price-match', 'Schema price vs page', `${schemaPrices.join(' - ')} shown on page`, 'good', 'Schema price matches what visitors see.'));
     } else if (schemaPrices.length) {
-      out.push(finding('schema-price-match', 'Schema price vs page', 'No visible price found', 'info', 'Could not find a price on the page to compare. Check by hand that the schema price is visible.'));
+      out.push(finding('schema-price-match', 'Schema price vs page', `Schema ${schemaPrices.join(' - ')} · no price in page content`, 'warning',
+        'The schema has a price but none shows in the page content (header bars, mini-cart and footer are skipped). Google requires markup to match visible content. Check by hand; the Rendering tab shows whether AI readers can see it.', 'Check by hand'));
     }
   }
 

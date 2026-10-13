@@ -12,14 +12,21 @@ const byId = (r) => Object.fromEntries(r.groups.flatMap((g) => g.findings).map((
 const PRE = { pageType: 'product', status: 'prelaunch', model: 'd2c' };
 const LIVE = { ...PRE, status: 'live' };
 
-test('Buranshvalley live data: variant price inside schema range, schema in server HTML, no header block', () => {
+test('Buranshvalley live data: no price in page content (the ₹999 was the shipping bar), schema in server HTML', () => {
   const head = load('buranshvalley-product-head');
   const f = byId(evaluateBody(load('buranshvalley-product-body'), PRE, head));
-  assert.equal(f['schema-price-match'].flag, 'good');
-  assert.match(f['schema-price-match'].value, /349 - 2299 · page shows 999/);
+  assert.equal(f['schema-price-match'].flag, 'warning');
+  assert.equal(f['schema-price-match'].label, 'Check by hand');
+  assert.match(f['schema-price-match'].value, /no price in page content/);
   assert.equal(f['schema-js'].flag, 'good');
   assert.equal(f['x-robots'].flag, 'good');
   assert.equal(f['schema-rating-visible'], undefined); // no rating in schema
+});
+
+test('Variant price inside the schema range is good; outside is a launch blocker / critical', () => {
+  const inRange = load('buranshvalley-product-body');
+  inRange.visiblePrices = ['349'];
+  assert.equal(byId(evaluateBody(inRange, PRE, load('buranshvalley-product-head')))['schema-price-match'].flag, 'good');
 });
 
 test('Schema price not on page: launch blocker before launch, critical when live', () => {

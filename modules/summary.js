@@ -2,7 +2,7 @@
 // prioritised list, gives every finding a suggested verdict, and an overall
 // verdict for the page. Pure functions, no DOM. Runs in the side panel.
 
-const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business', network: 'Network' };
+const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business', network: 'Network', rendering: 'Rendering' };
 
 // Business impact boost: how much a problem with this check costs the client.
 // Only used to order findings that share the same flag.
@@ -22,6 +22,9 @@ const IMPACT = {
   'net-sitemap-status': 46, 'net-redir-fake': 44, 'net-redir-slash': 42, 'net-link-canonical': 48, 'net-robots-ai': 40,
   'net-sitemap-canonical': 38, 'net-encoding': 36, 'net-vary': 34, 'net-protocol': 28, 'net-sitemap-lastmod': 22, 'net-weight': 24,
   'net-files': 18, 'net-thirdparty': 14, 'net-hsts': 12, 'net-guest-blocked': 62, 'net-sitemap-wall': 60,
+  'rend-robots': 94, 'rend-ai-price': 89, 'rend-strategy': 84, 'rend-canonical': 79, 'rend-raw': 58, 'rend-links-js': 57,
+  'rend-ai-content': 52, 'rend-loadmore': 47, 'rend-panels': 43, 'rend-og': 41, 'rend-title': 33, 'rend-fake-links': 32,
+  'rend-ai-ttfb': 29, 'rend-ai-stock': 26,
 };
 
 // Suggested verdicts. M6 will let the auditor override them.

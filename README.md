@@ -4,7 +4,7 @@ A Chrome extension that runs an on-page SEO audit in a side panel with one click
 
 It automates the checks a technical SEO does by hand in Chrome DevTools (Elements panel): robots and canonical, raw HTML vs rendered DOM, head tags, headings, images, links and page health. Each finding gets a flag, a one-line reason and a suggested verdict. The final call stays with the auditor.
 
-> **Status:** v1.3.0. Covers the Phase 1 (Elements panel) and Phase 2 (Network panel) playbooks, plus business-model checks. See [Roadmap](#roadmap).
+> **Status:** v1.4.0. Covers the Phase 1 (Elements panel), Phase 2 (Network panel) and Phase 3 (JavaScript rendering) playbooks, plus business-model checks. See [Roadmap](#roadmap).
 
 ## Why
 
@@ -34,6 +34,7 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 | Body | Raw HTML vs rendered, X-Robots-Tag header, schema vs visible price and reviews, headings, images, links, placeholders |
 | Health | Hidden content, CSS-injected text, shadow DOM, DOM size, render-blocking files, embeds, tech stack, HTML comments |
 | Business | Checks for the chosen business model (see below), plus stricter E-E-A-T checks for YMYL topics |
+| Rendering | Server HTML vs rendered page: how the page is built (Next.js App/Pages Router, Nuxt, Shopify, WordPress…, empty app shell), build vs cache, title/description/canonical/robots/OG changed by JavaScript (incl. the noindex trap), schema price and stock in page text for AI readers, links only after JavaScript, fake links, "Load more" without page links, tab and accordion content in raw HTML. Separate verdicts for Google, AI crawlers and AI live fetchers |
 | Network | Status, HTTP version, compression, cache headers per layer (CDN + server cache), TTFB warm vs uncached, bot-protection walls, page weight, third parties, robots.txt (rules, CSS/JS blocks, AI bots, Content-Signal), sitemap (reads `.gz`, samples 10 URLs), lastmod, llms.txt. Optional redirect tests (see below) |
 | Report | Edit verdicts and notes, export to Markdown or CSV |
 
@@ -85,6 +86,8 @@ modules/
   phase2-network.js      Phase 2 collector (injected): headers, timing samples, resources, robots, sitemap
   phase2-redirects.js    Phase 2 redirect tests (side panel, optional webRequest)
   phase2-rules.js        Phase 2 rules: document, caching, redirects, resources, robots/sitemap
+  phase3-rendering.js    Phase 3 collector (injected): raw HTML vs rendered DOM
+  phase3-rules.js        Phase 3 rules: strategy, Google vs AI readers, meta, links, panels
   summary.js             Rules engine: suggested verdicts, ranking, overall verdict
   business-rules.js      Business-model and YMYL rules
   report.js              Markdown and CSV export (escaped)
@@ -106,8 +109,9 @@ Each learning phase becomes one module. Collector, rules and report stay the sam
 | M5 | Rules engine: auto-ignore known traps, suggested verdicts, summary | Done |
 | M6 | Report: edit verdicts, copy, download, highlight on page | Done |
 | Phase 2 | Network tab: headers, cache layers, TTFB, robots.txt, sitemap, redirect tests | Done |
+| Phase 3 | Rendering tab: raw vs rendered, strategy, AI-reader visibility, JS links, pagination, panels | Done |
 
-Later modules: JS rendering (Phase 3), performance, mobile parity.
+Later modules: performance and Core Web Vitals (Phase 4), mobile parity.
 
 ## Tests
 

@@ -2,7 +2,7 @@
 // prioritised list, gives every finding a suggested verdict, and an overall
 // verdict for the page. Pure functions, no DOM. Runs in the side panel.
 
-const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business' };
+const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business', network: 'Network' };
 
 // Business impact boost: how much a problem with this check costs the client.
 // Only used to order findings that share the same flag.
@@ -17,6 +17,11 @@ const IMPACT = {
   'biz-buy': 88, 'biz-lead': 82, 'biz-aff-rel': 75, 'biz-nap': 70, 'biz-signup': 62, 'biz-contact': 60,
   'biz-phone-match': 55, 'biz-pricing': 50, 'biz-local-cta': 50, 'ymyl-author': 50, 'biz-policies': 45,
   'ymyl-review': 45, 'biz-schema': 40, 'biz-trust': 30, 'ymyl-date': 30, 'biz-facets': 30, 'biz-author': 35,
+  'net-robots': 93, 'net-status': 91, 'net-redir-http': 72, 'net-redir-www': 70, 'net-redir-combo': 66, 'net-challenge': 68,
+  'net-robots-assets': 64, 'net-ttfb-cold': 58, 'net-ttfb-warm': 56, 'net-cache-hit': 54, 'net-sitemap': 52, 'net-sitemap-noindex': 50,
+  'net-sitemap-status': 46, 'net-redir-fake': 44, 'net-redir-slash': 42, 'net-link-canonical': 48, 'net-robots-ai': 40,
+  'net-sitemap-canonical': 38, 'net-encoding': 36, 'net-vary': 34, 'net-protocol': 28, 'net-sitemap-lastmod': 22, 'net-weight': 24,
+  'net-files': 18, 'net-thirdparty': 14, 'net-hsts': 12, 'net-guest-blocked': 62, 'net-sitemap-wall': 60,
 };
 
 // Suggested verdicts. M6 will let the auditor override them.

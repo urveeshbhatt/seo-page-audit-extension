@@ -3,13 +3,18 @@
 //   1. Page data is shown with textContent only (never innerHTML).
 //   2. Scripts run only on the active tab, using the activeTab grant that
 //      Chrome gives when the user clicks the toolbar icon.
-//   3. Nothing is sent over the network.
+//   3. Nothing is sent to us or any third party. The only requests are to the
+//      audited site itself: same-origin from inside the tab (Network checks),
+//      and redirect tests after the user grants access to that one site.
 
 import { collectBasics, collectHead, collectBody, collectHealth, collectSignals } from '../modules/phase1-elements.js';
 import { evaluateHead } from '../modules/phase1-rules.js';
 import { evaluateBody } from '../modules/phase1-body-rules.js';
 import { evaluateHealth } from '../modules/phase1-health-rules.js';
 import { evaluateBusiness, MODELS } from '../modules/business-rules.js';
+import { collectNetwork } from '../modules/phase2-network.js';
+import { evaluateNetwork } from '../modules/phase2-rules.js';
+import { runRedirectTests, originsFor } from '../modules/phase2-redirects.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
 import { highlightTargets, clearHighlights } from '../modules/highlight.js';
@@ -32,6 +37,10 @@ const ui = {
   goBody: $('go-body'),
   goHealth: $('go-health'),
   goBusiness: $('go-business'),
+  goNetwork: $('go-network'),
+  redirRun: $('redir-run'),
+  redirRevoke: $('redir-revoke'),
+  redirStatus: $('redir-status'),
   businessLine: $('business-model-line'),
   sumVerdict: $('sum-verdict'),
   sumTitle: $('sum-title'),
@@ -58,7 +67,9 @@ const views = {
   body: { evaluate: evaluateBody, counts: $('body-counts'), groups: $('body-groups'), hideGood: $('body-hide-good'), data: null, result: null },
   health: { evaluate: evaluateHealth, counts: $('health-counts'), groups: $('health-groups'), hideGood: $('health-hide-good'), data: null, result: null },
   business: { evaluate: evaluateBusiness, counts: $('business-counts'), groups: $('business-groups'), hideGood: $('business-hide-good'), data: null, result: null },
+  network: { evaluate: evaluateNetwork, counts: $('network-counts'), groups: $('network-groups'), hideGood: $('network-hide-good'), data: null, result: null },
 };
+let redirects = null; // redirect test results for the current audit (in memory only)
 
 ui.version.textContent = `v${chrome.runtime.getManifest().version}`;
 
@@ -207,8 +218,10 @@ function judge(name, context) {
   if (name === 'business') {
     ui.businessLine.textContent = `Checks for: ${MODELS[context.model] || context.model}${context.ymyl ? ' + YMYL topic' : ''}. Change the business model on Setup to see other checks.`;
   }
-  // Body rules also compare schema (from Head) with what the page shows
-  view.result = view.evaluate(view.data, context, name === 'body' ? views.head.data : undefined);
+  // Body rules also compare schema (from Head) with what the page shows;
+  // Network compares the Link header canonical with Head and adds redirect tests.
+  const extra = name === 'body' ? views.head.data : name === 'network' ? { head: views.head.data, redirects } : undefined;
+  view.result = view.evaluate(view.data, context, extra);
   renderView(view);
 }
 
@@ -238,6 +251,7 @@ ui.goHead.addEventListener('click', () => showTab('head'));
 ui.goBody.addEventListener('click', () => showTab('body'));
 ui.goHealth.addEventListener('click', () => showTab('health'));
 ui.goBusiness.addEventListener('click', () => showTab('business'));
+ui.goNetwork.addEventListener('click', () => showTab('network'));
 
 // ---------------- show on page ----------------
 
@@ -570,6 +584,9 @@ async function runAudit(event) {
     auditTabId = tab.id;
     checklist.clear();
     overrides = {};
+    redirects = null;
+    ui.redirStatus.textContent = '';
+    ui.redirRun.disabled = true;
     ui.repTitle.value = `SEO page audit: ${basics.title || basics.url}`.slice(0, 120);
     views.head.data = head;
     judge('head', context);
@@ -605,6 +622,28 @@ async function runAudit(event) {
     renderReport();
     enableTab('summary');
     enableTab('report');
+
+    // Network runs last, alone, so its timing samples are not slowed down by
+    // the other collectors' requests.
+    setStatus('Checking network: headers, cache, robots.txt and sitemap…');
+    views.network.data = null;
+    views.network.result = null;
+    try {
+      views.network.data = await runInTab(tab.id, collectNetwork);
+      judge('network', context);
+      enableTab('network');
+      ui.goNetwork.hidden = false;
+      ui.redirRun.disabled = !/^https?:/i.test(lastUrl);
+      refreshRevoke();
+      renderSummary();
+      renderReport();
+    } catch (networkError) {
+      if (!friendlyError(networkError).startsWith('No access')) console.error('[Page Audit Lens] network', networkError);
+      failed.push('network');
+      views.network.counts.replaceChildren();
+      views.network.groups.replaceChildren(el('p', 'hint', 'The network checks failed on this page. Other tabs are still valid.'));
+    }
+
     if (failed.length) {
       setStatus(`Done, but ${failed.join(' and ')} checks failed on this page. See the other tabs.`, true);
       return;
@@ -625,6 +664,56 @@ async function runAudit(event) {
 }
 
 ui.form.addEventListener('submit', runAudit);
+
+// ---------------- redirect tests (optional access, asked per site) ----------------
+
+function redirectAccess() {
+  return { permissions: ['webRequest'], origins: originsFor(lastUrl) };
+}
+
+async function refreshRevoke() {
+  try {
+    ui.redirRevoke.hidden = !lastUrl || !(await chrome.permissions.contains({ origins: originsFor(lastUrl) }));
+  } catch { ui.redirRevoke.hidden = true; }
+}
+
+ui.redirRun.addEventListener('click', () => {
+  if (!lastUrl) return;
+  // permissions.request must be called straight from the click (user gesture).
+  chrome.permissions.request(redirectAccess()).then(async (granted) => {
+    if (!granted) {
+      ui.redirStatus.textContent = 'Access not granted, so redirect tests did not run. The other Network checks are still valid.';
+      return;
+    }
+    ui.redirRun.disabled = true;
+    const testedUrl = lastUrl;
+    try {
+      const result = await runRedirectTests(testedUrl, (t) => { ui.redirStatus.textContent = `Testing: ${t.label}…`; });
+      if (lastUrl !== testedUrl) return; // a new audit started meanwhile: drop stale results
+      redirects = result;
+      ui.redirStatus.textContent = `Tested ${redirects.results.length} URL variants at ${new Date(redirects.collectedAt).toLocaleTimeString()}. Results are in the Redirects group below.`;
+      judge('network', readContext());
+      renderSummary();
+      renderReport();
+    } catch (error) {
+      console.error('[Page Audit Lens] redirects', error);
+      ui.redirStatus.textContent = `Redirect tests failed: ${String(error && error.message ? error.message : error)}`;
+    } finally {
+      ui.redirRun.disabled = false;
+      refreshRevoke();
+    }
+  }).catch((error) => { ui.redirStatus.textContent = `Could not ask for access: ${String(error && error.message ? error.message : error)}`; });
+});
+
+ui.redirRevoke.addEventListener('click', async () => {
+  try {
+    await chrome.permissions.remove(redirectAccess());
+    ui.redirStatus.textContent = 'Access removed for this site.';
+  } catch (error) {
+    ui.redirStatus.textContent = `Could not remove access: ${String(error && error.message ? error.message : error)}`;
+  }
+  refreshRevoke();
+});
 
 // The background worker tells us when the user clicked the icon (or used the
 // shortcut) on a tab, which grants access to that tab.

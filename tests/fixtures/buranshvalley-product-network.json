@@ -1,0 +1,1197 @@
+{
+ "_note": "Live capture 2026-10-13 from the auditor's browser (Mumbai edge), logged-in-free session with _lscache_vary cookie. Resource names shortened; collector's own fetches removed.",
+ "url": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
+ "origin": "https://buranshvalley.com",
+ "host": "buranshvalley.com",
+ "collectedAt": "2026-10-13T15:13:45.000Z",
+ "renderedBytes": 0,
+ "nav": {
+  "type": "reload",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "h3",
+  "dns": 0,
+  "connect": 0,
+  "ssl": 0,
+  "ttfb": 124,
+  "download": 116,
+  "transferSize": 70086,
+  "encodedBodySize": 69786,
+  "decodedBodySize": 279950,
+  "fromCache": false,
+  "domContentLoaded": 295,
+  "load": 1583
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "https://buranshvalley.com/shop/a2-desi-cow-bilona-ghee/",
+  "bytes": 279950,
+  "encoded": 69786,
+  "decoded": 279950,
+  "challengeHint": "",
+  "headers": {
+   "alt-svc": "h3=\":443\"; ma=86400",
+   "content-encoding": "br",
+   "content-security-policy": "upgrade-insecure-requests",
+   "content-type": "text/html; charset=UTF-8",
+   "link": "<https://buranshvalley.com/wp-json/>; rel=\"https://api.w.org/\", <https://buranshvalley.com/wp-json/wp/v2/product/240>; rel=\"alternate\"; title=\"JSON\"; type=\"application/json\", <https://buranshvalley.com/?p=240>; rel=shortlink",
+   "server": "hcdn",
+   "strict-transport-security": "max-age=31536000; includeSubDomains",
+   "vary": "Accept-Encoding",
+   "x-hcdn-cache-status": "BYPASS",
+   "x-hcdn-upstream-rt": "0.003",
+   "x-litespeed-cache": "hit",
+   "x-litespeed-cache-control": "public,max-age=513924"
+  }
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 102,
+   "total": 205,
+   "encoded": 69786,
+   "decoded": 279950,
+   "cache": {
+    "x-hcdn-cache-status": "BYPASS",
+    "x-litespeed-cache": "hit",
+    "x-hcdn-upstream-rt": "0.002"
+   }
+  },
+  {
+   "status": 200,
+   "ttfb": 86,
+   "total": 194,
+   "encoded": 69786,
+   "decoded": 279950,
+   "cache": {
+    "x-hcdn-cache-status": "BYPASS",
+    "x-litespeed-cache": "hit",
+    "x-hcdn-upstream-rt": "0.002"
+   }
+  },
+  {
+   "status": 200,
+   "ttfb": 98,
+   "total": 173,
+   "encoded": 69786,
+   "decoded": 279950,
+   "cache": {
+    "x-hcdn-cache-status": "BYPASS",
+    "x-litespeed-cache": "hit",
+    "x-hcdn-upstream-rt": "0.002"
+   }
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 943,
+   "total": 1383,
+   "encoded": 70217,
+   "decoded": 280803,
+   "cache": {
+    "x-hcdn-cache-status": "MISS",
+    "x-litespeed-cache": "miss",
+    "x-hcdn-upstream-rt": "0.804"
+   }
+  },
+  {
+   "status": 200,
+   "ttfb": 582,
+   "total": 1311,
+   "encoded": 70216,
+   "decoded": 280803,
+   "cache": {
+    "x-hcdn-cache-status": "MISS",
+    "x-litespeed-cache": "miss",
+    "x-hcdn-upstream-rt": "0.456"
+   }
+  },
+  {
+   "status": 200,
+   "ttfb": 704,
+   "total": 978,
+   "encoded": 70217,
+   "decoded": 280803,
+   "cache": {
+    "x-hcdn-cache-status": "MISS",
+    "x-litespeed-cache": "miss",
+    "x-hcdn-upstream-rt": "0.534"
+   }
+  }
+ ],
+ "resources": {
+  "count": 85,
+  "entries": [
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "script.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "buransh-test-1-main-600x600.jpg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 11844,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "1f50a922.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 17612,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "07a4a8a9.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 867,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "8c3c0677.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1792,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "8b139456.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 3226,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "6cfe04a7.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1303,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "d7a56610.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 10951,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "de5144aa.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 819,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "b45995e4.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1581,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "f6405c2b.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1124,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "4401a969.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1256,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "54363100.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 6538,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "887413b7.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 2020,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "ba77932c.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 3188,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "6b416b14.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 2317,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "da8c28dc.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 93,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "a5da0fd1.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 126,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "66414702.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 922,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "03f66ae6.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1039,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "59d025bd.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 460,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "1db3bb0f.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 184,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "d29d7300.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 224,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "d72a5055.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1929,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "334965fd.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 328,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "a56b7bf6.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 106,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "690ba149.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 236,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "e1e17ed2.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 352,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "e9002ac0.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1535,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "42d59f33.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1543,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "bf9faf98.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 3272,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "126d8be3.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 545,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "329cf309.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 638,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "2ba3579b.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 1054,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "9374306a.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 5952,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "a1b3f849.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 11602,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "677b5908.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 3480,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "ecf3fbfb.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 3549,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "58105cd0.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 3281,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "e29612d1.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 762,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "70d89542.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 1400,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "buransh-test-4-sizes-150x150.jpg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 2962,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "buransh-test-3-lifestyle-150x150.jpg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 2314,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "buransh-test-2-texture-150x150.jpg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 2886,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.clarity.ms",
+    "name": "xbdy6eaii9",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "9efae45b.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 8084,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "marcellus-v14-latin-regular.woff2",
+    "type": "font",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 14552,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "hankengrotesk-949da39d.woff2",
+    "type": "font",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 35592,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "hankengrotesk-e9265aa2.woff2",
+    "type": "font",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 34704,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "jquery.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 29531,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "c4a5105e.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 1757,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "befd7ce2.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 2376,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "e08d9032.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 6466,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "f3074f73.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 86,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "d5b8ba16.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 15827,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "527d85f4.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 18156,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "9406c9e9.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 944,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "28cc02c2.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 4120,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "lightbox-lightbox.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 25644,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "dialog.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 3582,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "dialog.min.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1415,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "share-link.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1072,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "swiper.min.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 4214,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "lightbox.min.css",
+    "type": "css",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 1747,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "?wc-ajax=get_refreshed_fragments",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "h3",
+    "encoded": 403,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "background-slideshow.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 7682,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "background-video.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 7985,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "text-editor.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 6940,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "video.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 7856,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "buranshvalley.com",
+    "name": "accordion.min.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "h2",
+    "encoded": 8949,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.youtube.com",
+    "name": "iframe_api",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "scripts.clarity.ms",
+    "name": "clarity.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "log.cookieyes.com",
+    "name": "log",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "banner.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "Jh1gyuH9.json",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "ZRWTVKBz.json",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.youtube.com",
+    "name": "www-widgetapi.js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "Zkwo86F1.json",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "QC4T8yTy.json",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.googletagmanager.com",
+    "name": "js",
+    "type": "js",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "revisit.svg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "cdn-cookieyes.com",
+    "name": "close.svg",
+    "type": "img",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.google-analytics.com",
+    "name": "collect",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "u.clarity.ms",
+    "name": "collect",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   },
+   {
+    "host": "www.google-analytics.com",
+    "name": "collect",
+    "type": "fetch",
+    "initiator": "",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": null,
+    "start": null
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain; charset=utf-8",
+  "redirected": false,
+  "finalUrl": "https://buranshvalley.com/robots.txt",
+  "text": "User-agent: *\nDisallow: /wp-content/uploads/wc-logs/\nDisallow: /wp-content/uploads/woocommerce_transient_files/\nDisallow: /wp-content/uploads/woocommerce_uploads/\nDisallow: /*?add-to-cart=\nDisallow: /*?*add-to-cart=\nDisallow: /wp-admin/\nAllow: /wp-admin/admin-ajax.php\n\nSitemap: https://buranshvalley.com/sitemap_index.xml\n"
+ },
+ "llms": {
+  "status": 200,
+  "contentType": "text/plain",
+  "start": "# Buranshvalley\n\n> Buranshvalley is a women-led, single-origin D2C brand making pure A2 desi-cow bilona ghee",
+  "looksLikeHtml": false
+ },
+ "sitemap": {
+  "declared": [
+   "https://buranshvalley.com/sitemap_index.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "https://buranshvalley.com/sitemap_index.xml",
+  "status": 200,
+  "isIndex": true,
+  "children": 3,
+  "filesRead": 4,
+  "urls": 49,
+  "lastmod": {
+   "withDate": 49,
+   "distinct": 13,
+   "today": 0
+  },
+  "samples": [
+   {
+    "url": "https://buranshvalley.com/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/desi-ghee-benefits/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/desi-ghee-benefits/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/himalayan-ghee/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/himalayan-ghee/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/honey-and-ghee/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/honey-and-ghee/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/ghee-in-navel-benefits/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/ghee-in-navel-benefits/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/ghee-nutrition-calories/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/ghee-nutrition-calories/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/buy-pahadi-ghee-online/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/buy-pahadi-ghee-online/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/ghee-for-skin/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/ghee-for-skin/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/refund-returns/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/refund-returns/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   },
+   {
+    "url": "https://buranshvalley.com/policies/",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "https://buranshvalley.com/policies/",
+    "robots": "nofollow, noindex",
+    "xRobots": "",
+    "canonical": "",
+    "isHtml": true
+   }
+  ]
+ },
+ "errors": []
+}

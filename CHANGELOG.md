@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.1 (fix)
+
+- **Network tab: TTFB was missing when run from the extension.** Requests made by an injected collector run in the extension's isolated world and do not appear in the page's Performance timeline, so the warm and uncached TTFB samples came back empty. TTFB is now timed directly (request start until the response headers arrive) whenever no Performance entry exists. Found by running the full side-panel flow in Chromium, not just the collectors
+
 ## 1.4.0 (Phase 3: JavaScript rendering)
 
 New **Rendering** tab, built from the Phase 3 playbook and checked against live Buranshvalley and Regus pages.

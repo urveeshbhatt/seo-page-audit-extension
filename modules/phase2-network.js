@@ -134,19 +134,26 @@ export async function collectNetwork() {
   // ---------- one sample request: status, headers, timing ----------
   const CACHE_KEYS = ['cf-cache-status', 'x-hcdn-cache-status', 'x-cache', 'x-cache-status', 'x-vercel-cache', 'x-nextjs-cache',
     'x-litespeed-cache', 'x-proxy-cache', 'x-wp-cache', 'x-rocket-nginx-serving-static', 'age', 'x-hcdn-upstream-rt', 'cache-control'];
+  // Fetches made by an injected collector run in the extension's isolated world and
+  // do NOT appear in the page's Performance timeline (verified in Chromium). So TTFB
+  // is timed directly: fetch() resolves when the response headers arrive. That
+  // includes connection setup when no connection is open, like a real first byte.
   const sample = async (url, credentials) => {
     const started = performance.now();
     try {
       const res = await timedFetch(url, { credentials });
+      const headersAt = performance.now();
       const body = await res.text();
       const e = lastEntry(res.url) || lastEntry(url);
       const cache = {};
       CACHE_KEYS.forEach((k) => { const v = res.headers.get(k); if (v !== null) cache[k] = clip(v, 120); });
+      const length = Number(res.headers.get('content-length')) || 0;
       return {
         status: res.status,
-        ttfb: e ? r(e.responseStart - e.requestStart) : null,
+        ttfb: e && e.responseStart ? r(e.responseStart - e.requestStart) : r(headersAt - started),
+        ttfbSource: e && e.responseStart ? 'timing' : 'headers',
         total: r(performance.now() - started),
-        encoded: e ? e.encodedBodySize : 0,
+        encoded: e ? e.encodedBodySize : length,
         decoded: e ? e.decodedBodySize : body.length,
         bytes: body.length,
         cache,
@@ -178,7 +185,7 @@ export async function collectNetwork() {
   }
 
   // ---------- TTFB: 3 warm samples (your cookies) and 3 cold samples (guest, new URL) ----------
-  const pick = (s) => (s.status ? { status: s.status, ttfb: s.ttfb, total: s.total, encoded: s.encoded, decoded: s.decoded, cache: s.cache, challenge: isChallenge(s.body) } : { status: 0, error: s.error });
+  const pick = (s) => (s.status ? { status: s.status, ttfb: s.ttfb, ttfbSource: s.ttfbSource, total: s.total, encoded: s.encoded, decoded: s.decoded, cache: s.cache, challenge: isChallenge(s.body) } : { status: 0, error: s.error });
   for (let i = 0; i < 3; i += 1) out.warm.push(pick(await sample(location.href, 'include')));
   const base = location.href.split('#')[0];
   const sep = base.includes('?') ? '&' : '?';

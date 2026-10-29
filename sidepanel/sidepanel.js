@@ -17,7 +17,10 @@ import { evaluateNetwork } from '../modules/phase2-rules.js';
 import { runRedirectTests, originsFor } from '../modules/phase2-redirects.js';
 import { collectRendering } from '../modules/phase3-rendering.js';
 import { evaluateRendering } from '../modules/phase3-rules.js';
+import { collectPerformance } from '../modules/phase4-performance.js';
+import { evaluatePerformance } from '../modules/phase4-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
+import { safeEvaluate } from '../modules/safe-evaluate.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
 import { highlightTargets, clearHighlights } from '../modules/highlight.js';
 
@@ -41,6 +44,7 @@ const ui = {
   goBusiness: $('go-business'),
   goNetwork: $('go-network'),
   goRendering: $('go-rendering'),
+  goPerformance: $('go-performance'),
   redirRun: $('redir-run'),
   redirRevoke: $('redir-revoke'),
   redirStatus: $('redir-status'),
@@ -72,6 +76,7 @@ const views = {
   business: { evaluate: evaluateBusiness, counts: $('business-counts'), groups: $('business-groups'), hideGood: $('business-hide-good'), data: null, result: null },
   network: { evaluate: evaluateNetwork, counts: $('network-counts'), groups: $('network-groups'), hideGood: $('network-hide-good'), data: null, result: null },
   rendering: { evaluate: evaluateRendering, counts: $('rendering-counts'), groups: $('rendering-groups'), hideGood: $('rendering-hide-good'), data: null, result: null },
+  performance: { evaluate: evaluatePerformance, counts: $('performance-counts'), groups: $('performance-groups'), hideGood: $('performance-hide-good'), data: null, result: null },
 };
 let redirects = null; // redirect test results for the current audit (in memory only)
 
@@ -228,7 +233,9 @@ function judge(name, context) {
   const extra = name === 'body' ? views.head.data
     : name === 'network' ? { head: views.head.data, redirects }
       : name === 'rendering' ? { network: views.network.data } : undefined;
-  view.result = view.evaluate(view.data, context, extra);
+  // One section's rules crashing on odd page data must not stop the audit.
+  view.result = safeEvaluate(view.evaluate, view.data, context, extra);
+  if (view.result.error) console.warn(`[Page Audit Lens] ${name} rules:`, view.result.error);
   renderView(view);
 }
 
@@ -260,6 +267,7 @@ ui.goHealth.addEventListener('click', () => showTab('health'));
 ui.goBusiness.addEventListener('click', () => showTab('business'));
 ui.goNetwork.addEventListener('click', () => showTab('network'));
 ui.goRendering.addEventListener('click', () => showTab('rendering'));
+ui.goPerformance.addEventListener('click', () => showTab('performance'));
 
 // ---------------- show on page ----------------
 
@@ -581,10 +589,21 @@ async function runAudit(event) {
     if (tab.url && RESTRICTED.test(tab.url)) throw new Error('cannot be scripted');
 
     const context = readContext();
+    // Performance is read first, before the other collectors run their own
+    // code on the page's main thread (their work would show up as long frames).
+    let perfData = null;
+    let perfError = null;
+    try { perfData = await runInTab(tab.id, collectPerformance); } catch (e) { perfError = e; }
     const [basics, head] = await Promise.all([
       runInTab(tab.id, collectBasics),
       runInTab(tab.id, collectHead),
     ]);
+    // Chrome shows JSON, images, PDFs and plain text inside a generated page.
+    // Auditing that page would report nonsense (no title, no H1, "critical").
+    if (basics.contentType && !/^(text\/html|application\/xhtml\+xml)$/i.test(basics.contentType)) {
+      setStatus(`This tab shows a ${basics.contentType} file, not a web page. Open an HTML page to audit.`, true);
+      return;
+    }
 
     renderBasics(basics);
     lastUrl = basics.url;
@@ -614,6 +633,18 @@ async function runAudit(event) {
       ['business', collectSignals, ui.goBusiness],
       ['rendering', collectRendering, ui.goRendering],
     ];
+    views.performance.data = perfData;
+    views.performance.result = null;
+    if (perfData) {
+      judge('performance', context);
+      enableTab('performance');
+      ui.goPerformance.hidden = false;
+    } else {
+      if (perfError && !friendlyError(perfError).startsWith('No access')) console.error('[Page Audit Lens] performance', perfError);
+      failed.push('performance');
+      views.performance.counts.replaceChildren();
+      views.performance.groups.replaceChildren(el('p', 'hint', 'The performance checks failed on this page. Other tabs are still valid.'));
+    }
     await Promise.all(sections.map(async ([name, collector, button]) => {
       const view = views[name];
       view.data = null;
@@ -655,6 +686,15 @@ async function runAudit(event) {
       failed.push('network');
       views.network.counts.replaceChildren();
       views.network.groups.replaceChildren(el('p', 'hint', 'The network checks failed on this page. Other tabs are still valid.'));
+    }
+
+    // The tab may have navigated while collectors were running (redirect, SPA
+    // route change, user click). Then sections describe different pages.
+    const noHash = (u) => String(u || '').split('#')[0];
+    const now = await chrome.tabs.get(tab.id).catch(() => null);
+    if (now && now.url && noHash(now.url) !== noHash(lastUrl)) {
+      setStatus(`The page changed during the audit (now ${now.url.slice(0, 120)}). Results may mix two pages: run the audit again.`, true);
+      return;
     }
 
     if (failed.length) {

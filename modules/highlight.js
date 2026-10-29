@@ -64,6 +64,12 @@ export function highlightTargets(targets, label) {
         try { document.querySelectorAll(sel).forEach(add); } catch (e) { /* invalid selector: skip */ }
         break;
       }
+      case 'css':
+        // A CSS selector built by a collector (Performance tab). Read-only lookup;
+        // an invalid or hostile selector just finds nothing.
+        if (!value || value.length > 300) break;
+        try { document.querySelectorAll(value).forEach(add); } catch (e) { /* invalid selector: skip */ }
+        break;
       case 'iframe-empty':
         document.querySelectorAll('iframe').forEach((f) => { if (!f.getAttribute('src')) add(f); });
         break;

@@ -91,6 +91,9 @@ function canonicalFindings(d, ctx) {
   if (!canonUrl) {
     return [finding('canonical', 'Canonical', canon, 'warning', 'Canonical is not a valid absolute URL.')];
   }
+  if (!/^https?:$/.test(canonUrl.protocol)) {
+    return [finding('canonical', 'Canonical', canon, 'critical', `Canonical is not a web address (${canonUrl.protocol}). Google ignores it, so this page has no working canonical. Point it to this page's own https URL.`)];
+  }
   const pageUrl = new URL(d.url);
 
   if (canonUrl.hostname.replace(/^www\./, '') !== pageUrl.hostname.replace(/^www\./, '')) {

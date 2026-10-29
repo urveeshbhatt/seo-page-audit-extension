@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.5.0 (Phase 4: Performance)
+
+New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and checked against a live D2C product page.
+
+- **Core Web Vitals of this visit**: LCP, CLS (largest session window, 1 s gap, 5 s cap, shifts after input ignored) and INP (slowest interaction, 1 outlier ignored per 50), FCP, with web.dev thresholds. Poor LCP, CLS or INP is critical on live revenue pages. Every audit reminds that Google ranks with field data (CrUX) and shows where to confirm it
+- **LCP element and its four parts**: TTFB, resource load delay, load duration, render delay, with advice for the biggest part. Flags a lazy-loaded LCP image (critical on live revenue pages, launch blocker before launch), an LCP image found late (`data-src` or a long load delay), missing `fetchpriority="high"`, and a **loading screen or spinner as the LCP** (found on a live Shopify store)
+- **Layout shifts and animations**: what moved (selectors, shift count and value), CSS animations that change layout (`left`, `top`, `width`, `margin`… a layout shift every frame), animations that repaint (`box-shadow`, `background-position`) and composited ones (`transform`, `opacity`, never flagged). Discrete properties like `z-index` are ignored. Warns when Chrome's 150-shift buffer is full, so CLS may be higher than shown
+- **Render-blocking files** with time, owner (first-party or vendor) and file type; Early Hints files are labelled by extension, not "JS"
+- **Main thread**: long animation frames (LoAF) grouped by owner (Google Tag Manager / gtag, Meta Pixel, Microsoft Clarity, this site…), forced-layout time and invokers. Frames caused by browser extensions, including this one, are not blamed on the site. Performance data is read before the other collectors run
+- **INP phases**: input delay, processing and presentation, with entries of one tap (pointerdown, pointerup, click) combined, so a slow click handler shows as processing
+- **Third parties**: requests and size per vendor; "size hidden" when the vendor sends no Timing-Allow-Origin. Platform CDNs (Shopify, WordPress.com…) count as first-party
+- **Duplicate tags**: several GA4 IDs, a GA4 ID loaded twice, several GTM containers, Clarity projects or Meta pixels, and any script URL loaded twice
+- **Images**: lazy images in the first screen, images without width/height or aspect-ratio (SVG exempt), files much larger than their display size
+- **Fonts**: font files and size, `font-display` missing / auto / block on readable `@font-face` rules
+- **Show on page** works for Performance findings (new `css` target kind; invalid selectors find nothing)
+
+### Fixed (found while trying to break the extension)
+
+- **JSON, images, PDFs and text files were audited as web pages** and got fake critical findings. The panel now says the tab shows a file, not a web page
+- **A page that navigated during the audit was reported as "Done"** with sections from two different pages. The panel now warns and asks to run the audit again
+- **One section's rules crashing stopped the whole audit.** Every section is now judged through a safety net: a crash becomes one "Checks could not run" finding and the other tabs still work. Fuzz tests measure how often each module needs it
+- **Canonical `javascript:` / `data:` / `mailto:` was reported as "points to another domain".** It is now "not a web address"
+- **`<script>` text inside a heading was read as heading text** (false "H1 missing in raw HTML")
+- **Manifest description was longer than the Chrome Web Store limit (132 characters).** Shortened; a packaging test now checks limits, versions, permissions and CSP
+- **Health tab advised "turn on CSS Combine" for LiteSpeed.** On Buranshvalley that made one late file and CLS 0.838. It now advises Load CSS Asynchronously + Generate Critical CSS and warns about Combine
+
+### Tests
+
+- 128 unit, golden, fuzz and packaging tests (`npm test`) and 22 integration tests in real Chromium (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
+
 ## 1.4.1 (fix)
 
 - **Network tab: TTFB was missing when run from the extension.** Requests made by an injected collector run in the extension's isolated world and do not appear in the page's Performance timeline, so the warm and uncached TTFB samples came back empty. TTFB is now timed directly (request start until the response headers arrive) whenever no Performance entry exists. Found by running the full side-panel flow in Chromium, not just the collectors

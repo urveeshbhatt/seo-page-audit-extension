@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Huge DOM fixture page with many nodes</title>
+<style>.box{position:relative;width:20px;height:20px;display:inline-block}.mover{animation:mv 1s linear infinite}@keyframes mv{to{left:10px}}</style></head>
+<body><h1>Huge</h1><div id="root"></div>
+<script>
+  const root = document.getElementById('root');
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < 40000; i++) { const d = document.createElement('div'); d.className = 'box' + (i % 3 === 0 ? ' mover' : ''); d.textContent = i % 10 ? '' : 'item ' + i; frag.appendChild(d); }
+  for (let i = 0; i < 2500; i++) { const img = document.createElement('img'); img.src = '/img/small.png?i=' + i; img.width = 30; img.height = 20; frag.appendChild(img); }
+  for (let i = 0; i < 3000; i++) { const a = document.createElement('a'); a.href = '/p/' + i; a.textContent = 'link ' + i; frag.appendChild(a); }
+  root.appendChild(frag);
+  for (let i = 0; i < 300; i++) { const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify({ '@type': 'Product', name: 'p' + i, offers: { '@type': 'Offer', price: String(i) } }); document.head.appendChild(s); }
+</script></body></html>

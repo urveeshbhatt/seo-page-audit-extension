@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perf bad fixture: A2 Desi Cow Ghee 500 ml</title>
+  <meta name="description" content="Fixture page with known performance problems for integration tests.">
+  <link rel="canonical" href="{{SITE}}/perf-bad.html">
+  <!-- render-blocking: slow first-party CSS and a slow third-party SDK without async/defer -->
+  <link rel="stylesheet" href="/slow.css?delay=400">
+  <script src="{{TP}}/vendor.js?delay=300"></script>
+  <style>
+    @font-face { font-family: 'Fixture Sans'; src: url(/font.woff2) format('woff2'); font-display: auto; }
+    body { font-family: 'Fixture Sans', sans-serif; margin: 0; }
+    .badge { position: relative; overflow: hidden; width: 300px; height: 40px; background: #c90; }
+    /* the Two Brothers bug: a shine that animates left instead of transform */
+    .badge::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: rgba(255,255,255,.5); animation: sweep 1.2s linear infinite; }
+    @keyframes sweep { 0% { left: -60%; } 100% { left: 125%; } }
+    .glow { animation: glow 1s ease-in-out infinite alternate; }
+    @keyframes glow { from { box-shadow: 0 0 0 #f00; } to { box-shadow: 0 0 12px #f00; } }
+    .spin { display: inline-block; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+  <!-- duplicate tags: two GA4 IDs and one script loaded twice -->
+  <script async src="{{TP}}/gtag/js?id=G-AAA111"></script>
+  <script async src="{{TP}}/gtag/js?id=G-BBB222"></script>
+  <script defer src="/dup.js"></script>
+  <script defer src="/dup.js"></script>
+</head>
+<body>
+  <header><nav><a href="/perf-good.html">Home</a></nav></header>
+  <main>
+    <h1>A2 Desi Cow Ghee</h1>
+    <div class="badge glow">Member price</div><span class="spin">*</span>
+    <!-- LCP image, lazy-loaded (bad) and slow -->
+    <img class="hero" src="/img/hero.png?delay=300" loading="lazy" alt="Ghee jar" style="width:100%;max-width:900px;display:block">
+    <p class="price">Price ₹999. Bilona method, small batch, glass jar.</p>
+    <!-- no width/height: the layout jumps when it loads -->
+    <img class="unsized" src="/img/small.png?delay=200" alt="Small jar">
+  </main>
+  <script>
+    // a long task shortly after load (long animation frame)
+    setTimeout(() => { const t = performance.now(); while (performance.now() - t < 150) { /* busy */ } document.body.dataset.busy = '1'; }, 50);
+    // a late banner pushes the content down (layout shift)
+    setTimeout(() => { const b = document.createElement('div'); b.className = 'late-banner'; b.style.height = '120px'; b.textContent = 'Free shipping today'; document.querySelector('main').prepend(b); }, 700);
+  </script>
+</body>
+</html>

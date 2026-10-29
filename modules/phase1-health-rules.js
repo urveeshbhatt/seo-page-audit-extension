@@ -158,7 +158,7 @@ function resourceFindings(d) {
   const out = [];
   if (r.blockingCss > 10) {
     const has = (name) => (d.stack || []).some((x) => x.name === name);
-    const tip = has('LiteSpeed Cache') ? ' In LiteSpeed Cache: Page Optimization → CSS Settings → turn on CSS Combine (UCSS optional), purge all, then re-test LCP.'
+    const tip = has('LiteSpeed Cache') ? ' In LiteSpeed Cache: Page Optimization → CSS Settings → turn on Load CSS Asynchronously and Generate Critical CSS, purge all, then re-test LCP and CLS. Avoid CSS Combine unless you test it: one big late file can make the layout jump (CLS).'
       : has('WP Rocket') ? ' In WP Rocket: File Optimization → Optimize CSS delivery.'
         : has('Elementor') ? ' In Elementor: Settings → Features → Improved CSS Loading (if your version shows it).' : '';
     out.push(finding('res-css', 'Render-blocking CSS', `${r.blockingCss} stylesheets in <head>`, 'warning',

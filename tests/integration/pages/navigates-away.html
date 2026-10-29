@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Navigates away fixture: leaves during the audit</title></head>
+<body><h1>Leaving soon</h1>
+<script>
+  // leave as soon as the user clicks anything or after 2.2 s (the audit starts around 1.5 s)
+  setTimeout(() => { location.href = '/perf-good.html?arrived=1'; }, 2200);
+</script></body></html>

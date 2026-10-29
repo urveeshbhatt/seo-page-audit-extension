@@ -2,7 +2,7 @@
 // prioritised list, gives every finding a suggested verdict, and an overall
 // verdict for the page. Pure functions, no DOM. Runs in the side panel.
 
-const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business', network: 'Network', rendering: 'Rendering' };
+const SECTIONS = { head: 'Head', body: 'Body', health: 'Health', business: 'Business', network: 'Network', rendering: 'Rendering', performance: 'Performance' };
 
 // Business impact boost: how much a problem with this check costs the client.
 // Only used to order findings that share the same flag.
@@ -25,6 +25,9 @@ const IMPACT = {
   'rend-robots': 94, 'rend-ai-price': 89, 'rend-strategy': 84, 'rend-canonical': 79, 'rend-raw': 58, 'rend-links-js': 57,
   'rend-ai-content': 52, 'rend-loadmore': 47, 'rend-panels': 43, 'rend-og': 41, 'rend-title': 33, 'rend-fake-links': 32,
   'rend-ai-ttfb': 29, 'rend-ai-stock': 26,
+  'perf-anim-layout': 87, 'perf-lcp-loader': 84, 'perf-cls-limit': 9, 'perf-lcp-lazy': 86, 'perf-cls': 83, 'perf-lcp': 81, 'perf-inp': 80, 'perf-render-blocking': 61,
+  'perf-main': 59, 'perf-dup-tags': 53, 'perf-lcp-discovery': 51, 'perf-fcp': 39, 'perf-img-size': 37, 'perf-img-lazy': 36,
+  'perf-font-display': 27, 'perf-fonts': 21, 'perf-anim-paint': 19, 'perf-3p': 16, 'perf-lcp-priority': 13, 'perf-img-big': 11,
 };
 
 // Suggested verdicts. M6 will let the auditor override them.

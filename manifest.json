@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Page Audit Lens",
   "short_name": "Audit Lens",
-  "version": "1.4.1",
-  "description": "One-click on-page SEO audit in a side panel: head, raw vs rendered, body, page health, network and JavaScript rendering checks with suggested verdicts.",
+  "version": "1.5.0",
+  "description": "One-click SEO page audit in a side panel: head, body, health, network, JS rendering and Core Web Vitals, with suggested verdicts.",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon16.png",

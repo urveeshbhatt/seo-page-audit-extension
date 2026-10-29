@@ -25,6 +25,7 @@
     <button class="tab" role="tab" aria-selected="false" data-tab="business" disabled title="Run an audit first">Business</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="network" disabled title="Run an audit first">Network</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="rendering" disabled title="Run an audit first">Rendering</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="performance" disabled title="Run an audit first">Performance</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Run an audit first">Report</button>
   </nav>
 
@@ -106,6 +107,7 @@
           <button type="button" class="btn-secondary" id="go-business" hidden>Business checks →</button>
           <button type="button" class="btn-secondary" id="go-network" hidden>Network checks →</button>
           <button type="button" class="btn-secondary" id="go-rendering" hidden>Rendering checks →</button>
+          <button type="button" class="btn-secondary" id="go-performance" hidden>Performance checks →</button>
         </div>
       </article>
     </section>
@@ -221,6 +223,17 @@
         </label>
       </div>
       <div id="rendering-groups"></div>
+    </section>
+    <section class="panel" id="panel-performance" role="tabpanel" hidden>
+      <p class="hint">Core Web Vitals of this visit in your browser, and why: the LCP element and its parts, what moved, animations, render-blocking files, long frames by script owner, third parties, images and fonts. Google ranks with real-user data: confirm numbers in PageSpeed Insights. To measure INP, tap a few things on the page and press Audit again.</p>
+      <div class="counts" id="performance-counts" aria-label="Finding counts"></div>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="performance-hide-good">
+          <span>Hide passed checks</span>
+        </label>
+      </div>
+      <div id="performance-groups"></div>
     </section>
   </main>
 

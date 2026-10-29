@@ -1,0 +1,181 @@
+// Integration tests: run the real collectors inside real Chromium pages,
+// then feed their output through the rules, summary and report, exactly as
+// the side panel does. Needs Playwright + Chromium (npm run test:integration).
+
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { startServer } from './server.mjs';
+import { collectBasics, collectHead, collectBody, collectHealth, collectSignals } from '../../modules/phase1-elements.js';
+import { evaluateHead } from '../../modules/phase1-rules.js';
+import { evaluateBody } from '../../modules/phase1-body-rules.js';
+import { evaluateHealth } from '../../modules/phase1-health-rules.js';
+import { evaluateBusiness } from '../../modules/business-rules.js';
+import { collectNetwork } from '../../modules/phase2-network.js';
+import { evaluateNetwork } from '../../modules/phase2-rules.js';
+import { collectRendering } from '../../modules/phase3-rendering.js';
+import { evaluateRendering } from '../../modules/phase3-rules.js';
+import { collectPerformance } from '../../modules/phase4-performance.js';
+import { evaluatePerformance } from '../../modules/phase4-rules.js';
+import { buildSummary } from '../../modules/summary.js';
+import { toMarkdown, toCsv } from '../../modules/report.js';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+
+const CTX = { pageType: 'product', status: 'live', model: 'd2c', ymyl: false };
+const byId = (result) => Object.fromEntries(result.groups.flatMap((g) => g.findings).map((f) => [f.id, f]));
+
+let srv;
+let browser;
+
+before(async () => {
+  srv = await startServer();
+  browser = await chromium.launch();
+});
+after(async () => {
+  await browser?.close();
+  await srv?.close();
+});
+
+async function open(path, { settle = 2000 } = {}) {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(String(e)));
+  await page.goto(`${srv.site}${path}`, { waitUntil: 'load' });
+  await page.waitForTimeout(settle);
+  return { page, errors };
+}
+
+// ---------------- Performance collector ----------------
+
+test('collectPerformance on a bad page: finds the planted problems', async () => {
+  const { page } = await open('/perf-bad.html');
+  const d = await page.evaluate(collectPerformance);
+  await page.close();
+
+  // shape: plain JSON, nothing that cannot cross the extension boundary
+  assert.deepEqual(JSON.parse(JSON.stringify(d)), d);
+  assert.equal(d.host, '127.0.0.1');
+  assert.ok(d.nav.ttfb >= 0 && d.nav.fcp > 0, 'navigation and paint timings');
+
+  // LCP: the lazy hero image
+  assert.equal(d.lcp.tag, 'img');
+  assert.match(d.lcp.selector, /img\.hero/);
+  assert.equal(d.lcp.img.loading, 'lazy');
+  assert.ok(d.lcp.resource && d.lcp.resource.responseEnd > 0);
+
+  // render-blocking: slow CSS (site) and SDK (third party)
+  const rb = d.renderBlocking.map((r) => r.url).join(' ');
+  assert.match(rb, /slow\.css/);
+  assert.match(rb, /localhost.*vendor\.js/);
+
+  // animations: layout (left), paint (box-shadow), composited (transform)
+  const anim = Object.fromEntries(d.animations.map((a) => [a.name, a]));
+  assert.deepEqual(anim.sweep.props, ['left']);
+  assert.equal(anim.sweep.infinite, true);
+  assert.match(anim.sweep.target, /::after$/);
+  assert.deepEqual(anim.glow.props, ['boxShadow']);
+  assert.deepEqual(anim.spin.props, ['transform']);
+
+  // layout shifts happened, with sources
+  assert.ok(d.shifts.length > 0, 'layout shifts recorded');
+  assert.ok(d.shifts.some((s) => s.sources.length > 0), 'shift sources recorded');
+
+  // long animation frame from the 150 ms busy loop
+  if (d.loafSupported) assert.ok(d.frames.some((f) => f.duration >= 140), 'long frame recorded');
+
+  // images, fonts, duplicate scripts
+  assert.ok(d.images.some((i) => /small\.png/.test(i.src) && !i.hasSize), 'unsized image');
+  assert.ok(d.images.some((i) => /hero\.png/.test(i.src) && i.hasSize === false && i.lazy), 'hero is lazy and unsized');
+  assert.ok(d.fonts.faces.some((f) => f.family === 'Fixture Sans' && f.display === 'auto'));
+  assert.equal(d.scripts.filter((s) => /\/dup\.js$/.test(s)).length, 2);
+  assert.ok(d.scripts.some((s) => /G-AAA111/.test(s)) && d.scripts.some((s) => /G-BBB222/.test(s)));
+});
+
+test('bad page end to end: rules flag the real causes and the report carries them', async () => {
+  const { page } = await open('/perf-bad.html');
+  const d = await page.evaluate(collectPerformance);
+  await page.close();
+  const r = evaluatePerformance(d, CTX);
+  const f = byId(r);
+  assert.equal(f['perf-anim-layout'].flag, 'critical');
+  assert.equal(f['perf-lcp-lazy'].flag, 'critical');
+  assert.equal(f['perf-render-blocking'].flag, 'warning');
+  assert.equal(f['perf-dup-tags'].flag, 'warning');
+  assert.equal(f['perf-font-display'].flag, 'warning');
+  assert.equal(f['perf-anim-paint'].flag, 'info');
+  assert.ok(f['perf-img-size']);
+
+  const s = buildSummary({ head: { groups: [], counts: { critical: 0, warning: 0, good: 0, info: 0 } }, performance: r }, CTX);
+  assert.ok(s.top.some((x) => x.key === 'performance:perf-anim-layout'));
+  const md = toMarkdown(s, { title: 'Fixture audit', auditor: 'Test', url: `${srv.site}/perf-bad.html`, date: '2026-10-29' });
+  assert.match(md, /Animations that move layout/);
+  assert.match(toCsv(s), /perf-anim-layout|Animations that move layout/);
+});
+
+test('good page: no critical or warning performance findings', async () => {
+  const { page } = await open('/perf-good.html');
+  const d = await page.evaluate(collectPerformance);
+  await page.close();
+  const r = evaluatePerformance(d, CTX);
+  const bad = r.groups.flatMap((g) => g.findings).filter((x) => x.flag === 'critical' || x.flag === 'warning');
+  assert.deepEqual(bad.map((x) => `${x.id}: ${x.value}`), []);
+  assert.equal(d.lcp.img.preloaded, true);
+  assert.equal(d.lcp.img.fetchpriority, 'high');
+  assert.ok(!d.animations.some((a) => a.props.includes('left')));
+});
+
+test('INP: a real slow click before the audit is measured with its phases', async () => {
+  const { page } = await open('/perf-good.html', { settle: 500 });
+  await page.evaluate(() => {
+    document.querySelector('h1').addEventListener('click', () => { const t = performance.now(); while (performance.now() - t < 250) { /* slow handler */ } });
+  });
+  await page.click('h1');
+  await page.waitForTimeout(500);
+  const d = await page.evaluate(collectPerformance);
+  await page.close();
+  const f = byId(evaluatePerformance(d, CTX));
+  assert.ok(d.events.length > 0, 'event timing entries recorded');
+  assert.equal(f['perf-inp'].flag, 'warning');
+  assert.match(f['perf-inp'].why, /processing/);
+});
+
+// ---------------- every collector, one pipeline ----------------
+
+for (const path of ['/perf-bad.html', '/perf-good.html']) {
+  test(`all collectors + rules + summary + report run on ${path}`, async () => {
+    const { page, errors } = await open(path);
+    const basics = await page.evaluate(collectBasics);
+    const head = await page.evaluate(collectHead);
+    const body = await page.evaluate(collectBody);
+    const health = await page.evaluate(collectHealth);
+    const signals = await page.evaluate(collectSignals);
+    const rendering = await page.evaluate(collectRendering);
+    const network = await page.evaluate(collectNetwork);
+    const perf = await page.evaluate(collectPerformance);
+    await page.close();
+
+    assert.equal(basics.title.startsWith('Perf'), true);
+    const results = {
+      head: evaluateHead(head, CTX),
+      body: evaluateBody(body, CTX, head),
+      health: evaluateHealth(health, CTX),
+      business: evaluateBusiness(signals, CTX),
+      network: evaluateNetwork(network, CTX, { head, redirects: null }),
+      rendering: evaluateRendering(rendering, CTX, { network }),
+      performance: evaluatePerformance(perf, CTX),
+    };
+    Object.entries(results).forEach(([k, r]) => {
+      assert.ok(Array.isArray(r.groups) && r.groups.length, `${k} has groups`);
+      const n = r.groups.flatMap((g) => g.findings).length;
+      assert.equal(Object.values(r.counts).reduce((a, b) => a + b, 0), n, `${k} counts match findings`);
+    });
+    assert.equal(rendering.raw.ok, true, 'raw HTML fetched same-origin');
+    const s = buildSummary(results, CTX);
+    assert.equal(s.sections.length, 7);
+    const md = toMarkdown(s, { title: 't', auditor: 'a', url: basics.url, date: '2026-10-29' });
+    assert.ok(md.length > 500);
+    assert.deepEqual(errors, []);
+  });
+}

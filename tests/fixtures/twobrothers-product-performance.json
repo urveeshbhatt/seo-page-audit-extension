@@ -1,0 +1,1664 @@
+{
+ "note": "Real capture of twobrothersindiashop.com product page (29 Oct 2026) with collectPerformance(), trimmed for the repo: resources, images and long frames cut to the top entries; 133 of the 150 tiny sweep shifts replaced by their average value (0.0003).",
+ "url": "https://twobrothersindiashop.com/products/a2-desi-cow-ghee-gir-cow",
+ "host": "twobrothersindiashop.com",
+ "collectedAt": "2026-10-29T10:44:34.132Z",
+ "visibility": "visible",
+ "loafSupported": true,
+ "nav": {
+  "ttfb": 786,
+  "fcp": 2492,
+  "dcl": 3502,
+  "load": 10010,
+  "type": "navigate"
+ },
+ "lcp": {
+  "time": 2492,
+  "tag": "div",
+  "selector": "div#fv-loading-icon",
+  "url": "",
+  "size": 443202,
+  "text": "🔄",
+  "resource": null,
+  "img": null
+ },
+ "shifts": [
+  {
+   "value": 0.04721,
+   "time": 3271,
+   "input": false,
+   "sources": [
+    "div.ri-pdp__stage"
+   ]
+  },
+  {
+   "value": 0.01032,
+   "time": 10212,
+   "input": false,
+   "sources": [
+    "iframe#verifast-react-chatbot-iframe"
+   ]
+  },
+  {
+   "value": 0.00154,
+   "time": 11385,
+   "input": false,
+   "sources": [
+    "iframe#verifast-react-chatbot-iframe"
+   ]
+  },
+  {
+   "value": 5e-05,
+   "time": 14461,
+   "input": false,
+   "sources": [
+    "span.ri-pdp__rank-text"
+   ]
+  },
+  {
+   "value": 0.02642,
+   "time": 14697,
+   "input": true,
+   "sources": [
+    "div.ri-pdp__bundles",
+    "div.ri-pdp__member.productmeta_ratingandmembership",
+    "form.ri-pdp__buy",
+    "span.ri-pdp__bundle-flag",
+    "button.ri-pdp__short-toggle"
+   ]
+  },
+  {
+   "value": 9e-05,
+   "time": 14705,
+   "input": true,
+   "sources": [
+    "span.ri-pdp__rank-text"
+   ]
+  },
+  {
+   "value": 5e-05,
+   "time": 15452,
+   "input": false,
+   "sources": [
+    "span.ri-pdp__rank-text"
+   ]
+  },
+  {
+   "value": 0.00026,
+   "time": 15831,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00104,
+   "time": 15913,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00105,
+   "time": 16036,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00285,
+   "time": 16096,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00125,
+   "time": 16152,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00151,
+   "time": 16176,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00099,
+   "time": 16196,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00103,
+   "time": 16229,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.00285,
+   "time": 16309,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.01249,
+   "time": 18231,
+   "input": false,
+   "sources": [
+    "iframe#verifast-react-chatbot-iframe"
+   ]
+  },
+  {
+   "value": 0.0003,
+   "time": 16321,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16337,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16353,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16369,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16385,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16401,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16417,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16433,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16449,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16465,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16481,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16497,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16513,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16529,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16545,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16561,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16577,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16593,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16609,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16625,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16641,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16657,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16673,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16689,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16705,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16721,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16737,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16753,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16769,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16785,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16801,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16817,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16833,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16849,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16865,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16881,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16897,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16913,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16929,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16945,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16961,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16977,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 16993,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17009,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17025,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17041,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17057,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17073,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17089,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17105,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17121,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17137,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17153,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17169,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17185,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17201,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17217,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17233,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17249,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17265,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17281,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17297,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17313,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17329,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17345,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17361,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 17377,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 20927,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 20943,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 20959,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 20975,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 20991,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21007,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21023,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21039,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21055,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21071,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21087,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21103,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21119,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21135,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21151,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21167,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21183,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21199,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21215,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21231,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21247,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21263,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21279,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21295,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21311,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21327,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21343,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21359,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21375,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21391,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21407,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21423,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21439,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21455,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21471,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21487,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21503,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21519,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21535,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21551,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21567,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21583,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21599,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21615,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21631,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21647,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21663,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21679,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21695,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21711,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21727,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21743,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21759,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21775,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21791,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21807,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21823,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21839,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21855,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21871,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21887,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21903,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21919,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21935,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21951,
+   "input": false,
+   "sources": []
+  },
+  {
+   "value": 0.0003,
+   "time": 21967,
+   "input": false,
+   "sources": []
+  }
+ ],
+ "events": [
+  {
+   "id": 7650,
+   "name": "pointerdown",
+   "duration": 232,
+   "start": 14506,
+   "processingStart": 14522,
+   "processingEnd": 14522,
+   "target": "button.ri-pdp__short-toggle"
+  },
+  {
+   "id": 7650,
+   "name": "pointerup",
+   "duration": 208,
+   "start": 14534,
+   "processingStart": 14537,
+   "processingEnd": 14538,
+   "target": "button.ri-pdp__short-toggle"
+  },
+  {
+   "id": 7650,
+   "name": "click",
+   "duration": 208,
+   "start": 14534,
+   "processingStart": 14539,
+   "processingEnd": 14689,
+   "target": "button.ri-pdp__short-toggle"
+  }
+ ],
+ "frames": [
+  {
+   "start": 5262,
+   "duration": 431,
+   "blocking": 295,
+   "scripts": [
+    {
+     "url": "https://connect.facebook.net/signals/config/280381829151381?v=2.9.429",
+     "invoker": "https://connect.facebook.net/signals/config/280381829151381",
+     "duration": 261,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "invoker": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "duration": 45,
+     "forcedLayout": 1
+    },
+    {
+     "url": "https://static.aitrillion.com/aio-script/aio-app.js",
+     "invoker": "https://static.aitrillion.com/aio-script/aio-app.js",
+     "duration": 11,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 4715,
+   "duration": 306,
+   "blocking": 230,
+   "scripts": [
+    {
+     "url": "https://www.googletagmanager.com/gtag/js?id=G-W0EL8WFB2S",
+     "invoker": "https://www.googletagmanager.com/gtag/js?id=G-W0EL8WFB2S",
+     "duration": 278,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 2901,
+   "duration": 279,
+   "blocking": 196,
+   "scripts": [
+    {
+     "url": "https://twobrothersindiashop.com/cdn/wpm/b264bf420w2e1681cap8d55857fm7d879f9cm.js",
+     "invoker": "https://twobrothersindiashop.com/cdn/wpm/b264bf420w2e1681cap8d55857fm7d879f9cm.j",
+     "duration": 120,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://twobrothersindiashop.com/products/a2-desi-cow-ghee-gir-cow",
+     "invoker": "SCRIPT[src=\"https://twobrothersindiashop.com/cdn/wpm/b264bf420w2e1681cap8d55857f",
+     "duration": 92,
+     "forcedLayout": 1
+    },
+    {
+     "url": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/theme.js?v=72048776524064633641793021125",
+     "invoker": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/theme.js",
+     "duration": 25,
+     "forcedLayout": 14
+    }
+   ]
+  },
+  {
+   "start": 5703,
+   "duration": 254,
+   "blocking": 145,
+   "scripts": [
+    {
+     "url": "https://www.googletagmanager.com/gtag/js?id=AW-822011156&cx=c&gtm=4e6ar1",
+     "invoker": "https://www.googletagmanager.com/gtag/js?id=AW-822011156",
+     "duration": 193,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://static.ads-twitter.com/uwt.js",
+     "invoker": "https://static.ads-twitter.com/uwt.js",
+     "duration": 43,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://a.quora.com/qevents.js",
+     "invoker": "https://a.quora.com/qevents.js",
+     "duration": 11,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 14471,
+   "duration": 234,
+   "blocking": 119,
+   "scripts": [
+    {
+     "url": "https://connect.facebook.net/en_US/fbevents.js",
+     "invoker": "#document.onclick",
+     "duration": 95,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NP6K6WFW",
+     "invoker": "#document.onclick",
+     "duration": 17,
+     "forcedLayout": 1
+    },
+    {
+     "url": "https://static.ads-twitter.com/uwt.js",
+     "invoker": "#document.onclick",
+     "duration": 13,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://connect.facebook.net/en_US/fbevents.js",
+     "invoker": "#document.onclick",
+     "duration": 13,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+     "invoker": "#document.onmousedown",
+     "duration": 7,
+     "forcedLayout": 1
+    },
+    {
+     "url": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "invoker": "TimerHandler:setTimeout",
+     "duration": 5,
+     "forcedLayout": 1
+    }
+   ]
+  },
+  {
+   "start": 2673,
+   "duration": 226,
+   "blocking": 145,
+   "scripts": [
+    {
+     "url": "https://twobrothersindiashop.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.13.1.min.js",
+     "invoker": "https://twobrothersindiashop.com/cdn/shopifycloud/perf-kit/shopify-perf-kit-3.13",
+     "duration": 190,
+     "forcedLayout": 0
+    },
+    {
+     "url": "https://code.jquery.com/jquery-3.6.3.min.js",
+     "invoker": "https://code.jquery.com/jquery-3.6.3.min.js",
+     "duration": 14,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 4386,
+   "duration": 214,
+   "blocking": 163,
+   "scripts": [
+    {
+     "url": "https://www.googletagmanager.com/gtm.js?id=GTM-NP6K6WFW",
+     "invoker": "https://www.googletagmanager.com/gtm.js?id=GTM-NP6K6WFW",
+     "duration": 212,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 5027,
+   "duration": 180,
+   "blocking": 122,
+   "scripts": [
+    {
+     "url": "https://www.googletagmanager.com/gtag/js?id=GT-NBPRS4K",
+     "invoker": "https://www.googletagmanager.com/gtag/js?id=GT-NBPRS4K",
+     "duration": 170,
+     "forcedLayout": 0
+    }
+   ]
+  },
+  {
+   "start": 14714,
+   "duration": 173,
+   "blocking": 61,
+   "scripts": [
+    {
+     "url": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "invoker": "#document.onselectionchange",
+     "duration": 76,
+     "forcedLayout": 74
+    },
+    {
+     "url": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "invoker": "TimerHandler:setTimeout",
+     "duration": 61,
+     "forcedLayout": 60
+    }
+   ]
+  },
+  {
+   "start": 10054,
+   "duration": 115,
+   "blocking": 59,
+   "scripts": [
+    {
+     "url": "https://scripts.clarity.ms/0.8.72/clarity.js",
+     "invoker": "TimerHandler:setTimeout",
+     "duration": 98,
+     "forcedLayout": 91
+    }
+   ]
+  },
+  {
+   "start": 15705,
+   "duration": 127,
+   "blocking": 64,
+   "scripts": [
+    {
+     "url": "https://cdn.shopify.com/extensions/01a177ce-793b-741c-8963-814491d7f845/reelv-dev-135/assets/reels.iife.js",
+     "invoker": "MessagePort.onmessage",
+     "duration": 103,
+     "forcedLayout": 11
+    }
+   ]
+  },
+  {
+   "start": 24389,
+   "duration": 99,
+   "blocking": 30,
+   "scripts": []
+  }
+ ],
+ "renderBlocking": [
+  {
+   "url": "https://cdn.shopify.com/s/files/1/0913/8520/0976/files/component-3.0.96.js",
+   "host": "cdn.shopify.com",
+   "type": "link",
+   "duration": 50,
+   "bytes": 2286
+  },
+  {
+   "url": "https://cdn.shopify.com/s/files/1/0693/0287/8457/files/preload_asset.js",
+   "host": "cdn.shopify.com",
+   "type": "early-hints",
+   "duration": 105,
+   "bytes": 567
+  },
+  {
+   "url": "https://cdn.shopify.com/s/files/1/0693/0287/8457/files/global-script.js",
+   "host": "cdn.shopify.com",
+   "type": "early-hints",
+   "duration": 120,
+   "bytes": 1295
+  },
+  {
+   "url": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/theme.css?v=83161985300777067821793021124&enable_css_minification=1",
+   "host": "twobrothersindiashop.com",
+   "type": "early-hints",
+   "duration": 62,
+   "bytes": 43543
+  },
+  {
+   "url": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/style.css?v=170397177713024869601793021123&enable_css_minification=1",
+   "host": "twobrothersindiashop.com",
+   "type": "early-hints",
+   "duration": 75,
+   "bytes": 11193
+  },
+  {
+   "url": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/new-custom-style.css?v=97245560967009968721793021111&enable_css_minification=1",
+   "host": "twobrothersindiashop.com",
+   "type": "early-hints",
+   "duration": 79,
+   "bytes": 5633
+  },
+  {
+   "url": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/revamp-a2-new.css?v=145989442580311246331793021118&enable_css_minification=1",
+   "host": "twobrothersindiashop.com",
+   "type": "early-hints",
+   "duration": 95,
+   "bytes": 2967
+  },
+  {
+   "url": "https://cdn.moengage.com/release/dc_3/moe_webSdk_webp.min.latest.js?app_id=AZMVC26HD0FJ5TSS08ZFKROL&cluster=DC_3&debug_logs=0",
+   "host": "cdn.moengage.com",
+   "type": "early-hints",
+   "duration": 214,
+   "bytes": 0
+  }
+ ],
+ "animations": [
+  {
+   "name": "scroll",
+   "target": "div.custom-scrool-section-slide-track",
+   "props": [
+    "transform"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "ri-marq",
+   "target": "div.ri-pdp__marquee-track",
+   "props": [
+    "transform"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "ri-mem-glow",
+   "target": "div.ri-pdp__member.productmeta_ratingandmembership",
+   "props": [
+    "boxShadow"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "ri-mem-sweep",
+   "target": "div.ri-pdp__member.productmeta_ratingandmembership::after",
+   "props": [
+    "left"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "ri-mem-twinkle",
+   "target": "div.ri-pdp__member-price-wrap::before",
+   "props": [
+    "opacity",
+    "transform"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "ri-press",
+   "target": "div.ri-pdp__press-track",
+   "props": [
+    "transform"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "indexing",
+   "target": "div.ht-flip-clock-list-item-inner",
+   "props": [
+    "zIndex"
+   ],
+   "infinite": false
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  },
+  {
+   "name": "_shimmer_ea51d_71",
+   "target": "div._shimmer_ea51d_71",
+   "props": [
+    "backgroundPositionX",
+    "backgroundPositionY"
+   ],
+   "infinite": true
+  }
+ ],
+ "resources": [
+  {
+   "host": "twobrothersindiashop.com",
+   "type": "early-hints",
+   "bytes": 43543,
+   "duration": 62
+  },
+  {
+   "host": "cdn.shopify.com",
+   "type": "img",
+   "bytes": 224300,
+   "duration": 1208
+  },
+  {
+   "host": "twobrothersindiashop.com",
+   "type": "img",
+   "bytes": 198448,
+   "duration": 807
+  },
+  {
+   "host": "two-brothers-organic-farms-amorearth.myshopify.com",
+   "type": "link",
+   "bytes": 45328,
+   "duration": 164
+  },
+  {
+   "host": "code.jquery.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1324
+  },
+  {
+   "host": "bridge.shopflo.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1518
+  },
+  {
+   "host": "d24sh1msnqkirc.cloudfront.net",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1088
+  },
+  {
+   "host": "cdn.moengage.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1107
+  },
+  {
+   "host": "cdn.moengage.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1164
+  },
+  {
+   "host": "www.googletagmanager.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 1788
+  },
+  {
+   "host": "connect.facebook.net",
+   "type": "script",
+   "bytes": 0,
+   "duration": 900
+  },
+  {
+   "host": "scripts.clarity.ms",
+   "type": "script",
+   "bytes": 0,
+   "duration": 700
+  },
+  {
+   "host": "static.ads-twitter.com",
+   "type": "script",
+   "bytes": 0,
+   "duration": 600
+  }
+ ],
+ "scripts": [
+  "https://x.nitrocommerce.ai/nitro.js?_=8bbe57a56ca42d9ef0110148c858c40987ce8801",
+  "https://www.googletagmanager.com/gtag/js?id=G-FLY0M4ZV19&cx=c&gtm=4e6ar1",
+  "https://svc.nitrocommerce.ai/v1/services/shopify/886f4fff-8a01-4c62-826a-21e20f6e5354/xshopify.js?shop=two-brothers-organic-farms-amorearth.myshopify.com",
+  "https://launchers.bonb.io/rewards.js?id=EsC7RuoX5c&shop=two-brothers-organic-farms-amorearth.mys",
+  "https://launchers.bonb.io/whatsapp.js?id=ijZUmPUid-&shop=two-brothers-organic-farms-amorearth.mys",
+  "https://launchers.bonb.io/support.js?id=TTEEhE9WXt&shop=two-brothers-organic-farms-amorearth.mys",
+  "https://cdn.hextom.com/js/eventpromotionbar.js?shop=two-brothers-organic-farms-amorearth.myshopify.com",
+  "https://cdn-bundler.nice-team.net/app/js/bundler.js?shop=two-brothers-organic-farms-amorearth.myshopify.com",
+  "https://twobrothersindiashop.com/apps/buckscc/sdk.min.js?shop=two-brothers-organic-farms-amorearth.myshopify.com",
+  "https://scripts.clarity.ms/0.8.72/clarity.js",
+  "https://www.googletagmanager.com/gtag/js?id=GT-NBPRS4K&cx=c&gtm=4e6ar1",
+  "https://static.aitrillion.com/assets/membership/appfiles/aio-membership-front-min.js?v=91020262",
+  "https://snap.licdn.com/li.lms-analytics/insight.min.js",
+  "https://dcdn.aitrillion.com/aio_stats_lib_v4.min.js?v=1.5",
+  "https://static.aitrillion.com/aio-script/aio-app.js",
+  "https://a.quora.com/qevents.js",
+  "https://www.googletagmanager.com/gtag/js?id=AW-822011156&cx=c&gtm=4e6ar1",
+  "https://www.googletagmanager.com/gtag/js?id=G-W0EL8WFB2S&cx=c&gtm=4e6ar1",
+  "https://static.ads-twitter.com/uwt.js",
+  "https://connect.facebook.net/signals/config/280381829151381?v=2.9.429&r=stable&domain=twobrothersindiashop.com&hme=e7a5",
+  "https://connect.facebook.net/en_US/fbevents.js",
+  "https://www.clarity.ms/tag/iuizs43cb0",
+  "https://www.clarity.ms/tag/iz2mqoh54i",
+  "https://twobrothersindiashop.com/cdn/s/trekkie.storefront.387430da5919a2f9b410f0ffaf5b70216a61abfb.min.js",
+  "https://www.googletagmanager.com/gtm.js?id=GTM-NP6K6WFW",
+  "https://twobrothersindiashop.com/cdn/wpm/b264bf420w2e1681cap8d55857fm7d879f9cm.js",
+  "https://twobrothersindiashop.com/cdn/shopifycloud/storefront/assets/shop_events_listener-4e26a9ce.js",
+  "https://cdn.moengage.com/release/dc_3/moe_webSdk.min.latest.js",
+  "https://static.aitrillion.com/aio-script/stores/two-brothers-organic-farms-amorearth.myshopify.com.js?shop_name=two-brothers-organic-farms-amorearth.myshopify.co",
+  "https://cdn.shopify.com/extensions/01a17716-b3cc-7143-a0af-de552578b034/verifast-sales-assistant-557/assets/vf-nudge-evaluator.min.js",
+  "https://twobrothersindiashop.com/cdn/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js",
+  "https://googleads.g.doubleclick.net/pagead/viewthroughconversion/822011156/?random=1793270631558&cv=11&fst=1793270631558&bg=ffffff&guid",
+  "https://bundler.nice-team.net/app/shop/status/two-brothers-organic-farms-amorearth.myshopify.com.js?1793270635",
+  "https://www.googletagmanager.com/gtag/js?id=G-FLY0M4ZV19",
+  "https://cdn-bundler.nice-team.net/app/js/bundler-script.js?shop=two-brothers-organic-farms-amorearth.myshopify.com&def",
+  "https://cdn.shopify.com/extensions/01a177ce-793b-741c-8963-814491d7f845/reelv-dev-135/assets/swiper-bundle.min.js",
+  "https://cdn.shopify.com/extensions/01a177ce-793b-741c-8963-814491d7f845/reelv-dev-135/assets/reels.iife.js",
+  "https://vplus-plausible.qc0rcd.easypanel.host/js/script.js",
+  "https://cdn.shopify.com/s/files/1/0913/8520/0976/files/component-3.0.96.js",
+  "https://two-brothers-organic-farms-amorearth.myshopify.com/cdn/shop/files/cf-js-sdk-min.js?v=1788201213",
+  "https://cdn.shopify.com/s/files/1/0693/0287/8457/files/preload_asset.js",
+  "https://cdn.shopify.com/s/files/1/0693/0287/8457/files/global-script.js",
+  "https://twobrothersindiashop.com/cdn/shop/t/815/assets/clarity.js?v=123144132335098123621793021091&enable_js_minification=1",
+  "https://code.jquery.com/jquery-3.6.3.min.js",
+  "https://bridge.shopflo.com/js/shopflo.bundle.js",
+  "https://d24sh1msnqkirc.cloudfront.net/shopflo.bundle.js",
+  "https://cdn.moengage.com/release/dc_3/moe_webSdk_webp.min.latest.js?app_id=AZMVC26HD0FJ5TSS08ZFKROL&cluster=DC_3&debug_logs=0",
+  "https://cdn.moengage.com/release/dc_3/moe_webSdk_moe_sdk.min.latest.js?app_id=AZMVC26HD0FJ5TSS08ZFKROL&cluster=DC_3&shop=two-broth",
+  "https://cdn.moengage.com/release/dc_3/moe_webSdk_shopify.min.latest.js?app_id=AZMVC26HD0FJ5TSS08ZFKROL&shop=two-brothers-organic-f",
+  "https://cdn.shopify.com/extensions/01a18241-b12a-793d-aab3-0689dd4e6842/judgeme-833/assets/loader.js",
+  "https://twobrothersindiashop.com/cdn/shop/t/815/assets/theme.js?v=72048776524064633641793021125&enable_js_minification=1",
+  "https://checkout-merchant.snapmint.com/js/v1/8260",
+  "https://www.googletagmanager.com/gtag/js?id=G-W0EL8WFB2S",
+  "https://www.googletagmanager.com/gtag/js?id=GT-NBPRS4K",
+  "https://static-cdn.trackier.com/js/trackier-web-sdk.js",
+  "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+  "https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging.js"
+ ],
+ "images": [
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/files/TBIF_Logo_For_Domestic-2.png?v=1785484468&width=250",
+   "selector": "img.header__logo-image",
+   "inViewport": true,
+   "lazy": false,
+   "hasSize": true,
+   "natural": 230,
+   "shown": 100,
+   "dpr": 1.25,
+   "bytes": 4527
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/files/CulturedGheeIngredient1l.jpg?v=1785404214&width=900",
+   "selector": "div.ri-pdp__slide > img",
+   "inViewport": true,
+   "lazy": false,
+   "hasSize": true,
+   "natural": 900,
+   "shown": 647,
+   "dpr": 1.25,
+   "bytes": 198448
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/collective_productimg.svg?v=36040012287192316531793021093",
+   "selector": "img.aitmem_collcollectiveimg",
+   "inViewport": true,
+   "lazy": false,
+   "hasSize": false,
+   "natural": 102,
+   "shown": 102,
+   "dpr": 1.25,
+   "bytes": 1433
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/files/icons_1.png?v=1757741583&width=200",
+   "selector": "div.ri-pdp__trust-item > img",
+   "inViewport": false,
+   "lazy": true,
+   "hasSize": true,
+   "natural": 200,
+   "shown": 48,
+   "dpr": 1.25,
+   "bytes": 3459
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/press-gq.png?v=80569886986132005731793021113",
+   "selector": "img.ri-pdp__press-img",
+   "inViewport": false,
+   "lazy": true,
+   "hasSize": false,
+   "natural": 2500,
+   "shown": 100,
+   "dpr": 1.25,
+   "bytes": 33220
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/press-vogue.png?v=45238846748565954821793021114",
+   "selector": "img.ri-pdp__press-img",
+   "inViewport": false,
+   "lazy": true,
+   "hasSize": false,
+   "natural": 3840,
+   "shown": 89,
+   "dpr": 1.25,
+   "bytes": 13934
+  },
+  {
+   "src": "https://twobrothersindiashop.com/cdn/shop/t/815/assets/press-hindustan-times.jpg?v=94305559770256521751793021113",
+   "selector": "img.ri-pdp__press-img",
+   "inViewport": false,
+   "lazy": true,
+   "hasSize": false,
+   "natural": 735,
+   "shown": 188,
+   "dpr": 1.25,
+   "bytes": 14410
+  }
+ ],
+ "fonts": {
+  "files": [
+   {
+    "url": "https://twobrothersindiashop.com/cdn/fonts/montserrat/montserrat_n6.woff2",
+    "host": "twobrothersindiashop.com",
+    "bytes": 19468
+   },
+   {
+    "url": "https://twobrothersindiashop.com/cdn/fonts/inter/inter_n5.woff2",
+    "host": "twobrothersindiashop.com",
+    "bytes": 39512
+   },
+   {
+    "url": "https://cdn.shopify.com/s/files/1/2598/1404/files/gothammedium-webfont.woff2?v=1672812214",
+    "host": "cdn.shopify.com",
+    "bytes": 16628
+   },
+   {
+    "url": "https://cdn.shopify.com/s/files/1/2598/1404/files/gothambold-webfont.woff2?v=1672812076",
+    "host": "cdn.shopify.com",
+    "bytes": 13936
+   },
+   {
+    "url": "https://cdn.shopify.com/s/files/1/0662/0073/1832/files/Gotham-Book.woff2?v=1740718398",
+    "host": "cdn.shopify.com",
+    "bytes": 32316
+   }
+  ],
+  "preloaded": 2,
+  "faces": [
+   {
+    "family": "Gotham Book",
+    "display": ""
+   },
+   {
+    "family": "verveineregular",
+    "display": ""
+   },
+   {
+    "family": "JudgemeStar",
+    "display": ""
+   },
+   {
+    "family": "GothamBlack",
+    "display": ""
+   },
+   {
+    "family": "Gotham Bold",
+    "display": ""
+   },
+   {
+    "family": "Gotham Medium",
+    "display": ""
+   },
+   {
+    "family": "Montserrat",
+    "display": "swap"
+   },
+   {
+    "family": "Inter",
+    "display": "swap"
+   },
+   {
+    "family": "OpenSans",
+    "display": ""
+   }
+  ],
+  "unreadableSheets": 7
+ },
+ "errors": []
+}

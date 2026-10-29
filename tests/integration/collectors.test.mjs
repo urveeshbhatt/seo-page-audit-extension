@@ -179,3 +179,22 @@ for (const path of ['/perf-bad.html', '/perf-good.html']) {
     assert.deepEqual(errors, []);
   });
 }
+
+// ---------------- false-positive traps (found on live sites, 29 Oct 2026) ----------------
+
+test('trap page: zoom layer, closed menu, off-screen slide, inline icon font and WooCommerce data-src raise nothing', async () => {
+  const { page } = await open('/perf-traps.html');
+  const d = await page.evaluate(collectPerformance);
+  await page.close();
+  const img = (re) => d.images.find((i) => re.test(i.src));
+  // closed menu (height 0, overflow hidden) and the off-screen slide are not "in the first screen"
+  assert.ok(!img(/\?menu$/) || img(/\?menu$/).inViewport === false, 'menu image clipped');
+  assert.equal(img(/\?slide$/) && img(/\?slide$/).inViewport, false, 'slide is off screen to the right');
+  // zoom layer is invisible: not reported at all
+  assert.equal(img(/\?zoom$/), undefined, 'opacity:0 zoom layer skipped');
+  // the inline icon font is marked inline
+  assert.ok(d.fonts.faces.some((f) => f.family === 'trap-icons' && f.inline === true));
+
+  const f = byId(evaluatePerformance(d, CTX));
+  ['perf-img-lazy', 'perf-img-size', 'perf-font-display', 'perf-lcp-discovery'].forEach((id) => assert.equal(f[id], undefined, `${id}: ${f[id] && f[id].value}`));
+});

@@ -220,20 +220,37 @@ export async function collectPerformance() {
   } catch (e) { err('scripts', e); }
 
   // ---------- images ----------
+  // Only images a visitor can actually see count. Found on live sites: images in a
+  // closed menu (height 0 + overflow hidden), opacity:0 zoom layers and slider
+  // slides off screen to the right were reported as "above the fold".
   try {
     const vh = window.innerHeight;
+    const vw = window.innerWidth;
     const dpr = window.devicePixelRatio || 1;
+    const clippedAway = (el, r) => {
+      let o = el.parentElement;
+      for (let depth = 0; o && o !== document.documentElement && depth < 25; depth += 1, o = o.parentElement) {
+        const cs = getComputedStyle(o);
+        if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+        const p = o.getBoundingClientRect();
+        if (Math.min(r.right, p.right) - Math.max(r.left, p.left) < 2 || Math.min(r.bottom, p.bottom) - Math.max(r.top, p.top) < 2) return true;
+      }
+      return false;
+    };
     [...document.images].slice(0, 300).forEach((img) => {
       const rect = img.getBoundingClientRect();
       if (rect.width < 2 || rect.height < 2) return; // hidden or tracking pixel
       const style = getComputedStyle(img);
       if (style.display === 'none' || style.visibility === 'hidden') return;
+      if (img.checkVisibility ? !img.checkVisibility({ opacityProperty: true, visibilityProperty: true }) : style.opacity === '0') return;
+      if (clippedAway(img, rect)) return;
       const src = img.currentSrc || img.src || '';
       const res = resourceFor(src);
       out.images.push({
         src: clip(src, 400),
         selector: selectorOf(img),
-        inViewport: rect.top < vh && rect.bottom > 0,
+        inViewport: rect.top < vh && rect.bottom > 0 && rect.left < vw && rect.right > 0,
+        positioned: style.position === 'absolute' || style.position === 'fixed',
         lazy: (img.getAttribute('loading') || '').toLowerCase() === 'lazy',
         hasSize: (img.hasAttribute('width') && img.hasAttribute('height')) || (!!style.aspectRatio && style.aspectRatio !== 'auto'),
         natural: img.naturalWidth || 0,
@@ -257,6 +274,7 @@ export async function collectPerformance() {
           out.fonts.faces.push({
             family: clip(rule.style.getPropertyValue('font-family').replace(/["']/g, '').trim(), 80),
             display: clip(rule.style.getPropertyValue('font-display').trim(), 20),
+            inline: /url\(\s*["']?data:/i.test(rule.style.getPropertyValue('src')), // never downloaded
           });
         } else if (rule.cssRules) walk(rule.cssRules, depth + 1);
       });

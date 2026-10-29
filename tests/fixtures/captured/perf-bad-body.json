@@ -1,0 +1,100 @@
+{
+ "url": "http://127.0.0.1:8080/perf-bad.html",
+ "viewportHeight": 800,
+ "renderedWords": 19,
+ "visiblePrices": [
+  "999"
+ ],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 0,
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 2894,
+  "words": 15,
+  "tests": [
+   {
+    "kind": "H1",
+    "text": "A2 Desi Cow Ghee",
+    "inRaw": true
+   },
+   {
+    "kind": "Price",
+    "text": "₹999",
+    "inRaw": true
+   }
+  ],
+  "linkCount": 1,
+  "h1Count": 1,
+  "xRobots": "",
+  "jsonldCount": 0,
+  "jsonldTypes": []
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "A2 Desi Cow Ghee",
+   "visible": true
+  }
+ ],
+ "headingTotal": 1,
+ "images": [
+  {
+   "src": "http://127.0.0.1:8080/img/hero.png?delay=300",
+   "file": "hero.png",
+   "hasAltAttr": true,
+   "alt": "Ghee jar",
+   "tracker": false,
+   "lazy": true,
+   "fetchpriority": "",
+   "aboveFold": true,
+   "visible": true,
+   "shownWidth": 900,
+   "naturalWidth": 1000,
+   "hasWidthHeight": false,
+   "decorativeHint": false
+  },
+  {
+   "src": "http://127.0.0.1:8080/img/small.png?delay=200",
+   "file": "small.png",
+   "hasAltAttr": true,
+   "alt": "Small jar",
+   "tracker": false,
+   "lazy": false,
+   "fetchpriority": "",
+   "aboveFold": false,
+   "visible": true,
+   "shownWidth": 300,
+   "naturalWidth": 300,
+   "hasWidthHeight": false,
+   "decorativeHint": false
+  }
+ ],
+ "imageTotal": 2,
+ "links": [
+  {
+   "href": "/perf-good.html",
+   "hasHref": true,
+   "text": "Home",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  }
+ ],
+ "linkTotal": 1,
+ "linkHrefTotal": 1,
+ "placeholders": [],
+ "collectedAt": "2026-10-29T11:35:39.868Z"
+}

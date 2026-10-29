@@ -1,8 +1,9 @@
 // Fuzz tests: feed every rules module thousands of damaged copies of real
 // captures (missing keys, null, wrong types, HTML strings, __proto__).
-// Found while trying to break the extension (v1.5.0): older modules crash on
-// unexpected shapes, so the side panel judges every section through
-// safeEvaluate(), which turns a crash into one "could not judge" finding.
+// Found while trying to break the extension (v1.5.0): older modules crashed on
+// unexpected shapes. Now every evaluate*() first puts its input into the shape
+// the rules expect (conform + schemas), and the side panel still judges each
+// section through safeEvaluate() as a last line of defence.
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -78,12 +79,36 @@ const CASES = [
   ['head', evaluateHead, ['buranshvalley-product-head', 'regus-mumbai-head'], () => undefined],
   ['body', evaluateBody, ['buranshvalley-product-body', 'regus-mumbai-body'], (f) => fx(f.replace('body', 'head'))],
   ['health', evaluateHealth, ['buranshvalley-product-health', 'regus-mumbai-health'], () => undefined],
-  ['business', evaluateBusiness, ['buranshvalley-product-signals', 'regus-mumbai-signals'], () => undefined],
-  ['network', evaluateNetwork, ['buranshvalley-product-network', 'regus-mumbai-network'], () => ({ head: null, redirects: null })],
-  ['rendering', evaluateRendering, ['buranshvalley-product-rendering', 'regus-mumbai-rendering'], () => ({ network: null })],
+  ['business', evaluateBusiness, ['buranshvalley-product-signals', 'regus-mumbai-signals', 'synthetic-saas-signals', 'synthetic-affiliate-ymyl-signals'], () => undefined],
+  ['network', evaluateNetwork, ['buranshvalley-product-network', 'regus-mumbai-network'], (f) => ({ head: fx(f.replace('network', 'head')), redirects: null })],
+  ['rendering', evaluateRendering, ['buranshvalley-product-rendering', 'regus-mumbai-rendering'], (f) => ({ network: fx(f.replace('rendering', 'network')) })],
 ];
 
 for (const [name, evaluate, files, extraFor] of CASES) {
+  test(`${name}: 2,000 damaged captures never crash the rules (no safety net needed)`, () => {
+    const rnd = rng(11);
+    const crashes = new Map();
+    files.forEach((file) => {
+      const base = fx(file);
+      for (let i = 0; i < 1000; i += 1) {
+        const extra = extraFor(file);
+        const damagedExtra = extra && rnd() < 0.3 ? mutate(extra, rnd) : extra;
+        try {
+          const r = evaluate(mutate(base, rnd), [CTX, {}, { pageType: 'location', status: 'prelaunch', model: 'b2b', ymyl: true }][i % 3], damagedExtra);
+          const n = r.groups.flatMap((g) => g.findings).length;
+          assert.equal(Object.values(r.counts).reduce((a, b) => a + b, 0), n);
+          r.groups.flatMap((g) => g.findings).forEach((f) => assert.equal(typeof f.value, 'string'));
+        } catch (e) {
+          const where = ((e.stack || '').split('\n').find((l) => l.includes('/modules/')) || '').replace(/.*modules\//, '').replace(/\)$/, '');
+          const key = `${where} :: ${String(e.message).slice(0, 80)}`;
+          crashes.set(key, (crashes.get(key) || 0) + 1);
+        }
+      }
+    });
+    assert.deepEqual([...crashes.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10), [], `${name} crashed`);
+    assert.equal(({}).polluted, undefined);
+  });
+
   test(`${name}: through safeEvaluate, 800 damaged captures always give a well-formed section`, () => {
     const rnd = rng(7);
     let crashes = 0;
@@ -97,7 +122,6 @@ for (const [name, evaluate, files, extraFor] of CASES) {
         if (r.error) crashes += 1;
       }
     });
-    // Not a pass/fail target: recorded so the hardening work can be tracked.
-    console.log(`# fuzz ${name}: ${crashes}/800 inputs needed the safety net`);
+    assert.equal(crashes, 0, `${name}: ${crashes}/800 inputs needed the safety net`);
   });
 }

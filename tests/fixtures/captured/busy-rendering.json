@@ -1,0 +1,83 @@
+{
+ "url": "http://127.0.0.1:8080/busy.html",
+ "collectedAt": "2026-10-29T11:35:48.428Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 342,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 326,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 1,
+  "rendered": 1
+ },
+ "meta": {
+  "raw": {
+   "title": "Busy page fixture: main thread almost always busy",
+   "description": null,
+   "canonical": null,
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "Busy"
+   ]
+  },
+  "rendered": {
+   "title": "Busy page fixture: main thread almost always busy",
+   "description": null,
+   "canonical": null,
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "Busy"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [],
+  "rendered": [],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": null,
+ "links": {
+  "raw": 0,
+  "rendered": 0,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [],
+ "errors": []
+}

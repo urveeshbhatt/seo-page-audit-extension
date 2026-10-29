@@ -1,0 +1,83 @@
+{
+ "url": "http://127.0.0.1:8080/quirks.html",
+ "collectedAt": "2026-10-29T11:35:44.638Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 90,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 133,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 8,
+  "rendered": 8
+ },
+ "meta": {
+  "raw": {
+   "title": "Quirks fixture page without doctype",
+   "description": null,
+   "canonical": null,
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": null,
+   "h1": [
+    "Quirks"
+   ]
+  },
+  "rendered": {
+   "title": "Quirks fixture page without doctype",
+   "description": null,
+   "canonical": null,
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": null,
+   "h1": [
+    "Quirks"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [],
+  "rendered": [],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": null,
+ "links": {
+  "raw": 0,
+  "rendered": 0,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [],
+ "errors": []
+}

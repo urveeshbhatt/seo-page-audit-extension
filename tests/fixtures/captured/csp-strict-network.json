@@ -1,0 +1,93 @@
+{
+ "url": "http://127.0.0.1:8080/csp-strict.html",
+ "origin": "http://127.0.0.1:8080",
+ "host": "127.0.0.1",
+ "collectedAt": "2026-10-29T11:35:45.964Z",
+ "renderedBytes": 346,
+ "nav": {
+  "type": "navigate",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "http/1.1",
+  "dns": 0,
+  "connect": 0,
+  "ssl": 0,
+  "ttfb": 4,
+  "download": 1,
+  "transferSize": 664,
+  "encodedBodySize": 364,
+  "decodedBodySize": 364,
+  "fromCache": false,
+  "domContentLoaded": 24,
+  "load": 25
+ },
+ "doc": null,
+ "warm": [
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  },
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  },
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  }
+ ],
+ "cold": [
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  },
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  },
+  {
+   "status": 0,
+   "error": "TypeError: Failed to fetch"
+  }
+ ],
+ "resources": {
+  "count": 1,
+  "entries": [
+   {
+    "host": "127.0.0.1",
+    "name": "small.png",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "http/1.1",
+    "encoded": 489,
+    "decoded": 489,
+    "duration": 7,
+    "start": 14
+   }
+  ]
+ },
+ "robots": {
+  "status": 0,
+  "error": "TypeError: Failed to fetch"
+ },
+ "llms": {
+  "status": 0,
+  "error": "TypeError: Failed to fetch"
+ },
+ "sitemap": {
+  "declared": [],
+  "declaredOffsite": 0,
+  "url": "",
+  "status": 0,
+  "isIndex": false,
+  "children": 0,
+  "filesRead": 0,
+  "urls": 0,
+  "lastmod": null,
+  "samples": [],
+  "challenged": 0
+ },
+ "errors": [
+  "page fetch: TypeError: Failed to fetch"
+ ]
+}

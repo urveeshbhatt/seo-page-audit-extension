@@ -1,0 +1,69 @@
+{
+ "url": "http://127.0.0.1:8080/csp-strict.html",
+ "collectedAt": "2026-10-29T11:35:45.973Z",
+ "raw": {
+  "ok": false,
+  "reason": "Could not fetch raw HTML: Failed to fetch",
+  "bytes": 0,
+  "challenge": false
+ },
+ "renderedBytes": 346,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 0,
+  "rendered": 3
+ },
+ "meta": {
+  "raw": {},
+  "rendered": {
+   "title": "Strict CSP fixture page: connect-src none",
+   "description": "Served with a Content-Security-Policy that blocks fetch, scripts and inline styles.",
+   "canonical": null,
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "Strict CSP"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [],
+  "rendered": [],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": null,
+ "links": {
+  "raw": 0,
+  "rendered": 0,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [],
+ "errors": []
+}

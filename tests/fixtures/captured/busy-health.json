@@ -1,0 +1,40 @@
+{
+ "url": "http://127.0.0.1:8080/busy.html",
+ "dom": {
+  "nodes": 7,
+  "maxDepth": 2,
+  "maxChildren": 2,
+  "maxChildrenAt": "html",
+  "htmlBytes": 326
+ },
+ "comments": [],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 4,
+ "cssText": [],
+ "shadow": {
+  "open": 0,
+  "openWithText": 0,
+  "customElements": 0,
+  "emptyCustom": []
+ },
+ "iframes": [],
+ "resources": {
+  "scripts": 1,
+  "externalScripts": 0,
+  "inlineScriptKB": 0,
+  "stylesheets": 0,
+  "blockingCss": 0,
+  "blockingScripts": [],
+  "blockingScriptCount": 0
+ },
+ "generator": [],
+ "stack": [],
+ "tags": {
+  "gtm": [],
+  "ga4": [],
+  "ua": [],
+  "aw": []
+ },
+ "collectedAt": "2026-10-29T11:35:47.629Z"
+}

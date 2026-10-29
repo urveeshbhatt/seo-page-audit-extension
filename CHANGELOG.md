@@ -26,9 +26,16 @@ New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and c
 - **Manifest description was longer than the Chrome Web Store limit (132 characters).** Shortened; a packaging test now checks limits, versions, permissions and CSP
 - **Health tab advised "turn on CSS Combine" for LiteSpeed.** On Buranshvalley that made one late file and CLS 0.838. It now advises Load CSS Asynchronously + Generate Critical CSS and warns about Combine
 
+### Hardened: all rules modules survive bad data
+
+- Fuzz testing found ~180 places where the older rules (Head, Body, Health, Business, Network, Rendering) crashed on a wrong type, a missing key or an odd value. Every `evaluate*()` now first passes its input through `conform()` with a schema of that collector's output (`modules/schemas.js`), so arrays are arrays, text is text and missing keys get a safe default. Where a collector sends `null` on purpose (Network timings, Rendering meta tags), `null` is kept
+- Schemas are inferred from 50 real captures: the live Buranshvalley, Regus and Two Brothers pages plus every collector run on six local test pages (`npm run capture`, `npm run build:schemas`). A test proves `conform()` returns real captures unchanged, and another fails if the schemas fall out of date
+- Two value bugs fixed: a heading level outside 1–6 crashed the outline, and an unreadable page URL crashed the canonical check
+- Result: 0 crashes in 12,000 damaged inputs per run, and 0 under a harsher run (20% of keys dropped, 25% replaced with junk). `safeEvaluate()` stays in the side panel as a last line of defence
+
 ### Tests
 
-- 128 unit, golden, fuzz and packaging tests (`npm test`) and 22 integration tests in real Chromium (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
+- 139 unit, golden, fuzz, schema and packaging tests (`npm test`) and 22 integration tests in real Chromium (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
 
 ## 1.4.1 (fix)
 

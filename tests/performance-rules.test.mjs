@@ -502,3 +502,57 @@ test('Chrome keeps only 150 layout shifts: the tab says CLS may be higher', () =
   assert.match(f['perf-cls-limit'].why, /150/);
   assert.equal(byId(evaluatePerformance(base(), LIVE_PRODUCT))['perf-cls-limit'], undefined);
 });
+
+// ---------------- false positives found by verifying on live sites (29 Oct 2026) ----------------
+
+test('WooCommerce data-src (zoom image) on an LCP image that loaded fast is not "found late"', () => {
+  // Buranshvalley: data-src holds the full-size zoom image; src loads 75 ms after TTFB
+  const d = base();
+  d.lcp.img.dataSrc = true;
+  d.lcp.img.preloaded = false;
+  d.lcp.resource = { startTime: 440, requestStart: 459, responseEnd: 545 };
+  d.nav.ttfb = 384;
+  assert.equal(byId(evaluatePerformance(d, LIVE_PRODUCT))['perf-lcp-discovery'], undefined);
+});
+
+test('icon fonts inlined as data: URIs are not asked for font-display (never downloaded)', () => {
+  const d = base();
+  d.fonts = { files: [], preloaded: 0, faces: [{ family: 'swiper-icons', display: '', inline: true }, { family: 'Gotham Book', display: '' }] };
+  const f = byId(evaluatePerformance(d, LIVE_PRODUCT));
+  assert.match(f['perf-font-display'].value, /Gotham Book/);
+  assert.doesNotMatch(f['perf-font-display'].value, /swiper-icons/);
+  d.fonts.faces = [{ family: 'swiper-icons', display: '', inline: true }];
+  assert.equal(byId(evaluatePerformance(d, LIVE_PRODUCT))['perf-font-display'], undefined);
+});
+
+test('absolutely positioned or fixed images without size are not a CLS risk', () => {
+  const d = base();
+  d.images = [{ src: 'https://shop.example.com/zoom.jpg', selector: 'img.zoomImg', inViewport: true, lazy: false, hasSize: false, positioned: true, natural: 1200, shown: 1200, dpr: 1, bytes: 0 }];
+  assert.equal(byId(evaluatePerformance(d, LIVE_PRODUCT))['perf-img-size'], undefined);
+});
+
+test('"larger than shown" needs at least 2x the pixels and 200 px extra (no noise from small thumbnails)', () => {
+  const d = base();
+  d.images = [
+    { src: 'https://x.example.com/thumb.jpg', selector: 'img.t', inViewport: false, lazy: true, hasSize: true, natural: 120, shown: 50, dpr: 1.25, bytes: 11000 },
+    { src: 'https://x.example.com/big.jpg', selector: 'img.b', inViewport: false, lazy: true, hasSize: true, natural: 2500, shown: 100, dpr: 1.25, bytes: 33000 },
+  ];
+  const f = byId(evaluatePerformance(d, LIVE_PRODUCT));
+  assert.equal(f['perf-img-big'].items.length, 1);
+  assert.match(f['perf-img-big'].items[0], /^big\.jpg/);
+});
+
+test('any Google tag ID loaded twice is reported (Graza: Google Ads AW- tag)', () => {
+  const dup = findDuplicateTags([
+    'https://www.googletagmanager.com/gtag/js?id=G-7KEN5CH0ML',
+    'https://www.googletagmanager.com/gtag/js?id=AW-11067507227',
+    'https://www.googletagmanager.com/gtag/js?id=AW-11067507227&l=dataLayer',
+    'https://www.googletagmanager.com/gtag/js?id=GT-TBZ6CX7',
+  ]);
+  assert.deepEqual(dup.gtagRepeated, ['AW-11067507227']);
+  const d = base();
+  d.scripts = ['https://www.googletagmanager.com/gtag/js?id=G-7KEN5CH0ML', 'https://www.googletagmanager.com/gtag/js?id=AW-11067507227', 'https://www.googletagmanager.com/gtag/js?id=AW-11067507227&cx=c'];
+  const f = byId(evaluatePerformance(d, LIVE_PRODUCT));
+  assert.match(f['perf-dup-tags'].value, /Google tag loaded twice/);
+  assert.ok(f['perf-dup-tags'].items.includes('Loaded twice: AW-11067507227'));
+});

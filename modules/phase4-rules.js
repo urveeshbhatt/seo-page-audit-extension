@@ -203,6 +203,8 @@ export function findDuplicateTags(urls) {
     gtm: uniqSorted(idsOf(/[?&]id=(GTM-[A-Z0-9]+)/i)),
     clarity: uniqSorted(idsOf(/clarity\.ms\/tag\/([a-z0-9]+)/i)),
     metaPixel: uniqSorted(idsOf(/signals\/config\/(\d+)/)),
+    // any Google tag (GA4, Google Ads, Google tag, Floodlight) requested by more than one script URL
+    gtagRepeated: repeated(idsOf(/gtag\/js\?(?:[^#]*&)?id=((?:G|AW|GT|DC|UA)-[A-Z0-9-]+)/i)),
     sameScript: [...counts.entries()].filter(([, n]) => n > 1).map(([u]) => u).sort(),
   };
 }
@@ -304,7 +306,9 @@ function lcpFindings(d, ctx) {
       if (targets.length) f.targets = targets;
       out.push(f);
     }
-    if (img.dataSrc || (parts.loadDelay > 500 && !img.preloaded)) {
+    // data-src alone proves nothing: WooCommerce keeps the zoom file there while
+    // src loads normally (Buranshvalley). A JS lazy-loader shows as a long delay.
+    if ((img.dataSrc && parts.loadDelay > 300) || (parts.loadDelay > 500 && !img.preloaded)) {
       const f = finding('perf-lcp-discovery', 'LCP image found late', `load delay ${fmt(parts.loadDelay)} ms${img.dataSrc ? ' · uses data-src' : ''}`, 'warning',
         `The browser started downloading the LCP image ${fmt(parts.loadDelay)} ms after the HTML arrived.${img.dataSrc ? ' It uses data-src (JavaScript lazy-load), which hides it from the HTML parser.' : ''} Use a normal src in the HTML, or add <link rel="preload" as="image" fetchpriority="high"> in <head>.`);
       if (targets.length) f.targets = targets;
@@ -476,6 +480,8 @@ function thirdPartyFindings(d) {
   const parts = [];
   const items = [];
   if (dup.ga4.length > 1 || dup.ga4Repeated.length) { parts.push(`${dup.ga4.length} GA4 ID${dup.ga4.length === 1 ? '' : 's'}${dup.ga4Repeated.length ? ' (loaded twice)' : ''}`); items.push(`GA4: ${dup.ga4.join(', ')}`); }
+  const otherGoogle = dup.gtagRepeated.filter((id) => !/^G-/i.test(id));
+  if (otherGoogle.length) { parts.push(`${otherGoogle.length} Google tag${otherGoogle.length === 1 ? '' : 's'} loaded twice`); otherGoogle.forEach((id) => items.push(`Loaded twice: ${id}`)); }
   if (dup.gtm.length > 1) { parts.push(`${dup.gtm.length} GTM containers`); items.push(`GTM: ${dup.gtm.join(', ')}`); }
   if (dup.clarity.length > 1) { parts.push(`${dup.clarity.length} Clarity projects`); items.push(`Clarity: ${dup.clarity.join(', ')}`); }
   if (dup.metaPixel.length > 1) { parts.push(`${dup.metaPixel.length} Meta pixels`); items.push(`Meta Pixel: ${dup.metaPixel.join(', ')}`); }
@@ -500,7 +506,8 @@ function imageFindings(d) {
     f.targets = cssT(lazyTop.map((i) => i.selector));
     out.push(f);
   }
-  const unsized = imgs.filter((i) => !i.hasSize && !svg(i));
+  // absolute / fixed images (zoom layers, overlays) do not push other content
+  const unsized = imgs.filter((i) => !i.hasSize && !svg(i) && !i.positioned);
   if (unsized.length) {
     const f = finding('perf-img-size', 'Images without size', `${plural(unsized.length, 'image')} without width/height`, 'warning',
       'No width and height attributes (and no CSS aspect-ratio), so the browser cannot reserve space and the layout jumps when the image arrives (CLS). Add width/height to the <img> (WordPress does this for media-library images) or aspect-ratio in CSS. Placeholder and theme images are the usual gaps.',
@@ -508,7 +515,12 @@ function imageFindings(d) {
     f.targets = cssT(unsized.map((i) => i.selector));
     out.push(f);
   }
-  const big = imgs.filter((i) => !svg(i) && num(i.natural) > 0 && num(i.shown) > 0 && i.natural > i.shown * (num(i.dpr) || 1) * 1.5);
+  // at least 2x the pixels needed and 200 px extra, so small thumbnails are not noise
+  const big = imgs.filter((i) => {
+    if (svg(i) || !(num(i.natural) > 0) || !(num(i.shown) > 0)) return false;
+    const needed = i.shown * (num(i.dpr) || 1);
+    return i.natural >= needed * 2 && i.natural - needed >= 200;
+  });
   if (big.length) {
     const f = finding('perf-img-big', 'Images larger than shown', plural(big.length, 'image'), 'info',
       'The file is much wider than its display size on this screen, so visitors download pixels they never see. Use srcset/sizes (WordPress adds them for media-library images) or upload a smaller version. Check on mobile width too.',
@@ -531,7 +543,8 @@ function fontFindings(d) {
       'Every weight and style is a separate download that can delay text and shift layout when it swaps in. Keep 2–3 files (regular, bold), self-host them, and preload only the one used in the first screen.',
       null, [...hosts.map((h) => `host: ${h}`), ...files.slice(0, 20).map((f) => fileOf(f.url))]));
   }
-  const bad = arr(fonts.faces).filter((f) => f && f.family && (!f.display || /^(auto|block)$/i.test(f.display)));
+  // inline data: fonts (icon fonts like swiper-icons) are never downloaded
+  const bad = arr(fonts.faces).filter((f) => f && f.family && !f.inline && (!f.display || /^(auto|block)$/i.test(f.display)));
   if (bad.length) {
     const names = [...new Set(bad.map((f) => `${f.family} (${f.display || 'not set'})`))];
     out.push(finding('perf-font-display', 'font-display', names.slice(0, 5).join(', '), 'warning',

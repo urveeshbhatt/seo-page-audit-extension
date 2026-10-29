@@ -33,9 +33,20 @@ New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and c
 - Two value bugs fixed: a heading level outside 1–6 crashed the outline, and an unreadable page URL crashed the canonical check
 - Result: 0 crashes in 12,000 damaged inputs per run, and 0 under a harsher run (20% of keys dropped, 25% replaced with junk). `safeEvaluate()` stays in the side panel as a last line of defence
 
+### Fixed after verifying on live sites (Two Brothers, Buranshvalley, Brightland, Graza, example.com)
+
+The extension's own code was run on five live sites and every finding was checked against the browser's raw data. Real problems matched (layout animation, LCP element, render-blocking files, duplicate scripts, INP). Five false alarms and one miss were fixed:
+
+- **"LCP image found late" because of `data-src`**: WooCommerce keeps the zoom file in `data-src` while `src` loads normally. Now flagged only when the image really started late
+- **Images in a closed menu or a slider slide off screen reported as "above the fold"**: images clipped by a parent with `overflow: hidden`, hidden with `opacity: 0`, or off screen to the left/right are no longer counted
+- **Zoom layers reported as "images without size"**: `position: absolute/fixed` images cannot push content, so they are skipped
+- **Icon fonts inlined as `data:` URIs asked for `font-display`**: they are never downloaded, so they are skipped (as in Lighthouse)
+- **"Larger than shown" listed 127 small thumbnails**: now needs at least 2x the pixels and 200 px extra
+- **Missed: Google Ads `AW-` tag loaded twice**: any Google tag ID (G-, AW-, GT-, DC-) requested twice is now reported
+
 ### Tests
 
-- 139 unit, golden, fuzz, schema and packaging tests (`npm test`) and 22 integration tests in real Chromium (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
+- 144 unit, golden, fuzz, schema and packaging tests (`npm test`) and 23 integration tests in real Chromium (including a page of false-positive traps) (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
 
 ## 1.4.1 (fix)
 

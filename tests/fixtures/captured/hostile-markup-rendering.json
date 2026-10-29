@@ -1,0 +1,109 @@
+{
+ "url": "http://127.0.0.1:8080/hostile-markup.html",
+ "collectedAt": "2026-10-29T11:35:43.263Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 1847,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 21880,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 17,
+  "rendered": 17
+ },
+ "meta": {
+  "raw": {
+   "title": "<img src=x onerror=window.__pwned=1>\"quotes\" & ampersand 🔥 مرحبا",
+   "description": "<script>window.__pwned=2</script>",
+   "canonical": "javascript:alert(1)",
+   "robots": "index, follow",
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "Price ₹999 /* inline in h1 */"
+   ]
+  },
+  "rendered": {
+   "title": "<img src=x onerror=window.__pwned=1>\"quotes\" & ampersand 🔥 مرحبا xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "description": "<script>window.__pwned=2</script>",
+   "canonical": "javascript:alert(1)",
+   "robots": "index, follow",
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "Price ₹999 /* inline in h1 */"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [
+   "Product",
+   "Offer"
+  ],
+  "rendered": [
+   "Product",
+   "Offer"
+  ],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 1
+ },
+ "facts": {
+  "prices": [
+   {
+    "key": "price",
+    "value": "999",
+    "currency": "INR",
+    "availability": "",
+    "visible": true,
+    "inRawText": true
+   }
+  ],
+  "availability": "",
+  "stockTextVisible": false,
+  "buyButton": false
+ },
+ "links": {
+  "raw": 1,
+  "rendered": 1,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [
+  {
+   "tag": "div",
+   "text": "weird ids and classes",
+   "target": "javascript:alert(1)"
+  }
+ ],
+ "errors": []
+}

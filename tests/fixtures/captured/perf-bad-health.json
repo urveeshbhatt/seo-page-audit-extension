@@ -1,0 +1,55 @@
+{
+ "url": "http://127.0.0.1:8080/perf-bad.html",
+ "dom": {
+  "nodes": 27,
+  "maxDepth": 4,
+  "maxChildren": 7,
+  "maxChildrenAt": "main",
+  "htmlBytes": 2976
+ },
+ "comments": [
+  "render-blocking: slow first-party CSS and a slow third-party SDK without async/defer",
+  "duplicate tags: two GA4 IDs and one script loaded twice",
+  "LCP image, lazy-loaded (bad) and slow",
+  "no width/height: the layout jumps when it loads"
+ ],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 107,
+ "cssText": [],
+ "shadow": {
+  "open": 0,
+  "openWithText": 0,
+  "customElements": 0,
+  "emptyCustom": []
+ },
+ "iframes": [],
+ "resources": {
+  "scripts": 6,
+  "externalScripts": 5,
+  "inlineScriptKB": 0,
+  "stylesheets": 1,
+  "blockingCss": 1,
+  "blockingScripts": [
+   "localhost:8080/vendor.js"
+  ],
+  "blockingScriptCount": 1
+ },
+ "generator": [],
+ "stack": [
+  {
+   "name": "Google Analytics 4",
+   "group": "tracking"
+  }
+ ],
+ "tags": {
+  "gtm": [],
+  "ga4": [
+   "G-AAA111",
+   "G-BBB222"
+  ],
+  "ua": [],
+  "aw": []
+ },
+ "collectedAt": "2026-10-29T11:35:39.892Z"
+}

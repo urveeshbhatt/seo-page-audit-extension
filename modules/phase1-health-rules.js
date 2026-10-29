@@ -3,6 +3,8 @@
 // Runs in the side panel. Pure functions, no DOM.
 
 import { finding, plural, isPrelaunch } from './phase1-rules.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 const short = (s, n = 70) => (s && s.length > n ? `${s.slice(0, n - 1)}…` : s || '');
 const kb = (bytes) => `${Math.round(bytes / 1024)} KB`;
@@ -245,7 +247,9 @@ function commentFindings(d) {
 
 // ---------------- public ----------------
 
-export function evaluateHealth(d, ctx) {
+export function evaluateHealth(data, context) {
+  const d = conform(data, SCHEMAS.health);
+  const ctx = contextOf(context);
   const groups = [
     { id: 'hidden', title: 'Hidden content', findings: [...hiddenFindings(d), ...cssTextFindings(d), ...shadowFindings(d)] },
     { id: 'dom', title: 'DOM size', findings: domFindings(d) },

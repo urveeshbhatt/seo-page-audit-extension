@@ -1,0 +1,261 @@
+{
+ "url": "http://127.0.0.1:8080/perf-bad.html",
+ "origin": "http://127.0.0.1:8080",
+ "host": "127.0.0.1",
+ "collectedAt": "2026-10-29T11:35:39.927Z",
+ "renderedBytes": 2976,
+ "nav": {
+  "type": "navigate",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "http/1.1",
+  "dns": 0,
+  "connect": 2,
+  "ssl": 0,
+  "ttfb": 9,
+  "download": 3,
+  "transferSize": 3196,
+  "encodedBodySize": 2896,
+  "decodedBodySize": 2896,
+  "fromCache": false,
+  "domContentLoaded": 730,
+  "load": 733
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/perf-bad.html",
+  "headers": {
+   "cache-control": "no-store",
+   "connection": "keep-alive",
+   "content-type": "text/html; charset=utf-8",
+   "date": "Thu, 29 Oct 2026 11:35:39 GMT",
+   "keep-alive": "timeout=5",
+   "transfer-encoding": "chunked"
+  },
+  "bytes": 2894,
+  "encoded": 2896,
+  "decoded": 2896,
+  "challengeHint": ""
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 3,
+   "ttfbSource": "timing",
+   "total": 32,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 2,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 3,
+   "ttfbSource": "timing",
+   "total": 8,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 2,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "resources": {
+  "count": 10,
+  "entries": [
+   {
+    "host": "127.0.0.1",
+    "name": "slow.css",
+    "type": "css",
+    "initiator": "link",
+    "protocol": "http/1.1",
+    "encoded": 37,
+    "decoded": 37,
+    "duration": 414,
+    "start": 50
+   },
+   {
+    "host": "localhost",
+    "name": "vendor.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 313,
+    "start": 54
+   },
+   {
+    "host": "localhost",
+    "name": "js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 320,
+    "start": 54
+   },
+   {
+    "host": "localhost",
+    "name": "js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 325,
+    "start": 56
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "dup.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "http/1.1",
+    "encoded": 47,
+    "decoded": 47,
+    "duration": 328,
+    "start": 56
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "small.png",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "http/1.1",
+    "encoded": 489,
+    "decoded": 489,
+    "duration": 211,
+    "start": 57
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "dup.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "http/1.1",
+    "encoded": 47,
+    "decoded": 47,
+    "duration": 4,
+    "start": 473
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "font.woff2",
+    "type": "font",
+    "initiator": "css",
+    "protocol": "http/1.1",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 71,
+    "start": 496
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "hero.png",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "http/1.1",
+    "encoded": 4348,
+    "decoded": 4348,
+    "duration": 308,
+    "start": 560
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "perf-bad.html",
+    "type": "fetch",
+    "initiator": "fetch",
+    "protocol": "http/1.1",
+    "encoded": 2896,
+    "decoded": 2896,
+    "duration": 5,
+    "start": 1998
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain",
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/robots.txt",
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+ },
+ "llms": {
+  "status": 404,
+  "contentType": "text/plain",
+  "start": "not found",
+  "looksLikeHtml": false
+ },
+ "sitemap": {
+  "declared": [
+   "/sitemap.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "",
+  "status": 404,
+  "isIndex": false,
+  "children": 0,
+  "filesRead": 0,
+  "urls": 0,
+  "lastmod": null,
+  "samples": [],
+  "challenged": 0
+ },
+ "errors": []
+}

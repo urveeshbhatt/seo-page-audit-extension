@@ -1,0 +1,28 @@
+{
+ "url": "http://127.0.0.1:8080/quirks.html",
+ "origin": "http://127.0.0.1:8080",
+ "path": "/quirks.html",
+ "robots": [],
+ "googlebot": [],
+ "canonicals": [],
+ "viewport": [],
+ "title": "Quirks fixture page without doctype",
+ "titleCount": 1,
+ "descriptions": [],
+ "og": [],
+ "twitterCount": 0,
+ "jsonld": {
+  "scriptCount": 0,
+  "parseErrors": 0,
+  "types": [],
+  "products": []
+ },
+ "lang": "",
+ "hreflang": [],
+ "extras": {
+  "metaKeywords": "",
+  "favicon": false,
+  "preconnect": []
+ },
+ "collectedAt": "2026-10-29T11:35:44.559Z"
+}

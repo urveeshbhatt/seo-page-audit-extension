@@ -1,0 +1,40 @@
+{
+ "url": "http://127.0.0.1:8080/perf-good.html",
+ "dom": {
+  "nodes": 19,
+  "maxDepth": 4,
+  "maxChildren": 5,
+  "maxChildrenAt": "main",
+  "htmlBytes": 1450
+ },
+ "comments": [],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 91,
+ "cssText": [],
+ "shadow": {
+  "open": 0,
+  "openWithText": 0,
+  "customElements": 0,
+  "emptyCustom": []
+ },
+ "iframes": [],
+ "resources": {
+  "scripts": 0,
+  "externalScripts": 0,
+  "inlineScriptKB": 0,
+  "stylesheets": 0,
+  "blockingCss": 0,
+  "blockingScripts": [],
+  "blockingScriptCount": 0
+ },
+ "generator": [],
+ "stack": [],
+ "tags": {
+  "gtm": [],
+  "ga4": [],
+  "ua": [],
+  "aw": []
+ },
+ "collectedAt": "2026-10-29T11:35:41.400Z"
+}

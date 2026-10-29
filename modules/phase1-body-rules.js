@@ -3,6 +3,8 @@
 // plus optional `items` (a short list the UI shows under "Show details").
 
 import { REVENUE_TYPES, finding, plural, isPrelaunch } from './phase1-rules.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 const isRevenue = (ctx) => REVENUE_TYPES.has(ctx && ctx.pageType);
 const short = (s, n = 70) => (s && s.length > n ? `${s.slice(0, n - 1)}…` : s || '');
@@ -145,7 +147,8 @@ function headingFindings(d, ctx) {
   const out = [];
   const h = d.headings || [];
   const h1s = h.filter((x) => x.level === 1 && x.visible);
-  const outline = h.map((x) => `${'  '.repeat(x.level - 1)}H${x.level}${x.visible ? '' : ' (hidden)'}: ${x.text || '(empty)'}`);
+  const indent = (level) => '  '.repeat(Math.min(5, Math.max(0, (Number.isFinite(level) ? Math.round(level) : 1) - 1)));
+  const outline = h.map((x) => `${indent(x.level)}H${x.level}${x.visible ? '' : ' (hidden)'}: ${x.text || '(empty)'}`);
 
   if (h1s.length === 0) {
     out.push(finding('h1', 'H1', '0 visible', isRevenue(ctx) ? 'critical' : 'warning', 'No visible H1. Add one heading that names what this page sells or answers.'));
@@ -395,7 +398,10 @@ function placeholderFindings(d, ctx) {
 
 // ---------------- public ----------------
 
-export function evaluateBody(d, ctx, head) {
+export function evaluateBody(data, context, headData) {
+  const d = conform(data, SCHEMAS.body);
+  const ctx = contextOf(context);
+  const head = headData === null || headData === undefined ? headData : conform(headData, SCHEMAS.head);
   const groups = [
     { id: 'placeholders', title: 'Unfinished content', findings: placeholderFindings(d, ctx) },
     { id: 'schema-page', title: 'Schema vs page (Step 3D)', findings: schemaPageFindings(d, ctx, head) },

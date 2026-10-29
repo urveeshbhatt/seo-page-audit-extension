@@ -1,0 +1,34 @@
+{
+ "url": "http://127.0.0.1:8080/perf-good.html",
+ "origin": "http://127.0.0.1:8080",
+ "path": "/perf-good.html",
+ "robots": [],
+ "googlebot": [],
+ "canonicals": [
+  "http://127.0.0.1:8080/perf-good.html"
+ ],
+ "viewport": [
+  "width=device-width, initial-scale=1"
+ ],
+ "title": "Perf good fixture: A2 Desi Cow Ghee 500 ml jar",
+ "titleCount": 1,
+ "descriptions": [
+  "Fixture page with no known performance problems for integration tests."
+ ],
+ "og": [],
+ "twitterCount": 0,
+ "jsonld": {
+  "scriptCount": 0,
+  "parseErrors": 0,
+  "types": [],
+  "products": []
+ },
+ "lang": "en",
+ "hreflang": [],
+ "extras": {
+  "metaKeywords": "",
+  "favicon": false,
+  "preconnect": []
+ },
+ "collectedAt": "2026-10-29T11:35:41.374Z"
+}

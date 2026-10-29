@@ -93,6 +93,9 @@ modules/
   phase4-performance.js  Phase 4 collector (injected): performance timeline, LCP, shifts, interactions, long frames, animations
   phase4-rules.js        Phase 4 rules: vitals, LCP parts, shifts, render-blocking, main thread, third parties, images, fonts
   safe-evaluate.js       Safety net: a rules crash becomes one "could not judge" finding, not a failed audit
+  conform.js             Puts collector data into the expected shape before any rules run
+  schemas.js             Generated: shape of every collector's output (npm run build:schemas)
+scripts/                 capture-collector-outputs.mjs, build-schemas.mjs
   summary.js             Rules engine: suggested verdicts, ranking, overall verdict
   business-rules.js      Business-model and YMYL rules
   report.js              Markdown and CSV export (escaped)
@@ -127,9 +130,11 @@ npm test                    # unit, golden and fuzz tests (no browser needed)
 npm install                 # once, for integration tests
 npx playwright install chromium
 npm run test:integration    # real Chromium: collectors, full side-panel audits, hostile pages
+npm run capture             # re-capture collector output on the local test pages
+npm run build:schemas       # rebuild modules/schemas.js after a collector change
 ```
 
-Rules are tested against real page data captured from a pre-launch D2C product page, a live B2B city page and a live D2C product page with known performance problems. Integration tests load the unpacked extension into Chromium and run complete audits on local fixture pages, including pages built to break it (40,000 elements, XSS strings, broken JSON-LD, strict CSP, a page that overrides `fetch`/`JSON`/`Array`, a page that navigates away mid-audit, JSON and image files).
+Rules are tested against real page data captured from a pre-launch D2C product page, a live B2B city page and a live D2C product page with known performance problems. Every rules module is fuzzed with thousands of damaged captures and must never crash. Integration tests load the unpacked extension into Chromium and run complete audits on local fixture pages, including pages built to break it (40,000 elements, XSS strings, broken JSON-LD, strict CSP, a page that overrides `fetch`/`JSON`/`Array`, a page that navigates away mid-audit, JSON and image files).
 
 ## License
 

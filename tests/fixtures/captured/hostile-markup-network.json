@@ -1,0 +1,184 @@
+{
+ "url": "http://127.0.0.1:8080/hostile-markup.html",
+ "origin": "http://127.0.0.1:8080",
+ "host": "127.0.0.1",
+ "collectedAt": "2026-10-29T11:35:42.991Z",
+ "renderedBytes": 21880,
+ "nav": {
+  "type": "navigate",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "http/1.1",
+  "dns": 0,
+  "connect": 0,
+  "ssl": 0,
+  "ttfb": 1,
+  "download": 4,
+  "transferSize": 2160,
+  "encodedBodySize": 1860,
+  "decodedBodySize": 1860,
+  "fromCache": false,
+  "domContentLoaded": 52,
+  "load": 219
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/hostile-markup.html",
+  "headers": {
+   "cache-control": "no-store",
+   "connection": "keep-alive",
+   "content-type": "text/html; charset=utf-8",
+   "date": "Thu, 29 Oct 2026 11:35:42 GMT",
+   "keep-alive": "timeout=5",
+   "transfer-encoding": "chunked"
+  },
+  "bytes": 1847,
+  "encoded": 1860,
+  "decoded": 1860,
+  "challengeHint": ""
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "resources": {
+  "count": 3,
+  "entries": [
+   {
+    "host": "evil.example.org",
+    "name": "small.png",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 210,
+    "start": 9
+   },
+   {
+    "host": "localhost",
+    "name": "perf-good.html",
+    "type": "other",
+    "initiator": "iframe",
+    "protocol": "",
+    "encoded": 0,
+    "decoded": 0,
+    "duration": 47,
+    "start": 21
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "hostile-markup.html",
+    "type": "fetch",
+    "initiator": "fetch",
+    "protocol": "http/1.1",
+    "encoded": 1860,
+    "decoded": 1860,
+    "duration": 3,
+    "start": 1439
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain",
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/robots.txt",
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+ },
+ "llms": {
+  "status": 404,
+  "contentType": "text/plain",
+  "start": "not found",
+  "looksLikeHtml": false
+ },
+ "sitemap": {
+  "declared": [
+   "/sitemap.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "",
+  "status": 404,
+  "isIndex": false,
+  "children": 0,
+  "filesRead": 0,
+  "urls": 0,
+  "lastmod": null,
+  "samples": [],
+  "challenged": 0
+ },
+ "errors": []
+}

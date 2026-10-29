@@ -1,0 +1,52 @@
+{
+ "url": "http://127.0.0.1:8080/hostile-markup.html",
+ "origin": "http://127.0.0.1:8080",
+ "path": "/hostile-markup.html",
+ "robots": [
+  "index, follow"
+ ],
+ "googlebot": [],
+ "canonicals": [
+  "javascript:alert(1)"
+ ],
+ "viewport": [],
+ "title": "<img src=x onerror=window.__pwned=1>\"quotes\" & ampersand 🔥 مرحبا xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+ "titleCount": 1,
+ "descriptions": [
+  "<script>window.__pwned=2</script>"
+ ],
+ "og": [],
+ "twitterCount": 0,
+ "jsonld": {
+  "scriptCount": 3,
+  "parseErrors": 1,
+  "types": [
+   "Product",
+   "Offer"
+  ],
+  "products": [
+   {
+    "name": "Ghee",
+    "hasDescription": false,
+    "descriptionSample": "",
+    "brand": "",
+    "sku": "",
+    "hasOffers": true,
+    "price": "999",
+    "highPrice": "",
+    "currency": "INR",
+    "availability": "",
+    "hasRating": false,
+    "hasReviews": false
+   }
+  ]
+ },
+ "lang": "en",
+ "hreflang": [],
+ "extras": {
+  "metaKeywords": "",
+  "favicon": false,
+  "preconnect": []
+ },
+ "collectedAt": "2026-10-29T11:35:42.943Z"
+}

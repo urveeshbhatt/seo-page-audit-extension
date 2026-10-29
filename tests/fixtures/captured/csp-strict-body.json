@@ -1,0 +1,56 @@
+{
+ "url": "http://127.0.0.1:8080/csp-strict.html",
+ "viewportHeight": 800,
+ "renderedWords": 4,
+ "visiblePrices": [
+  "999"
+ ],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 0,
+ "raw": {
+  "ok": false,
+  "reason": "Could not fetch raw HTML: Failed to fetch",
+  "bytes": 0,
+  "words": 0,
+  "tests": [],
+  "linkCount": 0,
+  "h1Count": 0,
+  "xRobots": "",
+  "jsonldCount": 0,
+  "jsonldTypes": []
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "Strict CSP",
+   "visible": true
+  }
+ ],
+ "headingTotal": 1,
+ "images": [
+  {
+   "src": "http://127.0.0.1:8080/img/small.png",
+   "file": "small.png",
+   "hasAltAttr": true,
+   "alt": "jar",
+   "tracker": false,
+   "lazy": false,
+   "fetchpriority": "",
+   "aboveFold": true,
+   "visible": true,
+   "shownWidth": 300,
+   "naturalWidth": 300,
+   "hasWidthHeight": true,
+   "decorativeHint": false
+  }
+ ],
+ "imageTotal": 1,
+ "links": [],
+ "linkTotal": 0,
+ "linkHrefTotal": 0,
+ "placeholders": [],
+ "collectedAt": "2026-10-29T11:35:45.947Z"
+}

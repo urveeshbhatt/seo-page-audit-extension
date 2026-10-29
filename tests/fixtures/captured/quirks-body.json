@@ -1,0 +1,44 @@
+{
+ "url": "http://127.0.0.1:8080/quirks.html",
+ "viewportHeight": 800,
+ "renderedWords": 5,
+ "visiblePrices": [],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 0,
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 90,
+  "words": 8,
+  "tests": [
+   {
+    "kind": "H1",
+    "text": "Quirks",
+    "inRaw": true
+   }
+  ],
+  "linkCount": 0,
+  "h1Count": 1,
+  "xRobots": "",
+  "jsonldCount": 0,
+  "jsonldTypes": []
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "Quirks",
+   "visible": true
+  }
+ ],
+ "headingTotal": 1,
+ "images": [],
+ "imageTotal": 0,
+ "links": [],
+ "linkTotal": 0,
+ "linkHrefTotal": 0,
+ "placeholders": [],
+ "collectedAt": "2026-10-29T11:35:44.571Z"
+}

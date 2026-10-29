@@ -1,0 +1,40 @@
+{
+ "url": "http://127.0.0.1:8080/quirks.html",
+ "dom": {
+  "nodes": 6,
+  "maxDepth": 2,
+  "maxChildren": 3,
+  "maxChildrenAt": "body",
+  "htmlBytes": 133
+ },
+ "comments": [],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 29,
+ "cssText": [],
+ "shadow": {
+  "open": 0,
+  "openWithText": 0,
+  "customElements": 0,
+  "emptyCustom": []
+ },
+ "iframes": [],
+ "resources": {
+  "scripts": 0,
+  "externalScripts": 0,
+  "inlineScriptKB": 0,
+  "stylesheets": 0,
+  "blockingCss": 0,
+  "blockingScripts": [],
+  "blockingScriptCount": 0
+ },
+ "generator": [],
+ "stack": [],
+ "tags": {
+  "gtm": [],
+  "ga4": [],
+  "ua": [],
+  "aw": []
+ },
+ "collectedAt": "2026-10-29T11:35:44.576Z"
+}

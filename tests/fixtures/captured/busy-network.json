@@ -1,0 +1,162 @@
+{
+ "url": "http://127.0.0.1:8080/busy.html",
+ "origin": "http://127.0.0.1:8080",
+ "host": "127.0.0.1",
+ "collectedAt": "2026-10-29T11:35:47.641Z",
+ "renderedBytes": 326,
+ "nav": {
+  "type": "navigate",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "http/1.1",
+  "dns": 0,
+  "connect": 1,
+  "ssl": 0,
+  "ttfb": 2,
+  "download": 2,
+  "transferSize": 642,
+  "encodedBodySize": 342,
+  "decodedBodySize": 342,
+  "fromCache": false,
+  "domContentLoaded": 18,
+  "load": 18
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/busy.html",
+  "headers": {
+   "cache-control": "no-store",
+   "connection": "keep-alive",
+   "content-type": "text/html; charset=utf-8",
+   "date": "Thu, 29 Oct 2026 11:35:47 GMT",
+   "keep-alive": "timeout=5",
+   "transfer-encoding": "chunked"
+  },
+  "bytes": 342,
+  "encoded": 342,
+  "decoded": 342,
+  "challengeHint": ""
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 3,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 196,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "resources": {
+  "count": 1,
+  "entries": [
+   {
+    "host": "127.0.0.1",
+    "name": "busy.html",
+    "type": "fetch",
+    "initiator": "fetch",
+    "protocol": "http/1.1",
+    "encoded": 342,
+    "decoded": 342,
+    "duration": 3,
+    "start": 1408
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain",
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/robots.txt",
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+ },
+ "llms": {
+  "status": 404,
+  "contentType": "text/plain",
+  "start": "not found",
+  "looksLikeHtml": false
+ },
+ "sitemap": {
+  "declared": [
+   "/sitemap.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "",
+  "status": 404,
+  "isIndex": false,
+  "children": 0,
+  "filesRead": 0,
+  "urls": 0,
+  "lastmod": null,
+  "samples": [],
+  "challenged": 0
+ },
+ "errors": []
+}

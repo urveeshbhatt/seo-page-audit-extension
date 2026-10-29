@@ -1,0 +1,53 @@
+{
+ "url": "http://127.0.0.1:8080/hostile-markup.html",
+ "dom": {
+  "nodes": 27,
+  "maxDepth": 3,
+  "maxChildren": 13,
+  "maxChildrenAt": "body",
+  "htmlBytes": 21880
+ },
+ "comments": [],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 123,
+ "cssText": [],
+ "shadow": {
+  "open": 1,
+  "openWithText": 0,
+  "customElements": 1,
+  "emptyCustom": []
+ },
+ "iframes": [
+  {
+   "host": "(srcdoc)",
+   "visible": true,
+   "lazy": false,
+   "title": ""
+  },
+  {
+   "host": "localhost",
+   "visible": true,
+   "lazy": false,
+   "title": ""
+  }
+ ],
+ "resources": {
+  "scripts": 5,
+  "externalScripts": 0,
+  "inlineScriptKB": 1,
+  "stylesheets": 0,
+  "blockingCss": 0,
+  "blockingScripts": [],
+  "blockingScriptCount": 0
+ },
+ "generator": [],
+ "stack": [],
+ "tags": {
+  "gtm": [],
+  "ga4": [],
+  "ua": [],
+  "aw": []
+ },
+ "collectedAt": "2026-10-29T11:35:42.972Z"
+}

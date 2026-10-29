@@ -3,6 +3,8 @@
 
 import { finding, plural, isPrelaunch, REVENUE_TYPES } from './phase1-rules.js';
 import { isInternalHop } from './phase2-redirects.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 const kb = (bytes) => {
   if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -557,7 +559,14 @@ function redirectFindings(rd) {
 
 // ======================= public =======================
 
-export function evaluateNetwork(d, ctx = {}, extra = {}) {
+export function evaluateNetwork(data, context, extraData) {
+  const d = conform(data, SCHEMAS.network);
+  const ctx = contextOf(context);
+  const ex = extraData && typeof extraData === 'object' ? extraData : {};
+  const extra = {
+    head: ex.head === null || ex.head === undefined ? ex.head : conform(ex.head, SCHEMAS.head),
+    redirects: ex.redirects && typeof ex.redirects === 'object' && Array.isArray(ex.redirects.results) ? ex.redirects : null,
+  };
   const groups = [
     { id: 'document', title: 'Main document', findings: documentFindings(d, extra.head) },
     { id: 'caching', title: 'Caching and server speed', findings: cachingFindings(d) },

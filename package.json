@@ -1,15 +1,22 @@
 {
   "name": "page-audit-lens",
-  "version": "1.2.0",
+  "version": "1.5.0",
   "private": true,
   "description": "Chrome extension: one-click on-page SEO audit in a side panel",
   "scripts": {
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "test:integration": "node --test tests/integration/*.test.mjs",
+    "test:all": "npm test && npm run test:integration",
+    "build:schemas": "node scripts/build-schemas.mjs",
+    "capture": "node scripts/capture-collector-outputs.mjs"
   },
   "license": "MIT",
   "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/urveeshbhatt/seo-page-audit-extension.git"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
   }
 }

@@ -27,6 +27,7 @@ export function collectBasics() {
     title: clip(document.title, 500),
     titleLength: document.title.length,
     lang: clip(document.documentElement.getAttribute('lang') || '', 35),
+    contentType: clip(document.contentType || '', 80),
     collectedAt: new Date().toISOString(),
   };
 }
@@ -192,7 +193,9 @@ export async function collectBody() {
     const t = norm(text);
     if (t.length >= 4 && samples.length < 8 && !samples.some((s) => s.text === t)) samples.push({ kind, text: clip(t, 160) });
   };
-  [...document.querySelectorAll('h1')].filter(isVisible).slice(0, 2).forEach((h) => addSample('H1', h.textContent));
+  // Text a reader sees: drop <script>/<style> inside the element (their source is textContent too).
+  const ownText = (el) => { const c = el.cloneNode(true); c.querySelectorAll('script, style, noscript, template').forEach((n) => n.remove()); return c.textContent; };
+  [...document.querySelectorAll('h1')].filter(isVisible).slice(0, 2).forEach((h) => addSample('H1', ownText(h)));
   const priceMatch = contentText.match(/(₹|Rs\.?|INR|\$|€|£)\s?\d[\d,]*(\.\d+)?/);
   if (priceMatch) addSample('Price', priceMatch[0]);
   [...document.querySelectorAll('main p, article p, .entry-content p, p')]
@@ -244,7 +247,7 @@ export async function collectBody() {
   const headingEls = [...document.querySelectorAll('h1, h2, h3, h4, h5, h6')];
   const headings = headingEls.slice(0, 80).map((h) => ({
     level: Number(h.tagName[1]),
-    text: clip(norm(h.textContent), 100),
+    text: clip(norm(ownText(h)), 100),
     visible: isVisible(h),
   }));
 

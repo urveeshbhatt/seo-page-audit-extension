@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Busy page fixture: main thread almost always busy</title></head>
+<body><h1>Busy</h1>
+<script>
+  // 180 ms busy out of every 200 ms, forever
+  setInterval(() => { const t = performance.now(); while (performance.now() - t < 180) { /* busy */ } }, 200);
+</script></body></html>

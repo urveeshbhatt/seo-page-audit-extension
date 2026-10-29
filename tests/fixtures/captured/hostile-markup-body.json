@@ -1,0 +1,150 @@
+{
+ "url": "http://127.0.0.1:8080/hostile-markup.html",
+ "viewportHeight": 800,
+ "renderedWords": 17,
+ "visiblePrices": [
+  "999"
+ ],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 3,
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 1847,
+  "words": 17,
+  "tests": [
+   {
+    "kind": "H1",
+    "text": "Price ₹999",
+    "inRaw": true
+   },
+   {
+    "kind": "Price",
+    "text": "₹999",
+    "inRaw": true
+   }
+  ],
+  "linkCount": 4,
+  "h1Count": 2,
+  "xRobots": "",
+  "jsonldCount": 3,
+  "jsonldTypes": [
+   "Product",
+   "Offer"
+  ]
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "Price ₹999",
+   "visible": true
+  },
+  {
+   "level": 1,
+   "text": "",
+   "visible": true
+  }
+ ],
+ "headingTotal": 2,
+ "images": [
+  {
+   "src": "https://evil.example.org/img/small.png",
+   "file": "small.png",
+   "hasAltAttr": true,
+   "alt": "<img src=x onerror=window.__pwned=3>",
+   "tracker": false,
+   "lazy": false,
+   "fetchpriority": "",
+   "aboveFold": true,
+   "visible": true,
+   "shownWidth": 289,
+   "naturalWidth": 0,
+   "hasWidthHeight": false,
+   "decorativeHint": false
+  }
+ ],
+ "imageTotal": 1,
+ "links": [
+  {
+   "href": "javascript:void(0)",
+   "hasHref": true,
+   "text": "js link",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "tel:+911234567890",
+   "hasHref": true,
+   "text": "call",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "  /relative path with spaces ",
+   "hasHref": true,
+   "text": "spaces",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": true,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "http://[::1]:99999/bad",
+   "hasHref": true,
+   "text": "bad url",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": false,
+   "generic": false,
+   "visible": true
+  }
+ ],
+ "linkTotal": 4,
+ "linkHrefTotal": 4,
+ "placeholders": [
+  {
+   "match": "http://[::1]:99999/bad",
+   "where": "link",
+   "context": "bad url"
+  }
+ ],
+ "collectedAt": "2026-10-29T11:35:42.962Z"
+}

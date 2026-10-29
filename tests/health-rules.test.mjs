@@ -19,6 +19,11 @@ test('Buranshvalley: Elementor traps ignored, CSS blocking flagged with LiteSpee
   assert.equal(f['css-text'].flag, 'good'); // elementor-device-mode marker is not content
   assert.equal(f['res-css'].flag, 'warning');
   assert.match(f['res-css'].why, /LiteSpeed/);
+  // Real lesson (Buranshvalley, Oct 2026): CSS Combine made one late 70 KB file and CLS 0.838.
+  // The advice must be async CSS + critical CSS, and warn about Combine.
+  assert.match(f['res-css'].why, /Load CSS Asynchronously/);
+  assert.match(f['res-css'].why, /Critical CSS/);
+  assert.doesNotMatch(f['res-css'].why, /turn on CSS Combine/);
   assert.equal(f['iframe-empty'].flag, 'info'); // YouTube waiting for consent / lazy-load
   assert.match(f['stack-core'].value, /WordPress \+ WooCommerce \+ Elementor/);
 });

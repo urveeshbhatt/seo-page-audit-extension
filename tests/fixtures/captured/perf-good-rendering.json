@@ -1,0 +1,83 @@
+{
+ "url": "http://127.0.0.1:8080/perf-good.html",
+ "collectedAt": "2026-10-29T11:35:41.464Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 1467,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 1450,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": false,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 14,
+  "rendered": 14
+ },
+ "meta": {
+  "raw": {
+   "title": "Perf good fixture: A2 Desi Cow Ghee 500 ml jar",
+   "description": "Fixture page with no known performance problems for integration tests.",
+   "canonical": "http://127.0.0.1:8080/perf-good.html",
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "A2 Desi Cow Ghee"
+   ]
+  },
+  "rendered": {
+   "title": "Perf good fixture: A2 Desi Cow Ghee 500 ml jar",
+   "description": "Fixture page with no known performance problems for integration tests.",
+   "canonical": "http://127.0.0.1:8080/perf-good.html",
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "A2 Desi Cow Ghee"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [],
+  "rendered": [],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": null,
+ "links": {
+  "raw": 1,
+  "rendered": 1,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [],
+ "errors": []
+}

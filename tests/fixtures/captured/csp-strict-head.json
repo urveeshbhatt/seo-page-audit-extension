@@ -1,0 +1,30 @@
+{
+ "url": "http://127.0.0.1:8080/csp-strict.html",
+ "origin": "http://127.0.0.1:8080",
+ "path": "/csp-strict.html",
+ "robots": [],
+ "googlebot": [],
+ "canonicals": [],
+ "viewport": [],
+ "title": "Strict CSP fixture page: connect-src none",
+ "titleCount": 1,
+ "descriptions": [
+  "Served with a Content-Security-Policy that blocks fetch, scripts and inline styles."
+ ],
+ "og": [],
+ "twitterCount": 0,
+ "jsonld": {
+  "scriptCount": 0,
+  "parseErrors": 0,
+  "types": [],
+  "products": []
+ },
+ "lang": "en",
+ "hreflang": [],
+ "extras": {
+  "metaKeywords": "",
+  "favicon": false,
+  "preconnect": []
+ },
+ "collectedAt": "2026-10-29T11:35:45.934Z"
+}

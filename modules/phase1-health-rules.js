@@ -3,6 +3,8 @@
 // Runs in the side panel. Pure functions, no DOM.
 
 import { finding, plural, isPrelaunch } from './phase1-rules.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 const short = (s, n = 70) => (s && s.length > n ? `${s.slice(0, n - 1)}…` : s || '');
 const kb = (bytes) => `${Math.round(bytes / 1024)} KB`;
@@ -158,7 +160,7 @@ function resourceFindings(d) {
   const out = [];
   if (r.blockingCss > 10) {
     const has = (name) => (d.stack || []).some((x) => x.name === name);
-    const tip = has('LiteSpeed Cache') ? ' In LiteSpeed Cache: Page Optimization → CSS Settings → turn on CSS Combine (UCSS optional), purge all, then re-test LCP.'
+    const tip = has('LiteSpeed Cache') ? ' In LiteSpeed Cache: Page Optimization → CSS Settings → turn on Load CSS Asynchronously and Generate Critical CSS, purge all, then re-test LCP and CLS. Avoid CSS Combine unless you test it: one big late file can make the layout jump (CLS).'
       : has('WP Rocket') ? ' In WP Rocket: File Optimization → Optimize CSS delivery.'
         : has('Elementor') ? ' In Elementor: Settings → Features → Improved CSS Loading (if your version shows it).' : '';
     out.push(finding('res-css', 'Render-blocking CSS', `${r.blockingCss} stylesheets in <head>`, 'warning',
@@ -245,7 +247,9 @@ function commentFindings(d) {
 
 // ---------------- public ----------------
 
-export function evaluateHealth(d, ctx) {
+export function evaluateHealth(data, context) {
+  const d = conform(data, SCHEMAS.health);
+  const ctx = contextOf(context);
   const groups = [
     { id: 'hidden', title: 'Hidden content', findings: [...hiddenFindings(d), ...cssTextFindings(d), ...shadowFindings(d)] },
     { id: 'dom', title: 'DOM size', findings: domFindings(d) },

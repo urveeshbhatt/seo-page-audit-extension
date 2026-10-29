@@ -43,3 +43,14 @@ test('Canonical pointing to homepage is critical', () => {
   const r = evaluateHead({ ...d, canonicals: ['https://www.regus.com/'] }, { pageType: 'location', status: 'live', model: 'b2b' });
   assert.equal(byId(r).canonical.flag, 'critical');
 });
+
+test('canonical with a non-web scheme (javascript:, data:, mailto:) is called out as not a URL, not "another domain"', () => {
+  const d = JSON.parse(readFileSync(new URL('./fixtures/buranshvalley-product-head.json', import.meta.url)));
+  for (const bad of ['javascript:alert(1)', 'data:text/html,hi', 'mailto:a@b.com']) {
+    const f = byId(evaluateHead({ ...d, canonicals: [bad] }, { pageType: 'product', status: 'live', model: 'd2c' }));
+    assert.equal(f.canonical.flag, 'critical', bad);
+    assert.match(f.canonical.why, /not a web address/i, bad);
+    assert.doesNotMatch(f.canonical.why, /another domain/, bad);
+  }
+});
+

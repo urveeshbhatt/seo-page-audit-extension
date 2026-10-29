@@ -1,0 +1,44 @@
+{
+ "url": "http://127.0.0.1:8080/busy.html",
+ "viewportHeight": 800,
+ "renderedWords": 1,
+ "visiblePrices": [],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 0,
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 342,
+  "words": 1,
+  "tests": [
+   {
+    "kind": "H1",
+    "text": "Busy",
+    "inRaw": true
+   }
+  ],
+  "linkCount": 0,
+  "h1Count": 1,
+  "xRobots": "",
+  "jsonldCount": 0,
+  "jsonldTypes": []
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "Busy",
+   "visible": true
+  }
+ ],
+ "headingTotal": 1,
+ "images": [],
+ "imageTotal": 0,
+ "links": [],
+ "linkTotal": 0,
+ "linkHrefTotal": 0,
+ "placeholders": [],
+ "collectedAt": "2026-10-29T11:35:47.444Z"
+}

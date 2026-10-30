@@ -18,6 +18,7 @@ Found while re-checking the fixed version on the same store:
 
 - **"No buy button" next to a visible "Add to cart".** The mini-cart selector `[id*="cart"]` also matched Shopify's buy button (`id="…__add-to-cart"`). Add-to-cart ids are now kept as page content
 - **Product image gallery reported as "custom elements with no readable text".** Large custom elements that hold images or video (Shopify's `<slideshow-slide>`) are no longer flagged
+- **A long list of identical Shopify pixels** (one store had 10 custom pixels): repeated pixels are now one line with a count
 - **Shopify's `data-url` endpoints reported as "clickable elements that are not links".** `data-url` pointing to a section/API endpoint (`/recommendations/`, `section_id=`, JSON) or to the same page (a filter's "Clear all") is what a script fetches, not a link
 
 ## 1.5.0 (Phase 4: Performance)

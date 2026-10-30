@@ -209,7 +209,12 @@ function stackFindings(d, ctx) {
   const idList = [...(t.gtm || []), ...(t.ga4 || []), ...(t.aw || []), ...(t.ua || [])];
   // Shopify: tracking apps and custom pixels run sandboxed, off the page.
   const pixels = Array.isArray(d.shopifyPixels) ? d.shopifyPixels.filter((p) => p && typeof p === 'object') : [];
-  const pixelLines = pixels.map((p) => `Shopify pixel: ${p.name}${Array.isArray(p.ids) && p.ids.length ? ` (${p.ids.join(', ')})` : ''}`);
+  const pixelCount = new Map();
+  pixels.forEach((p) => {
+    const line = `Shopify pixel: ${p.name}${Array.isArray(p.ids) && p.ids.length ? ` (${p.ids.join(', ')})` : ''}`;
+    pixelCount.set(line, (pixelCount.get(line) || 0) + 1);
+  });
+  const pixelLines = [...pixelCount].map(([line, n]) => (n > 1 ? `${line} ×${n}` : line));
   const pixelIds = pixels.flatMap((p) => (Array.isArray(p.ids) ? p.ids : []));
   const onShopify = names('platform').includes('Shopify');
   if (!tracking.length && pixelIds.some((id) => /^(G|GT|GTM)-/.test(id))) {

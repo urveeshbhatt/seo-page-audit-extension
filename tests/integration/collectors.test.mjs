@@ -198,3 +198,52 @@ test('trap page: zoom layer, closed menu, off-screen slide, inline icon font and
   const f = byId(evaluatePerformance(d, CTX));
   ['perf-img-lazy', 'perf-img-size', 'perf-font-display', 'perf-lcp-discovery'].forEach((id) => assert.equal(f[id], undefined, `${id}: ${f[id] && f[id].value}`));
 });
+
+// ---------------- Shopify Horizon patterns (live store, 30 Oct 2026) ----------------
+
+test('Shopify Horizon page: module scripts, transitions, ProductGroup, sticky price, pixels, menu drawer', async () => {
+  const { page, errors } = await open('/shopify-horizon.html');
+  assert.equal(await page.evaluate(() => window.__dialogModuleRuns), 1, 'browser runs the module once');
+  const perf = await page.evaluate(collectPerformance);
+  const head = await page.evaluate(collectHead);
+  const body = await page.evaluate(collectBody);
+  const health = await page.evaluate(collectHealth);
+  const rendering = await page.evaluate(collectRendering);
+  const network = await page.evaluate(collectNetwork);
+  await page.close();
+  assert.deepEqual(errors, []);
+
+  // 1. a module script printed twice is loaded once: not a duplicate
+  assert.equal(perf.scripts.filter((s) => /mod-dialog\.js/.test(s)).length, 1);
+  // 2. the running border transition is recorded as a transition
+  const tr = perf.animations.filter((a) => /border/i.test(a.props.join(' ')));
+  assert.ok(tr.length > 0, 'transition seen');
+  assert.ok(tr.every((a) => a.kind === 'transition'));
+  const pf = byId(evaluatePerformance(perf, CTX));
+  assert.equal(pf['perf-anim-layout'], undefined, pf['perf-anim-layout'] && pf['perf-anim-layout'].value);
+  assert.equal(pf['perf-dup-tags'], undefined, pf['perf-dup-tags'] && pf['perf-dup-tags'].value);
+
+  // 3. ProductGroup: brand from the group, price range from the variants
+  assert.equal(head.jsonld.products[0].brand, 'Test Organics');
+  assert.equal(byId(evaluateHead(head, CTX))['schema-brand'].flag, 'good');
+
+  // 4. the price inside .sticky-content is page content (".sticky-" is not CookieYes "cky-")
+  assert.ok(body.visiblePrices.includes('1799'), `visible prices: ${body.visiblePrices}`);
+  const bf = byId(evaluateBody(body, CTX, head));
+  assert.equal(bf['schema-price-match'].flag, 'good', bf['schema-price-match'].value);
+  // 5. phone and WhatsApp links with two numbers are broken
+  assert.equal(bf['links-badcontact'].flag, 'warning');
+  assert.equal(bf['links-badcontact'].items.length, 2);
+
+  // 6. tracking runs in Shopify pixels
+  assert.deepEqual(health.shopifyPixels.map((p) => p.name), ['Judge.me', 'Custom pixel']);
+  const hf = byId(evaluateHealth(health, CTX));
+  assert.notEqual(hf['stack-tracking'].flag, 'critical');
+
+  // 7. the menu drawer is not a content panel; the buy button is seen
+  assert.ok(!rendering.panels.some((p) => /Catalog|Bee Pollen/.test(p.text)), JSON.stringify(rendering.panels));
+  assert.equal(rendering.facts.buyButton, true);
+  const rf = byId(evaluateRendering(rendering, CTX, { network }));
+  assert.equal(rf['rend-ai-stock'], undefined);
+  assert.notEqual(rf['rend-panels'] && rf['rend-panels'].flag, 'warning');
+});

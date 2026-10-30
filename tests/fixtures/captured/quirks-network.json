@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/quirks.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-29T11:35:44.588Z",
+ "collectedAt": "2026-10-30T08:07:00.292Z",
  "renderedBytes": 133,
  "nav": {
   "type": "navigate",
@@ -12,14 +12,14 @@
   "dns": 0,
   "connect": 0,
   "ssl": 0,
-  "ttfb": 3,
-  "download": 2,
+  "ttfb": 1,
+  "download": 1,
   "transferSize": 390,
   "encodedBodySize": 90,
   "decodedBodySize": 90,
   "fromCache": false,
-  "domContentLoaded": 27,
-  "load": 27
+  "domContentLoaded": 16,
+  "load": 16
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Thu, 29 Oct 2026 11:35:44 GMT",
+   "date": "Fri, 30 Oct 2026 08:07:00 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -81,18 +81,6 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 4,
-   "encoded": 90,
-   "decoded": 90,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
-  {
-   "status": 200,
-   "ttfb": 3,
-   "ttfbSource": "timing",
    "total": 5,
    "encoded": 90,
    "decoded": 90,
@@ -105,7 +93,19 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 3,
+   "total": 4,
+   "encoded": 90,
+   "decoded": 90,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
    "encoded": 90,
    "decoded": 90,
    "cache": {
@@ -125,8 +125,8 @@
     "protocol": "http/1.1",
     "encoded": 90,
     "decoded": 90,
-    "duration": 3,
-    "start": 1239
+    "duration": 5,
+    "start": 1233
    }
   ]
  },

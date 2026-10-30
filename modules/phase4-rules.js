@@ -352,7 +352,10 @@ function shiftFindings(d, ctx, revenueLive, cls) {
       'Chrome keeps only the first 150 layout shifts for scripts that read them later, so a page that keeps moving (a looping layout animation, a ticker) can have a higher real CLS than shown here. Confirm in DevTools → Performance → Live metrics while the page sits idle, and in PageSpeed Insights field data.'));
   }
 
-  const anims = arr(d.animations).filter((a) => a && arr(a.props).length);
+  // CSS transitions run once after a state change (hover, a class added): they
+  // are not the looping animations this check is about. Captures from before
+  // `kind` existed have no kind and still count.
+  const anims = arr(d.animations).filter((a) => a && arr(a.props).length && a.kind !== 'transition');
   const layout = anims.filter((a) => classifyProps(a.props) === 'layout');
   const paint = anims.filter((a) => classifyProps(a.props) === 'paint');
   const line = (a) => `${a.name || '(unnamed)'} ${a.target ? `on ${a.target}` : '(CSS @keyframes)'}: ${arr(a.props).filter((p) => !META_KEYS.has(p)).join(', ')}${a.infinite ? ' · runs forever' : ''}`;

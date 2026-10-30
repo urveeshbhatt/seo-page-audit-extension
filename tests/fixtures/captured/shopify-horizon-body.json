@@ -1,0 +1,193 @@
+{
+ "url": "http://127.0.0.1:8080/shopify-horizon.html",
+ "viewportHeight": 800,
+ "renderedWords": 50,
+ "visiblePrices": [
+  "1799"
+ ],
+ "reviewSignals": {
+  "ratingText": false,
+  "reviewCount": null
+ },
+ "renderedJsonld": 1,
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 3915,
+  "words": 53,
+  "tests": [
+   {
+    "kind": "H1",
+    "text": "A2 Ghee",
+    "inRaw": true
+   },
+   {
+    "kind": "Price",
+    "text": "₹ 1,799.00",
+    "inRaw": true
+   }
+  ],
+  "linkCount": 8,
+  "h1Count": 1,
+  "xRobots": "",
+  "jsonldCount": 1,
+  "jsonldTypes": [
+   "ProductGroup",
+   "Brand",
+   "Product",
+   "Offer"
+  ]
+ },
+ "headings": [
+  {
+   "level": 1,
+   "text": "A2 Ghee",
+   "visible": true
+  }
+ ],
+ "headingTotal": 1,
+ "images": [],
+ "imageTotal": 0,
+ "links": [
+  {
+   "href": "/",
+   "hasHref": true,
+   "text": "Home",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "/collections/all",
+   "hasHref": true,
+   "text": "Catalog",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "/pages/contact",
+   "hasHref": true,
+   "text": "Contact",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "/collections/ghee",
+   "hasHref": true,
+   "text": "Ghee",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "cat on",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "/collections/honey",
+   "hasHref": true,
+   "text": "Honey",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "cat on",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "/collections/pickle",
+   "hasHref": true,
+   "text": "Pickle",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "cat on",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": true,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "tel:6398918467,9389524019",
+   "hasHref": true,
+   "text": "6398918467, 9389524019",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": false,
+   "generic": false,
+   "visible": true
+  },
+  {
+   "href": "https://wa.me/9389524019,6398918467",
+   "hasHref": true,
+   "text": "9389524019, 6398918467",
+   "label": "",
+   "imgAlt": "",
+   "hasSvg": false,
+   "cls": "",
+   "role": "",
+   "expandable": false,
+   "uiControl": false,
+   "rel": "",
+   "internal": false,
+   "external": true,
+   "generic": false,
+   "visible": true
+  }
+ ],
+ "linkTotal": 8,
+ "linkHrefTotal": 8,
+ "placeholders": [],
+ "collectedAt": "2026-10-30T08:07:05.475Z"
+}

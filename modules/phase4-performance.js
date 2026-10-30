@@ -14,7 +14,7 @@
 export const MODULE_INFO = {
   id: 'phase4-performance',
   name: 'Phase 4: Performance',
-  version: '1.5.0',
+  version: '1.5.1',
 };
 
 export async function collectPerformance() {
@@ -208,14 +208,26 @@ export async function collectPerformance() {
       if (!props.size && a.transitionProperty) props.add(a.transitionProperty);
       const timing = a.effect.getTiming ? a.effect.getTiming() : {};
       const target = a.effect.target ? selectorOf(a.effect.target) + (a.effect.pseudoElement || '') : '';
-      out.animations.push({ name: clip(a.animationName || a.transitionProperty || a.id || '', 80), target: clip(target, 180), props: [...props].slice(0, 12), infinite: timing.iterations === Infinity });
+      // A CSS transition runs once after a state change (hover, a class added);
+      // a CSS animation can loop. Only the second kind moves layout every frame.
+      const kind = typeof CSSTransition !== 'undefined' && a instanceof CSSTransition ? 'transition'
+        : typeof CSSAnimation !== 'undefined' && a instanceof CSSAnimation ? 'animation' : 'script';
+      out.animations.push({ name: clip(a.animationName || a.transitionProperty || a.id || '', 80), target: clip(target, 180), props: [...props].slice(0, 12), infinite: timing.iterations === Infinity, kind });
     });
   } catch (e) { err('animations', e); }
 
   // ---------- scripts (for duplicate tags) ----------
   try {
     const seen = new Set();
-    document.querySelectorAll('script[src]').forEach((s) => { if (out.scripts.length < 500) { out.scripts.push(clip(s.src, 400)); seen.add(s.src); } });
+    // A classic <script src> printed twice runs twice. A module script printed
+    // twice is fetched and run once (the browser keeps one copy per URL), so
+    // count it once: Shopify themes print the same module next to every block.
+    document.querySelectorAll('script[src]').forEach((s) => {
+      if (out.scripts.length >= 500) return;
+      if (s.type === 'module' && seen.has(s.src)) return;
+      out.scripts.push(clip(s.src, 400));
+      seen.add(s.src);
+    });
     resources.filter((r) => r.initiatorType === 'script' && !seen.has(r.name)).forEach((r) => { if (out.scripts.length < 500) { out.scripts.push(clip(r.name, 400)); seen.add(r.name); } });
   } catch (e) { err('scripts', e); }
 

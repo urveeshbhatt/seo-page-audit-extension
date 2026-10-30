@@ -62,6 +62,14 @@ test('Shopify with only app/custom pixels: not "none detected", check Customer e
   assert.ok(f.items.some((x) => /Custom pixel/.test(x)));
 });
 
+test('repeated Shopify pixels are listed once with a count', () => {
+  const d = shopifyHealth();
+  d.shopifyPixels = [...Array(10)].map(() => ({ name: 'Custom pixel', type: 'CUSTOM', ids: [] })).concat([{ name: 'Judge.me', type: 'APP', ids: [] }]);
+  const f = byId(evaluateHealth(d, LIVE))['stack-tracking'];
+  assert.deepEqual(f.items, ['Shopify pixel: Custom pixel ×10', 'Shopify pixel: Judge.me']);
+  assert.match(f.value, /11 Shopify pixels/);
+});
+
 test('Shopify Google app pixel with a G- ID counts as tracking', () => {
   const d = shopifyHealth();
   d.shopifyPixels = [{ name: 'Google & YouTube', type: 'APP', ids: ['G-ABC123XYZ', 'AW-1234567890'] }];

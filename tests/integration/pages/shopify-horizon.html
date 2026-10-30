@@ -30,13 +30,19 @@
   <main>
     <!-- sticky add-to-cart bar repeats the product name and price -->
     <div class="sticky-add-to-cart"><span>A2 Ghee</span> <span class="price">₹ 1,799.00</span></div>
+    <!-- Horizon product gallery: big custom elements holding only images -->
+    <slideshow-container style="display:block;width:360px"><slideshow-slides style="display:block"><slideshow-slide style="display:block"><img src="/img/hero.png" width="360" height="360" alt="Ghee jar"></slideshow-slide></slideshow-slides></slideshow-container>
     <div id="ProductInformation-main" class="product-details sticky-content">
       <h1>A2 Ghee</h1>
       <span class="price">₹ 1,799.00</span> Taxes included.
       <p>Bilona ghee made from the milk of hill cows that graze in the forest. Slow cooked over a wood fire in small batches, with no preservatives and nothing added.</p>
-      <button name="add" type="submit">Add to cart</button>
+      <!-- Horizon: the buy button's id ends in "__add-to-cart" -->
+      <button id="BuyButtons-ProductSubmitButton-AOWdINXN__add-to-cart" name="add" type="submit">Add to cart</button>
       <script type="module" src="/mod-dialog.js"></script>
     </div>
+    <!-- Shopify fetches these with JavaScript: data-url is an API endpoint or this same page, not a page to crawl -->
+    <product-recommendations data-url="/recommendations/products?section_id=main&amp;product_id=1&amp;limit=4">You may also like</product-recommendations>
+    <facet-remove-component data-url="/shopify-horizon.html">Clear all</facet-remove-component>
     <div class="icons">
       <a class="cat" href="/collections/ghee">Ghee</a>
       <a class="cat" href="/collections/honey">Honey</a>

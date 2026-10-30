@@ -2,8 +2,8 @@
  "url": "http://127.0.0.1:8080/shopify-horizon.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-30T08:07:05.501Z",
- "renderedBytes": 4006,
+ "collectedAt": "2026-10-30T08:10:53.530Z",
+ "renderedBytes": 4843,
  "nav": {
   "type": "navigate",
   "status": 200,
@@ -13,13 +13,13 @@
   "connect": 0,
   "ssl": 0,
   "ttfb": 2,
-  "download": 4,
-  "transferSize": 4225,
-  "encodedBodySize": 3925,
-  "decodedBodySize": 3925,
+  "download": 1,
+  "transferSize": 5062,
+  "encodedBodySize": 4762,
+  "decodedBodySize": 4762,
   "fromCache": false,
-  "domContentLoaded": 22,
-  "load": 23
+  "domContentLoaded": 47,
+  "load": 47
  },
  "doc": {
   "status": 200,
@@ -29,13 +29,13 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Fri, 30 Oct 2026 08:07:05 GMT",
+   "date": "Fri, 30 Oct 2026 08:10:53 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
-  "bytes": 3915,
-  "encoded": 3925,
-  "decoded": 3925,
+  "bytes": 4752,
+  "encoded": 4762,
+  "decoded": 4762,
   "challengeHint": ""
  },
  "warm": [
@@ -43,9 +43,9 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "total": 5,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -56,8 +56,8 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -68,8 +68,8 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -82,8 +82,8 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -94,8 +94,8 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -106,8 +106,8 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 4,
-   "encoded": 3925,
-   "decoded": 3925,
+   "encoded": 4762,
+   "decoded": 4762,
    "cache": {
     "cache-control": "no-store"
    },
@@ -115,7 +115,7 @@
   }
  ],
  "resources": {
-  "count": 2,
+  "count": 3,
   "entries": [
    {
     "host": "127.0.0.1",
@@ -125,8 +125,19 @@
     "protocol": "http/1.1",
     "encoded": 155,
     "decoded": 155,
-    "duration": 6,
-    "start": 12
+    "duration": 5,
+    "start": 20
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "hero.png",
+    "type": "img",
+    "initiator": "img",
+    "protocol": "http/1.1",
+    "encoded": 4348,
+    "decoded": 4348,
+    "duration": 8,
+    "start": 21
    },
    {
     "host": "127.0.0.1",
@@ -134,10 +145,10 @@
     "type": "fetch",
     "initiator": "fetch",
     "protocol": "http/1.1",
-    "encoded": 3925,
-    "decoded": 3925,
+    "encoded": 4762,
+    "decoded": 4762,
     "duration": 3,
-    "start": 1243
+    "start": 1265
    }
   ]
  },

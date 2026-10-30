@@ -46,7 +46,9 @@ export async function collectRendering() {
     'header', 'nav', 'footer', '[role="banner"]', '[role="navigation"]', '[role="contentinfo"]',
     '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
     '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
-    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
+    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]',
+    // cart drawers and mini-carts, but not the buy button (Shopify: id "…__add-to-cart")
+    '[id*="cart"]:not([id*="add-to-cart" i]):not([id*="addtocart" i]):not([id*="add_to_cart" i])', '.widget_shopping_cart',
     // CookieYes classes start with "cky-"; [class*="cky-"] also matched "sticky-"
     // and removed Shopify's main product block (.sticky-content).
     '[class*="cookie"]', '[id*="cookie"]', '[class^="cky-"]', '[class*=" cky-"]',
@@ -267,6 +269,14 @@ export async function collectRendering() {
   document.querySelectorAll('[data-href], [data-url], [data-link], [role="link"], [onclick*="location"], [onclick*="href"]').forEach((el) => {
     if (out.fakeLinks.length >= 30 || el.tagName === 'A' || NOT_CLICKABLE.has(el.tagName)) return;
     const target = el.getAttribute('data-href') || el.getAttribute('data-url') || el.getAttribute('data-link') || (el.getAttribute('onclick') || '').slice(0, 80);
+    // data-url is often what a script fetches, not where a click goes: Shopify
+    // section and API endpoints, JSON, or this same page (a filter's "Clear all").
+    if (!el.hasAttribute('data-href') && !el.hasAttribute('data-link') && el.hasAttribute('data-url')) {
+      try {
+        const u = new URL(target, location.href);
+        if (u.pathname === location.pathname || /\/recommendations\/|[?&]section_id=|\/search\/suggest|^\/cart(\/|\.js|$)|\.json$|\/api\//i.test(u.pathname + u.search)) return;
+      } catch { /* not a URL: keep it */ }
+    }
     out.fakeLinks.push({ tag: el.tagName.toLowerCase(), text: clip(norm(el.innerText || el.getAttribute('aria-label') || ''), 60), target: clip(target, 120) });
   });
 

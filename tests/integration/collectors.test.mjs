@@ -237,6 +237,8 @@ test('Shopify Horizon page: module scripts, transitions, ProductGroup, sticky pr
 
   // 6. tracking runs in Shopify pixels
   assert.deepEqual(health.shopifyPixels.map((p) => p.name), ['Judge.me', 'Custom pixel']);
+  // 6b. an image gallery built from custom elements is not "content Google cannot read"
+  assert.ok(!health.shadow.emptyCustom.some((x) => /slideshow/.test(x)), JSON.stringify(health.shadow.emptyCustom));
   const hf = byId(evaluateHealth(health, CTX));
   assert.notEqual(hf['stack-tracking'].flag, 'critical');
 
@@ -245,5 +247,7 @@ test('Shopify Horizon page: module scripts, transitions, ProductGroup, sticky pr
   assert.equal(rendering.facts.buyButton, true);
   const rf = byId(evaluateRendering(rendering, CTX, { network }));
   assert.equal(rf['rend-ai-stock'], undefined);
+  // 8. data-url pointing to a Shopify API endpoint or to this same page is not a fake link
+  assert.deepEqual(rendering.fakeLinks, []);
   assert.notEqual(rf['rend-panels'] && rf['rend-panels'].flag, 'warning');
 });

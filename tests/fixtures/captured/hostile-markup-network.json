@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/hostile-markup.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-30T08:06:58.632Z",
+ "collectedAt": "2026-10-30T08:10:46.849Z",
  "renderedBytes": 21880,
  "nav": {
   "type": "navigate",
@@ -13,13 +13,13 @@
   "connect": 0,
   "ssl": 0,
   "ttfb": 1,
-  "download": 2,
+  "download": 3,
   "transferSize": 2160,
   "encodedBodySize": 1860,
   "decodedBodySize": 1860,
   "fromCache": false,
-  "domContentLoaded": 40,
-  "load": 287
+  "domContentLoaded": 45,
+  "load": 262
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Fri, 30 Oct 2026 08:06:58 GMT",
+   "date": "Fri, 30 Oct 2026 08:10:46 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -43,7 +43,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 4,
+   "total": 5,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -65,9 +65,9 @@
   },
   {
    "status": 200,
-   "ttfb": 2,
+   "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 6,
+   "total": 4,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -79,21 +79,9 @@
  "cold": [
   {
    "status": 200,
-   "ttfb": 1,
-   "ttfbSource": "timing",
-   "total": 5,
-   "encoded": 1860,
-   "decoded": 1860,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
-  {
-   "status": 200,
    "ttfb": 2,
    "ttfbSource": "timing",
-   "total": 6,
+   "total": 5,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -106,6 +94,18 @@
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 5,
+   "encoded": 1860,
+   "decoded": 1860,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -125,7 +125,7 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 274,
+    "duration": 248,
     "start": 13
    },
    {
@@ -136,8 +136,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 46,
-    "start": 22
+    "duration": 55,
+    "start": 19
    },
    {
     "host": "127.0.0.1",
@@ -148,7 +148,7 @@
     "encoded": 1860,
     "decoded": 1860,
     "duration": 4,
-    "start": 1509
+    "start": 1486
    }
   ]
  },

@@ -14,6 +14,12 @@ A full audit of a live Shopify store (Horizon theme) on 30 Oct 2026 found eight 
 - **Mobile menu reported as a content panel loaded by JavaScript**, and **"no buy button"** next to a visible "Add to cart": menus, drawers and dialogs are no longer panels, and the buy-button check reads the fixed page text
 - **Missed: broken call / WhatsApp links.** New `links-badcontact` finding: two numbers in one `tel:` or `wa.me` link, or a `wa.me` number without the country code
 
+Found while re-checking the fixed version on the same store:
+
+- **"No buy button" next to a visible "Add to cart".** The mini-cart selector `[id*="cart"]` also matched Shopify's buy button (`id="…__add-to-cart"`). Add-to-cart ids are now kept as page content
+- **Product image gallery reported as "custom elements with no readable text".** Large custom elements that hold images or video (Shopify's `<slideshow-slide>`) are no longer flagged
+- **Shopify's `data-url` endpoints reported as "clickable elements that are not links".** `data-url` pointing to a section/API endpoint (`/recommendations/`, `section_id=`, JSON) or to the same page (a filter's "Clear all") is what a script fetches, not a link
+
 ## 1.5.0 (Phase 4: Performance)
 
 New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and checked against a live D2C product page.

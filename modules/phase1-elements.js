@@ -194,7 +194,9 @@ export async function collectBody() {
     'header', 'nav', 'footer', '[role="banner"]', '[role="navigation"]', '[role="contentinfo"]',
     '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
     '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
-    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
+    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]',
+    // cart drawers and mini-carts, but not the buy button (Shopify: id "…__add-to-cart")
+    '[id*="cart"]:not([id*="add-to-cart" i]):not([id*="addtocart" i]):not([id*="add_to_cart" i])', '.widget_shopping_cart',
     // CookieYes classes start with "cky-"; [class*="cky-"] also matched "sticky-",
     // which hid Shopify's main product block (.sticky-content) and its price.
     '[class*="cookie"]', '[id*="cookie"]', '[class^="cky-"]', '[class*=" cky-"]',
@@ -516,7 +518,10 @@ export function collectHealth() {
     if (el.tagName.includes('-')) {
       shadow.customElements += 1;
       const r = el.getBoundingClientRect();
-      if (!el.shadowRoot && textLen(el) < 5 && r.width * r.height > 40000 && shadow.emptyCustom.length < 10) shadow.emptyCustom.push(desc(el));
+      // Image galleries and video players (Shopify's <slideshow-slide>) hold
+      // media, not hidden text: only flag elements with nothing readable at all.
+      if (!el.shadowRoot && textLen(el) < 5 && r.width * r.height > 40000 && shadow.emptyCustom.length < 10
+        && !el.querySelector('img, picture, video, canvas, svg, iframe, model-viewer, object, embed')) shadow.emptyCustom.push(desc(el));
     }
   }
 

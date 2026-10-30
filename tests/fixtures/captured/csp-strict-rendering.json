@@ -1,6 +1,6 @@
 {
  "url": "http://127.0.0.1:8080/csp-strict.html",
- "collectedAt": "2026-10-30T08:07:01.713Z",
+ "collectedAt": "2026-10-30T08:10:49.887Z",
  "raw": {
   "ok": false,
   "reason": "Could not fetch raw HTML: Failed to fetch",

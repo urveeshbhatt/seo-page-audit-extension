@@ -1,25 +1,28 @@
 {
  "url": "http://127.0.0.1:8080/shopify-horizon.html",
  "dom": {
-  "nodes": 39,
-  "maxDepth": 5,
-  "maxChildren": 5,
-  "maxChildrenAt": "div#ProductInformation-main.product-details.sticky-content",
-  "htmlBytes": 4006
+  "nodes": 45,
+  "maxDepth": 6,
+  "maxChildren": 6,
+  "maxChildrenAt": "main",
+  "htmlBytes": 4843
  },
  "comments": [
   "Horizon prints a module script in <head> and again next to each block that uses it",
   "Shopify web pixels manager: tracking apps run in sandboxed pixels, not on the page",
-  "sticky add-to-cart bar repeats the product name and price"
+  "sticky add-to-cart bar repeats the product name and price",
+  "Horizon product gallery: big custom elements holding only images",
+  "Horizon: the buy button's id ends in \"__add-to-cart\"",
+  "Shopify fetches these with JavaScript: data-url is an API endpoint or this same page, not a page to crawl"
  ],
  "hidden": [],
  "hiddenChars": 0,
- "visibleChars": 292,
+ "visibleChars": 320,
  "cssText": [],
  "shadow": {
   "open": 0,
   "openWithText": 0,
-  "customElements": 0,
+  "customElements": 5,
   "emptyCustom": []
  },
  "iframes": [],
@@ -57,5 +60,5 @@
    "ids": []
   }
  ],
- "collectedAt": "2026-10-30T08:07:05.483Z"
+ "collectedAt": "2026-10-30T08:10:53.512Z"
 }

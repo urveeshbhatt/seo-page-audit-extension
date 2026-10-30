@@ -1,14 +1,14 @@
 {
  "url": "http://127.0.0.1:8080/shopify-horizon.html",
- "collectedAt": "2026-10-30T08:07:05.561Z",
+ "collectedAt": "2026-10-30T08:10:53.585Z",
  "raw": {
   "ok": true,
   "reason": "",
-  "bytes": 3915,
+  "bytes": 4752,
   "challenge": false,
   "status": 200
  },
- "renderedBytes": 4006,
+ "renderedBytes": 4843,
  "signals": {
   "nextPages": false,
   "nextApp": false,
@@ -25,8 +25,8 @@
  },
  "mount": null,
  "words": {
-  "raw": 45,
-  "rendered": 45
+  "raw": 51,
+  "rendered": 51
  },
  "meta": {
   "raw": {

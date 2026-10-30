@@ -11,7 +11,7 @@ import { collectRendering } from '../modules/phase3-rendering.js';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
-const PAGES = ['perf-bad', 'perf-good', 'hostile-markup', 'quirks', 'csp-strict', 'busy']; // huge-dom left out: 400 KB of body data
+const PAGES = ['perf-bad', 'perf-good', 'hostile-markup', 'quirks', 'csp-strict', 'busy', 'shopify-horizon']; // huge-dom left out: 400 KB of body data
 const COLLECTORS = { head: collectHead, body: collectBody, health: collectHealth, signals: collectSignals, network: collectNetwork, rendering: collectRendering };
 
 const srv = await startServer();

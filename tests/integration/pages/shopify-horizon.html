@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horizon-style product page fixture: A2 Ghee</title>
+  <meta name="description" content="A Shopify Horizon-style product page with the patterns that fooled the extension on a live store.">
+  <link rel="canonical" href="{{SITE}}/shopify-horizon.html">
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    .sticky-add-to-cart { position: sticky; top: 0; background: #fff; padding: 4px; }
+    .cat { display: inline-block; padding: 4px; border: 0 solid #333; transition: all 20s linear; }
+    .cat.on { border-width: 4px; }
+  </style>
+  <!-- Horizon prints a module script in <head> and again next to each block that uses it -->
+  <script type="module" src="/mod-dialog.js"></script>
+  <script>var Shopify = Shopify || {}; Shopify.theme = { "name": "Horizon", "role": "main" };</script>
+  <!-- Shopify web pixels manager: tracking apps run in sandboxed pixels, not on the page -->
+  <script id="web-pixels-manager-setup">(function () { var cfg = { shopId: 91234567, surface: "storefront-renderer", webPixelsConfigList: [{"id":"2815000822","configuration":"{\"webPixelName\":\"Judge.me\"}","eventPayloadVersion":"v1","type":"APP","privacyPurposes":["ANALYTICS"]},{"id":"shopify-app-pixel","configuration":"{}","type":"APP"},{"id":"shopify-custom-pixel","eventPayloadVersion":"v1","runtimeContext":"LAX","type":"CUSTOM"}], isMerchantRequest: false }; window.__wpm = cfg; })();</script>
+  <script type="application/ld+json">{"@context":"http://schema.org","@type":"ProductGroup","name":"A2 Ghee","brand":{"@type":"Brand","name":"Test Organics"},"description":"Bilona ghee from hill cows.","hasVariant":[{"@type":"Product","name":"A2 Ghee - 1 L","offers":{"@type":"Offer","price":"1799.00","priceCurrency":"INR","availability":"http://schema.org/InStock"}},{"@type":"Product","name":"A2 Ghee - 0.5 L","offers":{"@type":"Offer","price":"879.00","priceCurrency":"INR","availability":"http://schema.org/InStock"}}]}</script>
+</head>
+<body>
+  <header>
+    <details class="menu-drawer-container">
+      <summary>Menu</summary>
+      <nav><a href="/">Home</a> <a href="/collections/all">Catalog</a> <a href="/pages/contact">Contact</a></nav>
+      <div class="predictive"></div>
+    </details>
+  </header>
+  <main>
+    <!-- sticky add-to-cart bar repeats the product name and price -->
+    <div class="sticky-add-to-cart"><span>A2 Ghee</span> <span class="price">₹ 1,799.00</span></div>
+    <div id="ProductInformation-main" class="product-details sticky-content">
+      <h1>A2 Ghee</h1>
+      <span class="price">₹ 1,799.00</span> Taxes included.
+      <p>Bilona ghee made from the milk of hill cows that graze in the forest. Slow cooked over a wood fire in small batches, with no preservatives and nothing added.</p>
+      <button name="add" type="submit">Add to cart</button>
+      <script type="module" src="/mod-dialog.js"></script>
+    </div>
+    <div class="icons">
+      <a class="cat" href="/collections/ghee">Ghee</a>
+      <a class="cat" href="/collections/honey">Honey</a>
+      <a class="cat" href="/collections/pickle">Pickle</a>
+    </div>
+  </main>
+  <footer>
+    <a href="tel:6398918467,9389524019">6398918467, 9389524019</a>
+    <a href="https://wa.me/9389524019,6398918467">9389524019, 6398918467</a>
+  </footer>
+  <script>
+    // predictive search results land in the menu drawer after load: not in the raw HTML
+    document.querySelector('.predictive').textContent = 'A2 Ghee ₹ 1,799.00 Regular price Sale price ₹ 1,799.00 Bee Pollen ₹ 349.00 Regular price Sale price';
+    // a one-time transition on border width, still running when the audit reads animations
+    addEventListener('load', () => requestAnimationFrame(() => document.querySelectorAll('.cat').forEach((a) => a.classList.add('on'))));
+  </script>
+</body>
+</html>

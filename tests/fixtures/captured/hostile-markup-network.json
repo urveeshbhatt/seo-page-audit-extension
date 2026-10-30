@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/hostile-markup.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-29T11:35:42.991Z",
+ "collectedAt": "2026-10-30T08:06:58.632Z",
  "renderedBytes": 21880,
  "nav": {
   "type": "navigate",
@@ -13,13 +13,13 @@
   "connect": 0,
   "ssl": 0,
   "ttfb": 1,
-  "download": 4,
+  "download": 2,
   "transferSize": 2160,
   "encodedBodySize": 1860,
   "decodedBodySize": 1860,
   "fromCache": false,
-  "domContentLoaded": 52,
-  "load": 219
+  "domContentLoaded": 40,
+  "load": 287
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Thu, 29 Oct 2026 11:35:42 GMT",
+   "date": "Fri, 30 Oct 2026 08:06:58 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -43,7 +43,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 3,
+   "total": 4,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -55,7 +55,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 3,
+   "total": 4,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -65,9 +65,9 @@
   },
   {
    "status": 200,
-   "ttfb": 1,
+   "ttfb": 2,
    "ttfbSource": "timing",
-   "total": 5,
+   "total": 6,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -91,9 +91,9 @@
   },
   {
    "status": 200,
-   "ttfb": 1,
+   "ttfb": 2,
    "ttfbSource": "timing",
-   "total": 4,
+   "total": 6,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -105,7 +105,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 3,
+   "total": 5,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -125,8 +125,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 210,
-    "start": 9
+    "duration": 274,
+    "start": 13
    },
    {
     "host": "localhost",
@@ -136,8 +136,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 47,
-    "start": 21
+    "duration": 46,
+    "start": 22
    },
    {
     "host": "127.0.0.1",
@@ -147,8 +147,8 @@
     "protocol": "http/1.1",
     "encoded": 1860,
     "decoded": 1860,
-    "duration": 3,
-    "start": 1439
+    "duration": 4,
+    "start": 1509
    }
   ]
  },

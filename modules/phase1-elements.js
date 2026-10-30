@@ -53,13 +53,33 @@ export function collectHead() {
     const t = node && node['@type'];
     return Array.isArray(t) ? t.map(String) : t ? [String(t)] : [];
   };
-  const walk = (node, depth) => {
+  // ProductGroup (Shopify, variant products): the group carries brand and
+  // description, each variant in hasVariant is a Product with its own offer.
+  // Report the group once, with the variants' price range, and skip the
+  // variants (they have no brand of their own).
+  const groupOffer = (node) => {
+    const prices = (Array.isArray(node.hasVariant) ? node.hasVariant : [])
+      .map((v) => (Array.isArray(v && v.offers) ? v.offers[0] : v && v.offers))
+      .filter((o) => o && typeof o === 'object');
+    const nums = prices.map((o) => Number(String(o.price ?? o.lowPrice ?? '').replace(/,/g, ''))).filter((n) => Number.isFinite(n) && n > 0);
+    if (!prices.length) return null;
+    const low = nums.length ? Math.min(...nums) : null;
+    const high = nums.length ? Math.max(...nums) : null;
+    return {
+      price: low === null ? '' : String(low),
+      highPrice: high !== null && high !== low ? String(high) : '',
+      priceCurrency: prices[0].priceCurrency,
+      availability: (prices.find((o) => /InStock/i.test(String(o.availability))) || prices[0]).availability,
+    };
+  };
+  const walk = (node, depth, inGroup) => {
     if (!node || typeof node !== 'object' || depth > 8) return;
-    if (Array.isArray(node)) { node.forEach((n) => walk(n, depth + 1)); return; }
+    if (Array.isArray(node)) { node.forEach((n) => walk(n, depth + 1, inGroup)); return; }
     const t = typeList(node);
     t.forEach((x) => types.add(x));
-    if (t.includes('Product') && products.length < 5) {
-      const offers = Array.isArray(node.offers) ? node.offers[0] : node.offers;
+    const isGroup = t.includes('ProductGroup');
+    if ((isGroup || (t.includes('Product') && !inGroup)) && products.length < 5) {
+      const offers = isGroup && !node.offers ? groupOffer(node) : Array.isArray(node.offers) ? node.offers[0] : node.offers;
       const brand = node.brand;
       products.push({
         name: clip(typeof node.name === 'string' ? node.name : '', 300),
@@ -77,11 +97,11 @@ export function collectHead() {
       });
     }
     Object.keys(node).forEach((k) => {
-      if (k !== '@context') walk(node[k], depth + 1);
+      if (k !== '@context') walk(node[k], depth + 1, inGroup || isGroup);
     });
   };
   scripts.forEach((s) => {
-    try { walk(JSON.parse(s.textContent || ''), 0); } catch (e) { parseErrors += 1; }
+    try { walk(JSON.parse(s.textContent || ''), 0, false); } catch (e) { parseErrors += 1; }
   });
 
   // ---- Open Graph / Twitter ----
@@ -175,17 +195,30 @@ export async function collectBody() {
     '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
     '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
     '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
-    '[class*="cookie"]', '[id*="cookie"]', '[class*="cky-"]',
+    // CookieYes classes start with "cky-"; [class*="cky-"] also matched "sticky-",
+    // which hid Shopify's main product block (.sticky-content) and its price.
+    '[class*="cookie"]', '[id*="cookie"]', '[class^="cky-"]', '[class*=" cky-"]',
   ].join(',');
+  // Visible text outside those zones, read node by node. (Removing each zone's
+  // text from the page text by string replace removed the first match, which
+  // can be the main content when a sticky bar repeats the product name and price.)
   const contentText = (() => {
-    let t = renderedText;
-    if (!document.body) return t;
-    document.body.querySelectorAll(NOT_CONTENT).forEach((el) => {
-      if (el.parentElement && el.parentElement.closest(NOT_CONTENT)) return; // outermost zones only
-      const z = norm(el.innerText);
-      if (z) t = t.replace(z, ' ');
-    });
-    return norm(t);
+    if (!document.body) return renderedText;
+    const parts = [];
+    const ok = new Map();
+    const keep = (el) => {
+      if (ok.has(el)) return ok.get(el);
+      const v = !el.closest(NOT_CONTENT) && !el.closest('script, style, noscript, template')
+        && (el.checkVisibility ? el.checkVisibility({ visibilityProperty: true }) : el.getClientRects().length > 0);
+      ok.set(el, v);
+      return v;
+    };
+    const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = tw.nextNode(); n && parts.length < 20000; n = tw.nextNode()) {
+      const el = n.parentElement;
+      if (el && n.nodeValue.trim() && keep(el)) parts.push(n.nodeValue);
+    }
+    return norm(parts.join(' '));
   })();
   const renderedWords = renderedText ? renderedText.split(' ').length : 0;
   const samples = [];
@@ -554,6 +587,38 @@ export function collectHealth() {
   add(/optimizely/.test(srcs + html.slice(0, 300000)), 'Optimizely', 'testing');
   add(/adsrvr\.org/.test(srcs + html.slice(0, 300000)), 'The Trade Desk', 'tracking');
   add(/vwo\.com|visualwebsiteoptimizer/.test(srcs + inline), 'VWO', 'testing');
+  // Shopify runs tracking apps (Google & YouTube, Meta, review apps) and the
+  // store's own "custom pixels" inside sandboxed iframes / workers, so their
+  // tags never show on the page. The list is in webPixelsConfigList.
+  const shopifyPixels = [];
+  try {
+    const src = scripts.filter((s) => !s.src && s.textContent.includes('webPixelsConfigList')).map((s) => s.textContent)[0] || '';
+    const at = src.indexOf('webPixelsConfigList');
+    const start = at < 0 ? -1 : src.indexOf('[', at);
+    if (start >= 0) {
+      let depth = 0; let inStr = false; let end = -1;
+      for (let i = start; i < src.length && i < start + 200000; i += 1) {
+        const c = src[i];
+        if (inStr) { if (c === '\\') i += 1; else if (c === '"') inStr = false; continue; }
+        if (c === '"') inStr = true;
+        else if (c === '[' || c === '{') depth += 1;
+        else if ((c === ']' || c === '}') && --depth === 0) { end = i; break; }
+      }
+      const list = end > 0 ? JSON.parse(src.slice(start, end + 1)) : [];
+      (Array.isArray(list) ? list : []).slice(0, 30).forEach((p) => {
+        if (!p || typeof p !== 'object' || p.id === 'shopify-app-pixel') return; // Shopify's own analytics
+        const conf = typeof p.configuration === 'string' ? p.configuration : '';
+        let name = '';
+        try { name = String((JSON.parse(conf || '{}') || {}).webPixelName || ''); } catch { /* not JSON */ }
+        if (p.type === 'CUSTOM' || p.id === 'shopify-custom-pixel') name = 'Custom pixel';
+        shopifyPixels.push({
+          name: clip(name || `App pixel ${p.id}`, 60),
+          type: clip(String(p.type || ''), 20),
+          ids: [...new Set(conf.match(/\b(?:G|AW|GT|GTM|DC)-[A-Z0-9]{4,12}\b/g) || [])].slice(0, 6),
+        });
+      });
+    }
+  } catch { /* unexpected format: leave the list empty */ }
   const ids = (re) => [...new Set((srcs + inline).match(re) || [])].slice(0, 10);
   const tags = { gtm: ids(/GTM-[A-Z0-9]{4,9}/g), ga4: ids(/\bG-[A-Z0-9]{6,12}\b/g), ua: ids(/\bUA-\d{4,10}-\d{1,4}\b/g), aw: ids(/\bAW-\d{6,12}\b/g) };
 
@@ -579,6 +644,7 @@ export function collectHealth() {
     generator,
     stack,
     tags,
+    shopifyPixels,
     collectedAt: new Date().toISOString(),
   };
 }

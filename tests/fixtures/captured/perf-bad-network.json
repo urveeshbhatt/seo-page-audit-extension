@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/perf-bad.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-29T11:35:39.927Z",
+ "collectedAt": "2026-10-30T08:06:55.528Z",
  "renderedBytes": 2976,
  "nav": {
   "type": "navigate",
@@ -10,16 +10,16 @@
   "redirectCount": 0,
   "protocol": "http/1.1",
   "dns": 0,
-  "connect": 2,
+  "connect": 0,
   "ssl": 0,
-  "ttfb": 9,
-  "download": 3,
+  "ttfb": 5,
+  "download": 6,
   "transferSize": 3196,
   "encodedBodySize": 2896,
   "decodedBodySize": 2896,
   "fromCache": false,
-  "domContentLoaded": 730,
-  "load": 733
+  "domContentLoaded": 455,
+  "load": 463
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Thu, 29 Oct 2026 11:35:39 GMT",
+   "date": "Fri, 30 Oct 2026 08:06:55 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -41,6 +41,18 @@
  "warm": [
   {
    "status": 200,
+   "ttfb": 2,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 5,
@@ -53,21 +65,9 @@
   },
   {
    "status": 200,
-   "ttfb": 3,
+   "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 32,
-   "encoded": 2896,
-   "decoded": 2896,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
-  {
-   "status": 200,
-   "ttfb": 2,
-   "ttfbSource": "timing",
-   "total": 5,
+   "total": 4,
    "encoded": 2896,
    "decoded": 2896,
    "cache": {
@@ -79,18 +79,6 @@
  "cold": [
   {
    "status": 200,
-   "ttfb": 3,
-   "ttfbSource": "timing",
-   "total": 8,
-   "encoded": 2896,
-   "decoded": 2896,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
-  {
-   "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
    "total": 5,
@@ -103,9 +91,21 @@
   },
   {
    "status": 200,
-   "ttfb": 2,
+   "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 5,
+   "total": 4,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
    "encoded": 2896,
    "decoded": 2896,
    "cache": {
@@ -126,7 +126,7 @@
     "encoded": 37,
     "decoded": 37,
     "duration": 414,
-    "start": 50
+    "start": 17
    },
    {
     "host": "localhost",
@@ -137,7 +137,7 @@
     "encoded": 0,
     "decoded": 0,
     "duration": 313,
-    "start": 54
+    "start": 18
    },
    {
     "host": "localhost",
@@ -147,8 +147,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 320,
-    "start": 54
+    "duration": 317,
+    "start": 19
    },
    {
     "host": "localhost",
@@ -158,8 +158,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 325,
-    "start": 56
+    "duration": 321,
+    "start": 19
    },
    {
     "host": "127.0.0.1",
@@ -169,8 +169,8 @@
     "protocol": "http/1.1",
     "encoded": 47,
     "decoded": 47,
-    "duration": 328,
-    "start": 56
+    "duration": 324,
+    "start": 19
    },
    {
     "host": "127.0.0.1",
@@ -180,8 +180,8 @@
     "protocol": "http/1.1",
     "encoded": 489,
     "decoded": 489,
-    "duration": 211,
-    "start": 57
+    "duration": 214,
+    "start": 19
    },
    {
     "host": "127.0.0.1",
@@ -191,8 +191,8 @@
     "protocol": "http/1.1",
     "encoded": 47,
     "decoded": 47,
-    "duration": 4,
-    "start": 473
+    "duration": 6,
+    "start": 433
    },
    {
     "host": "127.0.0.1",
@@ -202,8 +202,8 @@
     "protocol": "http/1.1",
     "encoded": 0,
     "decoded": 0,
-    "duration": 71,
-    "start": 496
+    "duration": 26,
+    "start": 435
    },
    {
     "host": "127.0.0.1",
@@ -213,8 +213,8 @@
     "protocol": "http/1.1",
     "encoded": 4348,
     "decoded": 4348,
-    "duration": 308,
-    "start": 560
+    "duration": 307,
+    "start": 454
    },
    {
     "host": "127.0.0.1",
@@ -224,8 +224,8 @@
     "protocol": "http/1.1",
     "encoded": 2896,
     "decoded": 2896,
-    "duration": 5,
-    "start": 1998
+    "duration": 4,
+    "start": 1687
    }
   ]
  },

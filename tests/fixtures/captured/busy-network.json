@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/busy.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-29T11:35:47.641Z",
+ "collectedAt": "2026-10-30T08:07:03.393Z",
  "renderedBytes": 326,
  "nav": {
   "type": "navigate",
@@ -12,13 +12,13 @@
   "dns": 0,
   "connect": 1,
   "ssl": 0,
-  "ttfb": 2,
-  "download": 2,
+  "ttfb": 1,
+  "download": 1,
   "transferSize": 642,
   "encodedBodySize": 342,
   "decodedBodySize": 342,
   "fromCache": false,
-  "domContentLoaded": 18,
+  "domContentLoaded": 17,
   "load": 18
  },
  "doc": {
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Thu, 29 Oct 2026 11:35:47 GMT",
+   "date": "Fri, 30 Oct 2026 08:07:03 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -39,6 +39,18 @@
   "challengeHint": ""
  },
  "warm": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 6,
+   "encoded": 342,
+   "decoded": 342,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
   {
    "status": 200,
    "ttfb": 1,
@@ -55,19 +67,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 3,
-   "encoded": 342,
-   "decoded": 342,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
-  {
-   "status": 200,
-   "ttfb": 1,
-   "ttfbSource": "timing",
-   "total": 3,
+   "total": 4,
    "encoded": 342,
    "decoded": 342,
    "cache": {
@@ -81,7 +81,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 4,
+   "total": 184,
    "encoded": 342,
    "decoded": 342,
    "cache": {
@@ -91,9 +91,9 @@
   },
   {
    "status": 200,
-   "ttfb": 1,
+   "ttfb": 2,
    "ttfbSource": "timing",
-   "total": 3,
+   "total": 5,
    "encoded": 342,
    "decoded": 342,
    "cache": {
@@ -103,9 +103,9 @@
   },
   {
    "status": 200,
-   "ttfb": 1,
+   "ttfb": 2,
    "ttfbSource": "timing",
-   "total": 196,
+   "total": 6,
    "encoded": 342,
    "decoded": 342,
    "cache": {
@@ -125,8 +125,8 @@
     "protocol": "http/1.1",
     "encoded": 342,
     "decoded": 342,
-    "duration": 3,
-    "start": 1408
+    "duration": 5,
+    "start": 1407
    }
   ]
  },

@@ -338,6 +338,30 @@ function linkFindings(d) {
       null, blankContact.map((l) => `"${short(l.text || l.label || '(no text)', 40)}" → ${l.href || '(blank)'}`)));
   }
 
+  // Broken call / WhatsApp links: two numbers in one link (a comma in tel: means
+  // "dial the first, then send the second as tones"), or a wa.me number without
+  // the country code (WhatsApp needs the full international number).
+  const badContact = [];
+  links.forEach((l) => {
+    const href = String(l.href || '').trim();
+    const tel = href.match(/^tel:(.*)$/i);
+    const wa = href.match(/^(?:https?:\/\/)?(?:wa\.me\/([^?#]*)|api\.whatsapp\.com\/send\/?\?(?:[^#]*&)?phone=([^&#]*))/i);
+    const num = tel ? tel[1] : wa ? (wa[1] || wa[2] || '') : null;
+    if (num === null || /x/i.test(num)) return; // not a contact link, or a placeholder (checked elsewhere)
+    let plain = num;
+    try { plain = decodeURIComponent(num); } catch { /* malformed %-escape: read as written */ }
+    const groups = plain.split(/[,;/]|\s{2,}/).map((g) => g.replace(/\D/g, '')).filter((g) => g.length >= 6);
+    if (groups.length > 1) badContact.push({ l, why: `Two numbers in one link: ${href}` });
+    else if (wa && groups.length === 1 && groups[0].length <= 10) badContact.push({ l, why: `No country code, WhatsApp cannot open it: ${href}` });
+  });
+  if (badContact.length) {
+    const anyVisible = badContact.some((b) => b.l.visible);
+    out.push(finding('links-badcontact', 'Broken call / WhatsApp link', plural(badContact.length, 'link'), anyVisible ? 'warning' : 'info',
+      'These links do not reach the number. Use one number per link, written in full with the country code: tel:+919876543210 and https://wa.me/919876543210 (no +, no spaces).',
+      null, badContact.map((b) => b.why)));
+  }
+  target(out, 'links-badcontact', hrefT(badContact.map((b) => b.l)));
+
   if (numbers.size > 1) {
     out.push(finding('links-phones', 'Contact numbers', [...numbers].map(([n, c]) => `${n} ×${c}`).join(', '), 'warning',
       'WhatsApp / phone links use different numbers. Customers may message the wrong one. Use one number everywhere.'));

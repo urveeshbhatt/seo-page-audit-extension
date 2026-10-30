@@ -207,9 +207,23 @@ function stackFindings(d, ctx) {
   const tracking = [...names('tracking'), ...names('testing')];
   const t = d.tags || {};
   const idList = [...(t.gtm || []), ...(t.ga4 || []), ...(t.aw || []), ...(t.ua || [])];
-  if (!tracking.length) {
+  // Shopify: tracking apps and custom pixels run sandboxed, off the page.
+  const pixels = Array.isArray(d.shopifyPixels) ? d.shopifyPixels.filter((p) => p && typeof p === 'object') : [];
+  const pixelLines = pixels.map((p) => `Shopify pixel: ${p.name}${Array.isArray(p.ids) && p.ids.length ? ` (${p.ids.join(', ')})` : ''}`);
+  const pixelIds = pixels.flatMap((p) => (Array.isArray(p.ids) ? p.ids : []));
+  const onShopify = names('platform').includes('Shopify');
+  if (!tracking.length && pixelIds.some((id) => /^(G|GT|GTM)-/.test(id))) {
+    out.push(finding('stack-tracking', 'Tracking and testing', 'Google tag in a Shopify app pixel', 'info',
+      'Shopify loads this tag inside its sandboxed pixel, so it does not show in the page code. Confirm data arrives in GA4 → Realtime.', null, pixelLines));
+  } else if (!tracking.length && (onShopify || pixels.length)) {
+    out.push(finding('stack-tracking', 'Analytics', pixels.length ? `No Google tag on the page · ${pixels.length} Shopify pixel${pixels.length === 1 ? '' : 's'}` : 'No Google tag on the page', 'warning',
+      'Shopify runs tracking apps and custom pixels in a sandbox, so a page scan cannot see them. Check Shopify admin → Settings → Customer events (and the Google & YouTube app). If GA4 is not there, install it: without analytics you cannot prove SEO results.',
+      'Check by hand', pixelLines.length ? pixelLines : null));
+  } else if (!tracking.length) {
     out.push(finding('stack-tracking', 'Analytics', 'None detected', isPrelaunch(ctx) ? 'warning' : 'critical',
-      'No analytics found. You cannot prove SEO results without it. Install GA4 (or GTM) before launch.'));
+      isPrelaunch(ctx)
+        ? 'No analytics found. You cannot prove SEO results without it. Install GA4 (or GTM) before launch.'
+        : 'No analytics found on this live page. You cannot prove SEO results without it. Install GA4 (or GTM) now; tags added later have no history to compare against.'));
   } else {
     out.push(finding('stack-tracking', 'Tracking and testing', tracking.join(', '), 'info',
       'Each tag adds JavaScript. Keep only the ones someone actually uses.', null, idList.length ? idList.map((id) => `ID: ${id}`) : null));

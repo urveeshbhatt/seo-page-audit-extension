@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.1 (Shopify fixes from a live store audit)
+
+A full audit of a live Shopify store (Horizon theme) on 30 Oct 2026 found eight false alarms and one miss. Each one is now a test (`tests/platform-fixes.test.mjs` and the `shopify-horizon` integration page) and is fixed:
+
+- **"Script loaded twice" for module scripts.** Shopify prints the same `<script type="module">` next to every block; the browser loads and runs it once. Module scripts are now counted once (a classic `<script>` printed twice still counts, because it runs twice)
+- **CSS transitions reported as layout animations.** A 0.3 s border transition that happened to be running was flagged like a looping animation. Animations now carry a `kind`; transitions are left out
+- **"No brand" on Shopify products.** Shopify writes `ProductGroup` (with brand) and one `Product` per variant (without). The group is now read as the product, with the variants' price range
+- **"Schema price not on the page" while the price was shown.** The cookie-banner selector `[class*="cky-"]` also matched `sticky-`, which hid Shopify's main product block. Fixed in Body and Rendering, and page text is now read node by node instead of removing repeated text by string replace
+- **"Analytics: none detected" (critical) on Shopify.** Shopify runs tracking apps and custom pixels in a sandbox. The Health tab now lists the store's pixels (from `webPixelsConfigList`), treats a Google tag inside a pixel as tracking, and otherwise asks to check Settings → Customer events. Live non-Shopify pages without analytics stay critical, without the "before launch" wording
+- **Cloudflare cache-rule advice on Shopify.** Shopify (detected from `powered-by` / `x-shopid`) manages HTML caching itself: now an info note, no advice to change it
+- **"Combine files with your cache plugin" on Shopify.** Now an info note: remove unused apps and sections instead. Other sites get "cache plugin (WordPress) or build tool"
+- **Mobile menu reported as a content panel loaded by JavaScript**, and **"no buy button"** next to a visible "Add to cart": menus, drawers and dialogs are no longer panels, and the buy-button check reads the fixed page text
+- **Missed: broken call / WhatsApp links.** New `links-badcontact` finding: two numbers in one `tel:` or `wa.me` link, or a `wa.me` number without the country code
+
 ## 1.5.0 (Phase 4: Performance)
 
 New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and checked against a live D2C product page.

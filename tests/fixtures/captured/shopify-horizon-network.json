@@ -1,0 +1,173 @@
+{
+ "url": "http://127.0.0.1:8080/shopify-horizon.html",
+ "origin": "http://127.0.0.1:8080",
+ "host": "127.0.0.1",
+ "collectedAt": "2026-10-30T08:07:05.501Z",
+ "renderedBytes": 4006,
+ "nav": {
+  "type": "navigate",
+  "status": 200,
+  "redirectCount": 0,
+  "protocol": "http/1.1",
+  "dns": 0,
+  "connect": 0,
+  "ssl": 0,
+  "ttfb": 2,
+  "download": 4,
+  "transferSize": 4225,
+  "encodedBodySize": 3925,
+  "decodedBodySize": 3925,
+  "fromCache": false,
+  "domContentLoaded": 22,
+  "load": 23
+ },
+ "doc": {
+  "status": 200,
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/shopify-horizon.html",
+  "headers": {
+   "cache-control": "no-store",
+   "connection": "keep-alive",
+   "content-type": "text/html; charset=utf-8",
+   "date": "Fri, 30 Oct 2026 08:07:05 GMT",
+   "keep-alive": "timeout=5",
+   "transfer-encoding": "chunked"
+  },
+  "bytes": 3915,
+  "encoded": 3925,
+  "decoded": 3925,
+  "challengeHint": ""
+ },
+ "warm": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "cold": [
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 3925,
+   "decoded": 3925,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  }
+ ],
+ "resources": {
+  "count": 2,
+  "entries": [
+   {
+    "host": "127.0.0.1",
+    "name": "mod-dialog.js",
+    "type": "js",
+    "initiator": "script",
+    "protocol": "http/1.1",
+    "encoded": 155,
+    "decoded": 155,
+    "duration": 6,
+    "start": 12
+   },
+   {
+    "host": "127.0.0.1",
+    "name": "shopify-horizon.html",
+    "type": "fetch",
+    "initiator": "fetch",
+    "protocol": "http/1.1",
+    "encoded": 3925,
+    "decoded": 3925,
+    "duration": 3,
+    "start": 1243
+   }
+  ]
+ },
+ "robots": {
+  "status": 200,
+  "contentType": "text/plain",
+  "redirected": false,
+  "finalUrl": "http://127.0.0.1:8080/robots.txt",
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+ },
+ "llms": {
+  "status": 404,
+  "contentType": "text/plain",
+  "start": "not found",
+  "looksLikeHtml": false
+ },
+ "sitemap": {
+  "declared": [
+   "/sitemap.xml"
+  ],
+  "declaredOffsite": 0,
+  "url": "",
+  "status": 404,
+  "isIndex": false,
+  "children": 0,
+  "filesRead": 0,
+  "urls": 0,
+  "lastmod": null,
+  "samples": [],
+  "challenged": 0
+ },
+ "errors": []
+}

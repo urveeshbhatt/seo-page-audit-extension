@@ -1,0 +1,54 @@
+{
+ "url": "http://127.0.0.1:8080/shopify-horizon.html",
+ "origin": "http://127.0.0.1:8080",
+ "path": "/shopify-horizon.html",
+ "robots": [],
+ "googlebot": [],
+ "canonicals": [
+  "http://127.0.0.1:8080/shopify-horizon.html"
+ ],
+ "viewport": [
+  "width=device-width, initial-scale=1"
+ ],
+ "title": "Horizon-style product page fixture: A2 Ghee",
+ "titleCount": 1,
+ "descriptions": [
+  "A Shopify Horizon-style product page with the patterns that fooled the extension on a live store."
+ ],
+ "og": [],
+ "twitterCount": 0,
+ "jsonld": {
+  "scriptCount": 1,
+  "parseErrors": 0,
+  "types": [
+   "ProductGroup",
+   "Brand",
+   "Product",
+   "Offer"
+  ],
+  "products": [
+   {
+    "name": "A2 Ghee",
+    "hasDescription": true,
+    "descriptionSample": "Bilona ghee from hill cows.",
+    "brand": "Test Organics",
+    "sku": "",
+    "hasOffers": true,
+    "price": "879",
+    "highPrice": "1799",
+    "currency": "INR",
+    "availability": "http://schema.org/InStock",
+    "hasRating": false,
+    "hasReviews": false
+   }
+  ]
+ },
+ "lang": "en",
+ "hreflang": [],
+ "extras": {
+  "metaKeywords": "",
+  "favicon": false,
+  "preconnect": []
+ },
+ "collectedAt": "2026-10-30T08:07:05.456Z"
+}

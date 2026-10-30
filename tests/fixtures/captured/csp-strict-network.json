@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/csp-strict.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-29T11:35:45.964Z",
+ "collectedAt": "2026-10-30T08:07:01.700Z",
  "renderedBytes": 346,
  "nav": {
   "type": "navigate",
@@ -12,14 +12,14 @@
   "dns": 0,
   "connect": 0,
   "ssl": 0,
-  "ttfb": 4,
-  "download": 1,
+  "ttfb": 3,
+  "download": 3,
   "transferSize": 664,
   "encodedBodySize": 364,
   "decodedBodySize": 364,
   "fromCache": false,
-  "domContentLoaded": 24,
-  "load": 25
+  "domContentLoaded": 20,
+  "load": 24
  },
  "doc": null,
  "warm": [
@@ -61,8 +61,8 @@
     "protocol": "http/1.1",
     "encoded": 489,
     "decoded": 489,
-    "duration": 7,
-    "start": 14
+    "duration": 8,
+    "start": 15
    }
   ]
  },

@@ -178,9 +178,19 @@ function ttfbFinding(id, check, list, who, goodWhy) {
   return finding(id, check, value, 'warning', `${who} Above 1.8 s: Google calls this poor. Cache the HTML or fix slow server code first; nothing on the page can make up for it.`, 'Fix');
 }
 
+// Hosted platforms where the store owner cannot change server caching or
+// bundle files: advice must fit the platform. Shopify sends "powered-by: Shopify"
+// and x-shopid on every page.
+export function platformOf(headers) {
+  const h = headers && typeof headers === 'object' ? headers : {};
+  if (/shopify/i.test(String(h['powered-by'] || h['x-powered-by'] || '')) || h['x-shopid'] || h['x-shardid']) return 'Shopify';
+  return '';
+}
+
 function cachingFindings(d) {
   const out = [];
   const h = (d.doc && d.doc.headers) || {};
+  const platform = platformOf(h);
   const cdns = CDN_TESTS.filter(([, t]) => t(h)).map(([n]) => n);
   if (h['x-litespeed-cache'] || /litespeed/i.test(h.server || '')) cdns.push('LiteSpeed server cache');
   out.push(cdns.length
@@ -197,7 +207,9 @@ function cachingFindings(d) {
     const value = `With your cookies: ${layerText(warm)} · Guest, new URL: ${layerText(cold)}`;
     const skips = (st) => st.length && st.every((x) => x === 'BYPASS' || x === 'DYNAMIC');
     const innerHit = inner(warm).length && inner(warm).every((x) => x === 'HIT');
-    if (skips(coldStates)) {
+    if (skips(coldStates) && platform === 'Shopify') {
+      out.push(finding('net-cache-hit', 'HTML cache', value, 'info', 'Shopify builds and caches store pages itself; the CDN shows DYNAMIC and store owners cannot change HTML caching. Nothing to fix here: judge server speed by the uncached TTFB below.'));
+    } else if (skips(coldStates)) {
       out.push(finding('net-cache-hit', 'HTML cache', value, 'warning', 'The edge cache never stores this HTML, even for a guest. Every visitor and crawler waits for the server. Add a cache rule for HTML (Cloudflare: Cache Rules → Eligible for cache).'));
     } else if (warmStates.length && warmStates.every((x) => x === 'HIT')) {
       out.push(finding('net-cache-hit', 'HTML cache', value, 'good', 'Repeat requests come from the edge cache. Guest requests to a brand-new URL miss by design; they show the origin speed below.'));
@@ -289,8 +301,12 @@ function resourceFindings(d) {
 
   const css = own.filter((e) => e.type === 'css').length;
   const js = own.filter((e) => e.type === 'js').length;
-  out.push(finding('net-files', 'Own CSS and JS files', `${plural(css, 'CSS file')} · ${plural(js, 'JS file')}`, css > 20 || js > 40 ? 'warning' : 'good',
-    css > 20 || js > 40 ? 'Many separate files from your own site. Each one is a request; combine and defer them with your cache / optimisation plugin, then re-test.' : 'File count from your own site is reasonable.'));
+  const many = css > 20 || js > 40;
+  const shopify = platformOf(d.doc && d.doc.headers) === 'Shopify';
+  out.push(finding('net-files', 'Own CSS and JS files', `${plural(css, 'CSS file')} · ${plural(js, 'JS file')}`, many ? (shopify ? 'info' : 'warning') : 'good',
+    !many ? 'File count from your own site is reasonable.'
+      : shopify ? 'Shopify themes load many small files over HTTP/2 and store owners cannot bundle them. To cut the count, remove apps nobody uses and sections the page does not need.'
+        : 'Many separate files from your own site. Each one is a request; combine and defer them with your cache / optimisation plugin (WordPress) or your build tool, then re-test.'));
 
   const ownH1 = own.filter((e) => e.protocol === 'http/1.1').length;
   if (ownH1 > 5) out.push(finding('net-res-protocol', 'Files over HTTP/1.1', `${ownH1} of your own files`, 'warning', 'Your own files load over HTTP/1.1 (a few at a time). Turn on HTTP/2 at the host or CDN.'));

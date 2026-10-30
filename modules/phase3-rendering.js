@@ -47,7 +47,9 @@ export async function collectRendering() {
     '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
     '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
     '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
-    '[class*="cookie"]', '[id*="cookie"]', '[class*="cky-"]',
+    // CookieYes classes start with "cky-"; [class*="cky-"] also matched "sticky-"
+    // and removed Shopify's main product block (.sticky-content).
+    '[class*="cookie"]', '[id*="cookie"]', '[class^="cky-"]', '[class*=" cky-"]',
   ].join(',');
   const SKIP = 'script, style, noscript, template, svg';
 
@@ -205,15 +207,25 @@ export async function collectRendering() {
     return found;
   };
   // What a visitor can read on screen, minus header/menus/announcement bar/cart/footer.
+  // Read node by node: removing each zone's text by string replace removed the
+  // first match, which can be the main content when a sticky bar repeats it.
   const visibleText = (() => {
     if (!document.body) return '';
-    let text = norm(document.body.innerText);
-    document.body.querySelectorAll(NOT_CONTENT).forEach((el) => {
-      if (el.parentElement && el.parentElement.closest(NOT_CONTENT)) return; // outermost zones only
-      const t = norm(el.innerText);
-      if (t) text = text.replace(t, ' ');
-    });
-    return norm(text);
+    const parts = [];
+    const ok = new Map();
+    const keep = (el) => {
+      if (ok.has(el)) return ok.get(el);
+      const v = !el.closest(NOT_CONTENT) && !el.closest(SKIP)
+        && (el.checkVisibility ? el.checkVisibility({ visibilityProperty: true }) : el.getClientRects().length > 0);
+      ok.set(el, v);
+      return v;
+    };
+    const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = tw.nextNode(); n && parts.length < 20000; n = tw.nextNode()) {
+      const el = n.parentElement;
+      if (el && n.nodeValue.trim() && keep(el)) parts.push(n.nodeValue);
+    }
+    return norm(parts.join(' '));
   })();
   const rawContentText = rawDoc ? textWithout(rawDoc.body, NOT_CONTENT) : '';
   if (offers.length) {
@@ -278,8 +290,12 @@ export async function collectRendering() {
   const PANELS = '[role="tabpanel"], details, .tab-pane, .woocommerce-Tabs-panel, .elementor-tab-content, .e-n-accordion-item, .accordion-content, .accordion-body, .accordion-collapse, [class*="accordion"] [class*="content"], [class*="faq"] [class*="answer"]';
   const rawLower = rawDoc ? textWithout(rawDoc.body).toLowerCase() : '';
   const seen = new Set();
+  // Menus, drawers and dialogs use <details> too (Shopify's mobile menu, whose
+  // search results are filled in by JavaScript): they are not content panels.
+  const NOT_PANEL = 'header, nav, footer, dialog, [role="dialog"], [role="navigation"], [class*="menu"], [class*="drawer"]';
   document.querySelectorAll(PANELS).forEach((el) => {
     if (out.panels.length >= 15) return;
+    if (el.closest(NOT_PANEL)) return;
     const text = textWithout(el);
     if (text.length < 40) return;
     const probe = text.slice(0, 80).toLowerCase();

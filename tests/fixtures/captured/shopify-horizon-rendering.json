@@ -1,0 +1,115 @@
+{
+ "url": "http://127.0.0.1:8080/shopify-horizon.html",
+ "collectedAt": "2026-10-30T08:07:05.561Z",
+ "raw": {
+  "ok": true,
+  "reason": "",
+  "bytes": 3915,
+  "challenge": false,
+  "status": 200
+ },
+ "renderedBytes": 4006,
+ "signals": {
+  "nextPages": false,
+  "nextApp": false,
+  "nextStatic": false,
+  "nuxt": false,
+  "angular": false,
+  "vueSsr": false,
+  "gatsby": false,
+  "astro": false,
+  "shopify": true,
+  "wordpress": false,
+  "elementor": false,
+  "reactRootAttr": false
+ },
+ "mount": null,
+ "words": {
+  "raw": 45,
+  "rendered": 45
+ },
+ "meta": {
+  "raw": {
+   "title": "Horizon-style product page fixture: A2 Ghee",
+   "description": "A Shopify Horizon-style product page with the patterns that fooled the extension on a live store.",
+   "canonical": "http://127.0.0.1:8080/shopify-horizon.html",
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "A2 Ghee"
+   ]
+  },
+  "rendered": {
+   "title": "Horizon-style product page fixture: A2 Ghee",
+   "description": "A Shopify Horizon-style product page with the patterns that fooled the extension on a live store.",
+   "canonical": "http://127.0.0.1:8080/shopify-horizon.html",
+   "robots": null,
+   "ogTitle": null,
+   "ogDescription": null,
+   "ogImage": null,
+   "twitterCard": null,
+   "lang": "en",
+   "h1": [
+    "A2 Ghee"
+   ]
+  }
+ },
+ "schema": {
+  "raw": [
+   "ProductGroup",
+   "Brand",
+   "Product",
+   "Offer"
+  ],
+  "rendered": [
+   "ProductGroup",
+   "Brand",
+   "Product",
+   "Offer"
+  ],
+  "rawMicrodata": [],
+  "renderedMicrodata": [],
+  "parseErrors": 0
+ },
+ "facts": {
+  "prices": [
+   {
+    "key": "price",
+    "value": "1799.00",
+    "currency": "INR",
+    "availability": "http://schema.org/InStock",
+    "visible": true,
+    "inRawText": true
+   },
+   {
+    "key": "price",
+    "value": "879.00",
+    "currency": "INR",
+    "availability": "http://schema.org/InStock",
+    "visible": false,
+    "inRawText": false
+   }
+  ],
+  "availability": "InStock",
+  "stockTextVisible": false,
+  "buyButton": true
+ },
+ "links": {
+  "raw": 6,
+  "rendered": 6,
+  "onlyRendered": 0,
+  "samples": []
+ },
+ "loadMore": [],
+ "pagination": {
+  "raw": [],
+  "rendered": []
+ },
+ "panels": [],
+ "fakeLinks": [],
+ "errors": []
+}

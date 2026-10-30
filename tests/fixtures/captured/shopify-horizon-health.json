@@ -1,0 +1,61 @@
+{
+ "url": "http://127.0.0.1:8080/shopify-horizon.html",
+ "dom": {
+  "nodes": 39,
+  "maxDepth": 5,
+  "maxChildren": 5,
+  "maxChildrenAt": "div#ProductInformation-main.product-details.sticky-content",
+  "htmlBytes": 4006
+ },
+ "comments": [
+  "Horizon prints a module script in <head> and again next to each block that uses it",
+  "Shopify web pixels manager: tracking apps run in sandboxed pixels, not on the page",
+  "sticky add-to-cart bar repeats the product name and price"
+ ],
+ "hidden": [],
+ "hiddenChars": 0,
+ "visibleChars": 292,
+ "cssText": [],
+ "shadow": {
+  "open": 0,
+  "openWithText": 0,
+  "customElements": 0,
+  "emptyCustom": []
+ },
+ "iframes": [],
+ "resources": {
+  "scripts": 6,
+  "externalScripts": 2,
+  "inlineScriptKB": 1,
+  "stylesheets": 0,
+  "blockingCss": 0,
+  "blockingScripts": [],
+  "blockingScriptCount": 0
+ },
+ "generator": [],
+ "stack": [
+  {
+   "name": "Shopify",
+   "group": "platform"
+  }
+ ],
+ "tags": {
+  "gtm": [],
+  "ga4": [],
+  "ua": [],
+  "aw": []
+ },
+ "shopifyPixels": [
+  {
+   "name": "Judge.me",
+   "type": "APP",
+   "ids": []
+  },
+  {
+   "name": "Custom pixel",
+   "type": "CUSTOM",
+   "ids": []
+  }
+ ],
+ "collectedAt": "2026-10-30T08:07:05.483Z"
+}

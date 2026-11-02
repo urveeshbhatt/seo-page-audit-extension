@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Images and fonts fixture: size causes, format, unused font and preloads</title>
+  <!-- preloads: one font nobody uses, one image no <img> shows, one stylesheet never applied -->
+  <link rel="preload" href="/img/pal-test.ttf?unused" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="/img/small.png?preloaded-but-unused" as="image">
+  <link rel="preload" href="/slow.css?preloaded-but-unused" as="style">
+  <!-- used only inside a web component's shadow root (Shopify Horizon overflow-list.css) -->
+  <link rel="preload" href="/slow.css?shadow" as="style">
+  <!-- a preload that IS used -->
+  <link rel="preload" href="/img/hero.png?lcp" as="image" fetchpriority="high">
+  <style>
+    @font-face { font-family: 'Used Face'; src: url('/img/pal-test.ttf?used') format('truetype'); font-display: swap; }
+    @font-face { font-family: 'Unused Face'; src: url('/img/pal-test.ttf?unused') format('truetype'); font-display: swap; }
+    /* one file listed for two weights (variable font): the bold is drawn, the regular is not */
+    @font-face { font-family: 'Shared Face'; font-weight: 400; src: url('/img/pal-test.ttf?shared') format('truetype'); font-display: swap; }
+    @font-face { font-family: 'Shared Face'; font-weight: 700; src: url('/img/pal-test.ttf?shared') format('truetype'); font-display: swap; }
+    .shared { font-family: 'Shared Face', sans-serif; font-weight: 700; }
+    .tight { width: 150px; height: 150px; display: block; }
+    /* Shopify Dawn base.css hides empty divs: the sizes probe must not be one */
+    div:empty { display: none; }
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    h1 { font-family: 'Used Face', sans-serif; font-size: 20px; }
+    .grid { display: flex; gap: 12px; }
+    .card { width: 200px; height: 200px; display: block; }
+    .full { width: 100%; height: auto; display: block; }
+    .slide { width: 360px; height: 240px; display: block; }
+    .photo { width: 150px; height: 150px; display: block; }
+  </style>
+</head>
+<body>
+  <h1>Images and fonts</h1>
+  <img class="full" src="/img/hero.png?lcp" width="1000" height="700" fetchpriority="high" alt="hero">
+  <div class="grid">
+    <!-- card: shown 200 px, sizes says 100vw, and srcset jumps 352 → 832 -->
+    <img class="card" alt="card" width="200" height="200"
+      src="/img/hero.png?w=832"
+      srcset="/img/hero.png?w=240 240w, /img/hero.png?w=352 352w, /img/hero.png?w=832 832w, /img/hero.png?w=1200 1200w"
+      sizes="(min-width: 750px) 25vw, 100vw">
+    <!-- gallery slide: sizes says 25vw, shown 360 px: the file is too small (blurry) -->
+    <img class="slide" alt="slide" width="300" height="200"
+      src="/img/small.png?w=300"
+      srcset="/img/small.png?w=300 300w"
+      sizes="(max-width: 600px) 25vw, 150px">
+  </div>
+  <!-- Shopify Dawn style srcset: no space after the commas -->
+  <img class="tight" alt="tight" width="150" height="150"
+    src="/img/hero.png?t=600"
+    srcset="/img/hero.png?t=200 200w,/img/hero.png?t=600 600w"
+    sizes="150px">
+  <p class="shared">Shared face, bold</p>
+  <overflow-demo></overflow-demo>
+  <script>
+    customElements.define('overflow-demo', class extends HTMLElement {
+      connectedCallback() { const r = this.attachShadow({ mode: 'open' }); r.innerHTML = '<link rel="stylesheet" href="/slow.css?shadow"><span>in shadow</span>'; }
+    });
+  </script>
+  <!-- a photo delivered as PNG (270 KB of noise) -->
+  <img class="photo" src="/img/photo-noise.png" width="300" height="300" alt="photo">
+</body>
+</html>

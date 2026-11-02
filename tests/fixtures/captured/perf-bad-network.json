@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/perf-bad.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-30T08:10:43.714Z",
+ "collectedAt": "2026-11-02T14:03:52.487Z",
  "renderedBytes": 2976,
  "nav": {
   "type": "navigate",
@@ -12,14 +12,14 @@
   "dns": 0,
   "connect": 0,
   "ssl": 0,
-  "ttfb": 9,
-  "download": 3,
+  "ttfb": 10,
+  "download": 1,
   "transferSize": 3196,
   "encodedBodySize": 2896,
   "decodedBodySize": 2896,
   "fromCache": false,
-  "domContentLoaded": 455,
-  "load": 465
+  "domContentLoaded": 451,
+  "load": 459
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Fri, 30 Oct 2026 08:10:43 GMT",
+   "date": "Mon, 02 Nov 2026 14:03:52 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -39,18 +39,6 @@
   "challengeHint": ""
  },
  "warm": [
-  {
-   "status": 200,
-   "ttfb": 2,
-   "ttfbSource": "timing",
-   "total": 5,
-   "encoded": 2896,
-   "decoded": 2896,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
   {
    "status": 200,
    "ttfb": 1,
@@ -65,9 +53,21 @@
   },
   {
    "status": 200,
+   "ttfb": 2,
+   "ttfbSource": "timing",
+   "total": 4,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
+  },
+  {
+   "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 5,
+   "total": 4,
    "encoded": 2896,
    "decoded": 2896,
    "cache": {
@@ -77,18 +77,6 @@
   }
  ],
  "cold": [
-  {
-   "status": 200,
-   "ttfb": 1,
-   "ttfbSource": "timing",
-   "total": 5,
-   "encoded": 2896,
-   "decoded": 2896,
-   "cache": {
-    "cache-control": "no-store"
-   },
-   "challenge": false
-  },
   {
    "status": 200,
    "ttfb": 2,
@@ -112,6 +100,18 @@
     "cache-control": "no-store"
    },
    "challenge": false
+  },
+  {
+   "status": 200,
+   "ttfb": 1,
+   "ttfbSource": "timing",
+   "total": 5,
+   "encoded": 2896,
+   "decoded": 2896,
+   "cache": {
+    "cache-control": "no-store"
+   },
+   "challenge": false
   }
  ],
  "resources": {
@@ -126,7 +126,7 @@
     "encoded": 37,
     "decoded": 37,
     "duration": 406,
-    "start": 25
+    "start": 24
    },
    {
     "host": "localhost",
@@ -148,7 +148,7 @@
     "encoded": 0,
     "decoded": 0,
     "duration": 311,
-    "start": 26
+    "start": 25
    },
    {
     "host": "localhost",
@@ -158,8 +158,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 316,
-    "start": 26
+    "duration": 314,
+    "start": 25
    },
    {
     "host": "127.0.0.1",
@@ -169,8 +169,8 @@
     "protocol": "http/1.1",
     "encoded": 47,
     "decoded": 47,
-    "duration": 320,
-    "start": 26
+    "duration": 318,
+    "start": 25
    },
    {
     "host": "127.0.0.1",
@@ -180,8 +180,8 @@
     "protocol": "http/1.1",
     "encoded": 489,
     "decoded": 489,
-    "duration": 208,
-    "start": 26
+    "duration": 212,
+    "start": 25
    },
    {
     "host": "127.0.0.1",
@@ -191,8 +191,8 @@
     "protocol": "http/1.1",
     "encoded": 47,
     "decoded": 47,
-    "duration": 5,
-    "start": 433
+    "duration": 2,
+    "start": 432
    },
    {
     "host": "127.0.0.1",
@@ -202,7 +202,7 @@
     "protocol": "http/1.1",
     "encoded": 0,
     "decoded": 0,
-    "duration": 29,
+    "duration": 19,
     "start": 435
    },
    {
@@ -213,8 +213,8 @@
     "protocol": "http/1.1",
     "encoded": 4348,
     "decoded": 4348,
-    "duration": 311,
-    "start": 454
+    "duration": 305,
+    "start": 450
    },
    {
     "host": "127.0.0.1",
@@ -224,8 +224,8 @@
     "protocol": "http/1.1",
     "encoded": 2896,
     "decoded": 2896,
-    "duration": 3,
-    "start": 1686
+    "duration": 4,
+    "start": 1690
    }
   ]
  },
@@ -234,7 +234,7 @@
   "contentType": "text/plain",
   "redirected": false,
   "finalUrl": "http://127.0.0.1:8080/robots.txt",
-  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\nSitemap: /site/sitemap-index.xml\n"
  },
  "llms": {
   "status": 404,
@@ -244,17 +244,133 @@
  },
  "sitemap": {
   "declared": [
-   "/sitemap.xml"
+   "/sitemap.xml",
+   "/site/sitemap-index.xml"
   ],
   "declaredOffsite": 0,
-  "url": "",
-  "status": 404,
-  "isIndex": false,
-  "children": 0,
-  "filesRead": 0,
-  "urls": 0,
-  "lastmod": null,
-  "samples": [],
+  "url": "/site/sitemap-index.xml",
+  "status": 200,
+  "isIndex": true,
+  "children": 1,
+  "filesRead": 2,
+  "urls": 13,
+  "lastmod": {
+   "withDate": 0,
+   "distinct": 0,
+   "today": 0
+  },
+  "samples": [
+   {
+    "url": "http://127.0.0.1:8080/site/index.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/index.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/index.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/ghee.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/ghee.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/ghee.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/honey.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/honey.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/honey.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/about.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/about.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/about.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/contact.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/contact.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/contact.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/shipping.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/shipping.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/index.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/demo.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/demo.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/demo.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/hidden.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/hidden.html",
+    "robots": "noindex",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/hidden.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/orphan.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/orphan.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/orphan.html",
+    "isHtml": true,
+    "viaCookies": false
+   }
+  ],
   "challenged": 0
  },
  "errors": []

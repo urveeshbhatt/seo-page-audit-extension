@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.6.0 (Phase 5: Site scan, and Phase 4 gaps)
+
+### New: Site tab (Phase 5, site-level crawl and indexing)
+
+One click scans up to 50, 100 or 300 pages of the site, from the sitemap (robots.txt "Sitemap:" lines, sitemap indexes and .xml.gz followed) or, with no sitemap, from the links on the open page. It reads the server HTML of each page (no JavaScript, like a crawler's first look), without cookies, one page at a time, and then checks the status of internal links found on those pages. Built from the hillshoporganics.com audit, where the big problems were site-wide:
+
+- **Sitemap**: found or not, sitemap files that fail, URLs on another domain, how much of the site was scanned
+- **Status and redirects**: listed URLs that return 404/5xx, listed URLs that redirect (list the final URL), non-HTML URLs
+- **Indexing signals**: noindex pages in the sitemap (meta or X-Robots-Tag; info before launch), canonical pointing to another page, pages without a canonical
+- **Titles and descriptions**: missing, duplicate (grouped, with the URLs), long (over 160 characters: Shopify's auto-filled 320)
+- **Content**: thin pages (under 150 words of main content, menus and footer not counted: empty demo collections, products without a description), missing or several H1s
+- **Internal links**: broken internal links with the pages linking to them, sitemap pages no scanned page links to (orphans), linked pages missing from the sitemap
+- A listed URL that redirects is reported once, as a redirect, not again as a duplicate of the page it lands on
+- Stop button, progress line, Markdown download
+
+### New checks in the Performance tab (Phase 4, Day 4 Parts 3 and 4)
+
+- **Why an image is too big**: each line now says the cause, the way the browser decides: "sizes says 412 px, shown at 200 px", "no file between 352 and 832 in srcset", or "no srcset: one file for every screen"
+- **True file width**: for srcset images Chrome's naturalWidth is density-corrected (it reports the slot, not the file). The collector now works out the real file width, so oversized srcset images (the common Shopify case) are no longer missed
+- **Images smaller than shown** (`perf-img-blurry`): the file has fewer pixels than the screen needs, so the photo looks soft (a product gallery's second photo getting the thumbnail file)
+- **Images not in WebP/AVIF** (`perf-img-format`): judged from what the server actually sent (Content-Type), not the file name: Shopify sends WebP for a ".png" URL
+- **Font files no text uses** (`perf-font-unused`): the file was downloaded (often preloaded) but its @font-face never drew any text
+- **Preloads not used** (`perf-preload-unused`): preloaded images, stylesheets and scripts nothing on the page used
+- **Images not measured** (`perf-img-hidden`): when a full-screen pop-up or a fading theme hides most images at audit time, the report says so instead of showing empty image checks
+
+### Fixed after a live test on 5 sites (2 Nov 2026)
+
+Tested at 412 × 823, DPR 2 on hillshoporganics.com, oliveshop.co, groomshopcompany.com, buranshvalley.com (WordPress, pre-launch) and pantryshop.co. Every problem below is now a test:
+
+- srcset written without a space after the commas (`a.webp 165w,b.webp 360w`, Shopify Dawn) was not read, so 10 product images were called "smaller than shown" (Groom Shop)
+- The `sizes` width was measured with an empty `<div>`, which Shopify Dawn hides (`div:empty { display: none }`), so the slot came out as 0 (Groom Shop)
+- A stylesheet preloaded for a web component's shadow root was called "not used" (Hill Shop, Horizon `overflow-list.css`)
+- One font file listed for several weights (variable font, unicode-range subsets) was called "unused" when only some weights draw text (Buranshvalley, Hanken Grotesk)
+- Images hidden behind a discount pop-up were silently skipped; now reported (Olive Shop)
+- An image too big for a reason neither rule caught now says what the browser did: "sizes says 207 px, so 414 px is needed at 2x: just over the 352 file, so the browser took 832" (Hill Shop footer logo), or that a larger cached file was reused
+- Site scan: Shopify login links (`/account`, `/customer_authentication/redirect`) redirect to another site and were called broken (Hill Shop, Groom Shop)
+- Site scan: product cards link to `/products/x?variant=123`, so linked products were called orphans (Hill Shop)
+- Site scan: before launch every page is noindex on purpose, so titles, descriptions, H1 and thin pages were skipped and shown as passed (Buranshvalley); they are now checked when Status is Pre-launch
+- Site scan: a search link that never answered stopped the whole scan (Pantry Shop `/search?q=`); every request now has a time limit, and search links are not checked
+- Site scan: a redirecting sitemap URL was listed as a second source of the same broken link
+- H1 and thin-page messages now say they read the HTML the server sends (text added later by JavaScript is not counted)
+
 ## 1.5.1 (Shopify fixes from a live store audit)
 
 A full audit of a live Shopify store (Horizon theme) on 30 Oct 2026 found eight false alarms and one miss. Each one is now a test (`tests/platform-fixes.test.mjs` and the `shopify-horizon` integration page) and is fixed:

@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = fileURLToPath(new URL('.', import.meta.url));
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png',
-  '.svg': 'image/svg+xml', '.json': 'application/json', '.txt': 'text/plain', '.xml': 'application/xml', '.woff2': 'font/woff2',
+  '.svg': 'image/svg+xml', '.json': 'application/json', '.txt': 'text/plain', '.xml': 'application/xml', '.woff2': 'font/woff2', '.ttf': 'font/ttf',
 };
 
 const DYNAMIC = {
@@ -24,7 +24,7 @@ const DYNAMIC = {
   '/gtag/js': ['text/javascript', 'window.dataLayer = window.dataLayer || [];'],
   '/dup.js': ['text/javascript', 'window.__dupRuns = (window.__dupRuns || 0) + 1;'],
   '/font.woff2': ['font/woff2', ''],
-  '/robots.txt': ['text/plain', 'User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n'],
+  '/robots.txt': ['text/plain', 'User-agent: *\nAllow: /\nSitemap: /sitemap.xml\nSitemap: /site/sitemap-index.xml\n'],
 };
 
 export async function startServer() {
@@ -41,13 +41,20 @@ export async function startServer() {
         return;
       }
       if (url.pathname === '/redirect-loop') { res.writeHead(302, { location: '/redirect-loop' }); res.end(); return; }
+      // site scan fixture: an old URL still listed in the sitemap, moved permanently
+      if (url.pathname === '/site/old-ghee.html') { res.writeHead(301, { location: '/site/ghee.html' }); res.end(); return; }
+      // a login link: redirects to another origin that sends no CORS header (Shopify /account)
+      if (url.pathname === '/site/login') { res.writeHead(302, { location: `http://localhost:${port}/nocors` }); res.end(); return; }
+      if (url.pathname === '/nocors') { res.writeHead(200, { 'content-type': 'text/html' }); res.end('<p>login</p>'); return; }
+      // never answers (Pantry Shop /search?q= stalled the whole scan)
+      if (url.pathname === '/site/hang') { setTimeout(() => { try { res.writeHead(200); res.end(); } catch { /* closed */ } }, 60000).unref(); return; }
       if (url.pathname === '/not-html.json') { res.writeHead(200, { 'content-type': 'application/json' }); res.end('{"ok":true}'); return; }
       const base = url.pathname.startsWith('/img/') ? join(ROOT, 'assets', url.pathname.slice(5)) : join(ROOT, 'pages', url.pathname === '/' ? 'perf-good.html' : url.pathname);
       const file = normalize(base);
       if (!file.startsWith(ROOT)) { res.writeHead(403); res.end(); return; }
       let body = await readFile(file);
       const type = TYPES[extname(file)] || 'application/octet-stream';
-      if (type.startsWith('text/html')) {
+      if (type.startsWith('text/html') || type === 'application/xml') {
         body = Buffer.from(String(body).replaceAll('{{TP}}', `http://localhost:${port}`).replaceAll('{{SITE}}', `http://127.0.0.1:${port}`));
       }
       const headers = { 'content-type': type, 'cache-control': 'no-store' };

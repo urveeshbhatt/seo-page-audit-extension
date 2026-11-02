@@ -19,6 +19,8 @@ import { collectRendering } from '../modules/phase3-rendering.js';
 import { evaluateRendering } from '../modules/phase3-rules.js';
 import { collectPerformance } from '../modules/phase4-performance.js';
 import { evaluatePerformance } from '../modules/phase4-rules.js';
+import { collectSiteUrls, scanPages, checkLinks } from '../modules/phase5-site.js';
+import { evaluateSite, linksToCheck, siteToMarkdown } from '../modules/phase5-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
 import { safeEvaluate } from '../modules/safe-evaluate.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
@@ -253,9 +255,10 @@ Object.values(views).forEach((view) => {
 
 // Changing the context re-judges the same data, no need to audit again.
 ui.form.addEventListener('change', () => {
-  if (!Object.values(views).some((v) => v.data)) return;
+  if (!Object.values(views).some((v) => v.data)) { judgeSite(); return; }
   const context = readContext();
   Object.keys(views).forEach((name) => judge(name, context));
+  judgeSite();
   renderSummary();
   renderReport();
   const c = totals();
@@ -717,6 +720,75 @@ async function runAudit(event) {
 }
 
 ui.form.addEventListener('submit', runAudit);
+
+// ---------------- site scan (Phase 5) ----------------
+// Separate from the page audit: the user starts it, it can be stopped, and it
+// never feeds the page Summary. Batches keep the progress line moving.
+
+const site = {
+  run: $('site-run'), stop: $('site-stop'), md: $('site-md'), limit: $('site-limit'), status: $('site-status'),
+  view: { evaluate: evaluateSite, counts: $('site-counts'), groups: $('site-groups'), hideGood: $('site-hide-good'), data: null, result: null },
+  stopped: false,
+};
+site.view.hideGood.addEventListener('change', () => { if (site.view.result) renderView(site.view); });
+
+function judgeSite() {
+  if (!site.view.data) return;
+  site.view.result = safeEvaluate(evaluateSite, site.view.data, readContext());
+  renderView(site.view);
+}
+
+async function runSiteScan() {
+  site.run.disabled = true;
+  site.stop.hidden = false;
+  site.md.hidden = true;
+  site.stopped = false;
+  site.view.data = null;
+  site.view.result = null;
+  site.view.counts.replaceChildren();
+  site.view.groups.replaceChildren();
+  site.status.textContent = 'Reading robots.txt and the sitemap…';
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || tab.id === undefined) throw new Error('No active tab found.');
+    if (tab.url && RESTRICTED.test(tab.url)) throw new Error('cannot be scripted');
+    const d = await runInTab(tab.id, collectSiteUrls, [Number(site.limit.value) || 100]);
+    d.pages = [];
+    d.linkChecks = [];
+    const total = d.urls.length;
+    for (let i = 0; i < total && !site.stopped; i += 10) {
+      site.status.textContent = `Scanning pages: ${i} of ${total}${d.source === 'links' ? ' (no sitemap found: using this page\'s links)' : ''}…`;
+      d.pages.push(...await runInTab(tab.id, scanPages, [d.urls.slice(i, i + 10)]));
+    }
+    const todo = site.stopped ? [] : linksToCheck(d, 100);
+    for (let i = 0; i < todo.length && !site.stopped; i += 20) {
+      site.status.textContent = `Checking internal links found on those pages: ${i} of ${todo.length}…`;
+      d.linkChecks.push(...await runInTab(tab.id, checkLinks, [todo.slice(i, i + 20)]));
+    }
+    site.view.data = d;
+    judgeSite();
+    const c = site.view.result.counts;
+    site.status.textContent = `${site.stopped ? 'Stopped early. ' : ''}Scanned ${d.pages.length} of ${d.totalListed || total} URLs and checked ${d.linkChecks.length} more links. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`;
+    site.md.hidden = false;
+  } catch (error) {
+    const message = friendlyError(error);
+    if (!message.startsWith('No access') && !message.startsWith('Chrome does not allow')) console.error('[Page Audit Lens] site scan', error);
+    site.status.textContent = message.replace(/^Audit failed/, 'Scan failed');
+  } finally {
+    site.run.disabled = false;
+    site.stop.hidden = true;
+  }
+}
+
+site.run.addEventListener('click', runSiteScan);
+site.stop.addEventListener('click', () => { site.stopped = true; site.status.textContent = 'Stopping after this batch…'; });
+site.md.addEventListener('click', () => {
+  if (!site.view.result || !site.view.data) return;
+  const origin = site.view.data.origin || '';
+  const md = siteToMarkdown(site.view.result, { title: `Site scan: ${origin}`, url: origin, date: today(), version: chrome.runtime.getManifest().version });
+  download(md, `${fileStem(origin, today())}-site-scan.md`, 'text/markdown;charset=utf-8');
+  toast('Site scan downloaded.');
+});
 
 // ---------------- redirect tests (optional access, asked per site) ----------------
 

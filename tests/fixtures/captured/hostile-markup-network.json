@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/hostile-markup.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-30T08:10:46.849Z",
+ "collectedAt": "2026-11-02T14:03:55.823Z",
  "renderedBytes": 21880,
  "nav": {
   "type": "navigate",
@@ -13,13 +13,13 @@
   "connect": 0,
   "ssl": 0,
   "ttfb": 1,
-  "download": 3,
+  "download": 0,
   "transferSize": 2160,
   "encodedBodySize": 1860,
   "decodedBodySize": 1860,
   "fromCache": false,
-  "domContentLoaded": 45,
-  "load": 262
+  "domContentLoaded": 47,
+  "load": 357
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Fri, 30 Oct 2026 08:10:46 GMT",
+   "date": "Mon, 02 Nov 2026 14:03:55 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -67,7 +67,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 4,
+   "total": 3,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -79,9 +79,9 @@
  "cold": [
   {
    "status": 200,
-   "ttfb": 2,
+   "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 5,
+   "total": 4,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -93,7 +93,7 @@
    "status": 200,
    "ttfb": 1,
    "ttfbSource": "timing",
-   "total": 5,
+   "total": 3,
    "encoded": 1860,
    "decoded": 1860,
    "cache": {
@@ -125,8 +125,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 248,
-    "start": 13
+    "duration": 346,
+    "start": 10
    },
    {
     "host": "localhost",
@@ -136,8 +136,8 @@
     "protocol": "",
     "encoded": 0,
     "decoded": 0,
-    "duration": 55,
-    "start": 19
+    "duration": 46,
+    "start": 22
    },
    {
     "host": "127.0.0.1",
@@ -148,7 +148,7 @@
     "encoded": 1860,
     "decoded": 1860,
     "duration": 4,
-    "start": 1486
+    "start": 1576
    }
   ]
  },
@@ -157,7 +157,7 @@
   "contentType": "text/plain",
   "redirected": false,
   "finalUrl": "http://127.0.0.1:8080/robots.txt",
-  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\nSitemap: /site/sitemap-index.xml\n"
  },
  "llms": {
   "status": 404,
@@ -167,7 +167,8 @@
  },
  "sitemap": {
   "declared": [
-   "/sitemap.xml"
+   "/sitemap.xml",
+   "/site/sitemap-index.xml"
   ],
   "declaredOffsite": 0,
   "url": "",

@@ -2,7 +2,7 @@
  "url": "http://127.0.0.1:8080/shopify-horizon.html",
  "origin": "http://127.0.0.1:8080",
  "host": "127.0.0.1",
- "collectedAt": "2026-10-30T08:10:53.530Z",
+ "collectedAt": "2026-11-02T14:04:03.660Z",
  "renderedBytes": 4843,
  "nav": {
   "type": "navigate",
@@ -12,14 +12,14 @@
   "dns": 0,
   "connect": 0,
   "ssl": 0,
-  "ttfb": 2,
-  "download": 1,
+  "ttfb": 6,
+  "download": 5,
   "transferSize": 5062,
   "encodedBodySize": 4762,
   "decodedBodySize": 4762,
   "fromCache": false,
-  "domContentLoaded": 47,
-  "load": 47
+  "domContentLoaded": 40,
+  "load": 44
  },
  "doc": {
   "status": 200,
@@ -29,7 +29,7 @@
    "cache-control": "no-store",
    "connection": "keep-alive",
    "content-type": "text/html; charset=utf-8",
-   "date": "Fri, 30 Oct 2026 08:10:53 GMT",
+   "date": "Mon, 02 Nov 2026 14:04:03 GMT",
    "keep-alive": "timeout=5",
    "transfer-encoding": "chunked"
   },
@@ -125,8 +125,8 @@
     "protocol": "http/1.1",
     "encoded": 155,
     "decoded": 155,
-    "duration": 5,
-    "start": 20
+    "duration": 15,
+    "start": 23
    },
    {
     "host": "127.0.0.1",
@@ -136,8 +136,8 @@
     "protocol": "http/1.1",
     "encoded": 4348,
     "decoded": 4348,
-    "duration": 8,
-    "start": 21
+    "duration": 16,
+    "start": 25
    },
    {
     "host": "127.0.0.1",
@@ -147,8 +147,8 @@
     "protocol": "http/1.1",
     "encoded": 4762,
     "decoded": 4762,
-    "duration": 3,
-    "start": 1265
+    "duration": 5,
+    "start": 1261
    }
   ]
  },
@@ -157,7 +157,7 @@
   "contentType": "text/plain",
   "redirected": false,
   "finalUrl": "http://127.0.0.1:8080/robots.txt",
-  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n"
+  "text": "User-agent: *\nAllow: /\nSitemap: /sitemap.xml\nSitemap: /site/sitemap-index.xml\n"
  },
  "llms": {
   "status": 404,
@@ -167,17 +167,133 @@
  },
  "sitemap": {
   "declared": [
-   "/sitemap.xml"
+   "/sitemap.xml",
+   "/site/sitemap-index.xml"
   ],
   "declaredOffsite": 0,
-  "url": "",
-  "status": 404,
-  "isIndex": false,
-  "children": 0,
-  "filesRead": 0,
-  "urls": 0,
-  "lastmod": null,
-  "samples": [],
+  "url": "/site/sitemap-index.xml",
+  "status": 200,
+  "isIndex": true,
+  "children": 1,
+  "filesRead": 2,
+  "urls": 13,
+  "lastmod": {
+   "withDate": 0,
+   "distinct": 0,
+   "today": 0
+  },
+  "samples": [
+   {
+    "url": "http://127.0.0.1:8080/site/index.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/index.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/index.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/ghee.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/ghee.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/ghee.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/ghee-copy.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/honey.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/honey.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/honey.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/about.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/about.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/about.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/contact.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/contact.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/contact.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/shipping.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/shipping.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/index.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/demo.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/demo.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/demo.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/hidden.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/hidden.html",
+    "robots": "noindex",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/hidden.html",
+    "isHtml": true,
+    "viaCookies": false
+   },
+   {
+    "url": "http://127.0.0.1:8080/site/orphan.html",
+    "status": 200,
+    "redirected": false,
+    "finalUrl": "http://127.0.0.1:8080/site/orphan.html",
+    "robots": "",
+    "xRobots": "",
+    "canonical": "http://127.0.0.1:8080/site/orphan.html",
+    "isHtml": true,
+    "viaCookies": false
+   }
+  ],
   "challenged": 0
  },
  "errors": []

@@ -79,3 +79,32 @@ test('good page: Performance tab has no critical findings', async () => {
   await site.close();
   await panel.close();
 });
+
+test('Site tab: scan the local site from the side panel, see site-level findings, stop works', async () => {
+  const { site, panel, problems } = await openPanelFor('/site/index.html');
+  // the Site tab works without running the page audit first
+  assert.equal(await panel.getAttribute('.tab[data-tab="site"]', 'disabled'), null);
+  await panel.click('.tab[data-tab="site"]');
+  await panel.selectOption('#site-limit', '50');
+  await panel.click('#site-run');
+  await panel.waitForFunction(() => /^(Stopped early\. )?Scanned \d+ of \d+ URLs/.test(document.getElementById('site-status').textContent), null, { timeout: 60000 });
+  const status = await panel.textContent('#site-status');
+  assert.match(status, /Scanned 12 of 13 URLs/);
+  const groups = await panel.textContent('#site-groups');
+  for (const check of ['Duplicate titles', 'Thin pages', 'Broken internal links', 'Noindex pages in the sitemap', 'Listed URLs that redirect', 'Pages no scanned page links to']) {
+    assert.match(groups, new RegExp(check), check);
+  }
+  assert.equal(await panel.isVisible('#site-md'), true, 'download button shown after a scan');
+  // page text is shown as text, never as HTML
+  assert.equal(await panel.locator('#site-groups script').count(), 0);
+
+  // Stop: a second scan stopped right away reports "Stopped early"
+  await panel.click('#site-run');
+  await panel.click('#site-stop');
+  await panel.waitForFunction(() => /Stopped early|Scanned/.test(document.getElementById('site-status').textContent) && !document.getElementById('site-run').disabled, null, { timeout: 60000 });
+  assert.match(await panel.textContent('#site-status'), /Stopped early/);
+
+  assert.deepEqual(problems, [], 'no console errors or CSP violations in the side panel');
+  await site.close();
+  await panel.close();
+});

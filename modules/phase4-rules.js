@@ -499,6 +499,14 @@ function thirdPartyFindings(d) {
 
 function imageFindings(d) {
   const out = [];
+  // Most images hidden at audit time (a full-screen pop-up, a page fading in):
+  // say so, or the empty image checks would read as "all good".
+  const scan = d.imageScan && typeof d.imageScan === 'object' ? d.imageScan : null;
+  if (scan && num(scan.hidden) >= 5 && num(scan.hidden) >= (num(scan.measured) || 0)) {
+    out.push(finding('perf-img-hidden', 'Images not measured', `${plural(num(scan.hidden), 'image')} hidden during the audit`, 'info',
+      'Most images were invisible when the audit ran, so the image checks below cover only part of the page. Usually a pop-up (discount, cookie or age gate) covers the page or the theme fades the page in. Close the pop-up, wait a second and run the audit again.',
+      'Check by hand', [scan.pageHidden ? `Hidden by: ${String(scan.pageHidden).slice(0, 120)}` : 'Hidden by an ancestor with opacity 0 or visibility hidden', `Measured: ${num(scan.measured) || 0} of ${num(scan.total) || 0} images`]));
+  }
   const imgs = arr(d.images).filter((i) => i && typeof i.src === 'string');
   const svg = (i) => /\.svg(\?|#|$)/i.test(i.src) || /^data:image\/svg/i.test(i.src);
   const lazyTop = imgs.filter((i) => i.inViewport && i.lazy);
@@ -518,20 +526,76 @@ function imageFindings(d) {
     f.targets = cssT(unsized.map((i) => i.selector));
     out.push(f);
   }
+  // Real file width: newer captures carry `file` (the density-corrected
+  // naturalWidth of a srcset image is the slot width, not the file width).
+  const fileW = (i) => (num(i.file) > 0 ? num(i.file) : num(i.natural));
+  const neededW = (i) => num(i.shown) * (num(i.dpr) || 1);
+  const sizeLine = (i) => `${fileOf(i.src)} · ${Math.round(fileW(i))} px file shown at ${Math.round(i.shown)} px · needs ${Math.round(neededW(i))} px${num(i.bytes) > 0 ? ` · ${kb(i.bytes)} KB` : ''}`;
+  const withCause = (i) => { const c = imageCause(i); return c ? `${sizeLine(i)} · ${c}` : sizeLine(i); };
   // at least 2x the pixels needed and 200 px extra, so small thumbnails are not noise
   const big = imgs.filter((i) => {
-    if (svg(i) || !(num(i.natural) > 0) || !(num(i.shown) > 0)) return false;
-    const needed = i.shown * (num(i.dpr) || 1);
-    return i.natural >= needed * 2 && i.natural - needed >= 200;
+    if (svg(i) || !(fileW(i) > 0) || !(num(i.shown) > 0)) return false;
+    const needed = neededW(i);
+    return fileW(i) >= needed * 2 && fileW(i) - needed >= 200;
   });
   if (big.length) {
     const f = finding('perf-img-big', 'Images larger than shown', plural(big.length, 'image'), 'info',
-      'The file is much wider than its display size on this screen, so visitors download pixels they never see. Use srcset/sizes (WordPress adds them for media-library images) or upload a smaller version. Check on mobile width too.',
-      null, big.map((i) => `${fileOf(i.src)} · ${Math.round(i.natural)} px file shown at ${Math.round(i.shown)} px${num(i.bytes) > 0 ? ` · ${kb(i.bytes)} KB` : ''}`));
+      'The file is much wider than needed on this screen (shown width × device pixel ratio), so visitors download pixels they never see. Each line says why: "sizes says N px" means the sizes attribute claims a wider slot than the image gets; "no file between A and B" means srcset needs an in-between width; "no srcset" means every screen gets one file. Check on mobile width too.',
+      null, big.map(withCause));
     f.targets = cssT(big.map((i) => i.selector));
     out.push(f);
   }
+  // Too small: the photo is stretched, so it looks soft on this screen. Only
+  // images big enough to matter (150 px+ shown) and well short (under 75%).
+  const blurry = imgs.filter((i) => !svg(i) && fileW(i) > 0 && num(i.shown) >= 150 && fileW(i) < neededW(i) * 0.75);
+  if (blurry.length) {
+    const f = finding('perf-img-blurry', 'Images smaller than shown', plural(blurry.length, 'image'), 'info',
+      'The file has fewer pixels than this screen needs, so the photo is stretched and looks soft (common on product galleries where the second photo gets the thumbnail file). Usually sizes claims a smaller slot than the image gets, or the upload itself is small.',
+      null, blurry.map(withCause));
+    f.targets = cssT(blurry.map((i) => i.selector));
+    out.push(f);
+  }
+  // Format: what the server actually delivered (Content-Type), not the file name.
+  // Shopify and image CDNs send WebP/AVIF for a ".png" URL.
+  const LEGACY = { 'image/png': 'PNG', 'image/jpeg': 'JPEG', 'image/jpg': 'JPEG', 'image/gif': 'GIF', 'image/bmp': 'BMP' };
+  const legacy = imgs.filter((i) => typeof i.type === 'string' && LEGACY[i.type.toLowerCase()] && num(i.bytes) >= 30 * 1024);
+  if (legacy.length) {
+    const f = finding('perf-img-format', 'Images not in WebP/AVIF', plural(legacy.length, 'image'), 'warning',
+      'These images arrive as PNG/JPEG. Google measured lossy WebP 25–34% smaller than JPEG and about 3× smaller than PNG for photos; AVIF is often smaller still. Turn on WebP/AVIF in the image CDN or optimisation plugin, or export photos as WebP. Keep PNG only for small graphics that need sharp edges or transparency.',
+      null, legacy.map((i) => `${fileOf(i.src)} · ${LEGACY[i.type.toLowerCase()]} · ${kb(i.bytes)} KB`));
+    f.targets = cssT(legacy.map((i) => i.selector));
+    out.push(f);
+  }
   return out;
+}
+
+// Why an image has the wrong size, in the order the browser decides:
+// sizes → slot × DPR → the next srcset width up. Empty when nothing is known.
+export function imageCause(i) {
+  if (!i || typeof i !== 'object') return '';
+  const shown = num(i.shown);
+  const dpr = num(i.dpr) || 1;
+  const widths = arr(i.widths).map(num).filter((w) => w > 0).sort((a, b) => a - b);
+  const slot = num(i.slot);
+  if (!(shown > 0)) return '';
+  if (Array.isArray(i.widths) && !widths.length) return 'no srcset: one file for every screen';
+  if (!widths.length) return '';
+  const causes = [];
+  if (slot > 0 && (slot >= shown * 1.3 || slot <= shown / 1.3)) causes.push(`sizes says ${Math.round(slot)} px, shown at ${Math.round(shown)} px`);
+  const needed = shown * dpr;
+  const next = widths.find((w) => w >= needed);
+  const below = [...widths].reverse().find((w) => w < needed);
+  if (next && next >= needed * 1.5 && below) causes.push(`no file between ${below} and ${next} in srcset`);
+  if (causes.length) return causes.join(' · ');
+  // Neither rule fired, yet the file is too big: say what the browser actually did.
+  const file = num(i.file) || num(i.natural);
+  if (!(slot > 0) || !(file >= needed * 2)) return '';
+  const slotNeed = Math.round(slot * dpr);
+  const pick = widths.find((w) => w >= slotNeed);
+  if (pick && file > pick * 1.1) return `a larger ${Math.round(file)} px file was reused from the cache (sizes asks for ${pick} px)`;
+  const under = [...widths].reverse().find((w) => w < slotNeed);
+  if (pick && under && under >= needed) return `sizes says ${Math.round(slot)} px, so ${slotNeed} px is needed at ${Math.round(dpr * 100) / 100}x: just over the ${under} file, so the browser took ${pick}`;
+  return '';
 }
 
 function fontFindings(d) {
@@ -554,7 +618,37 @@ function fontFindings(d) {
       'With font-display auto/block the text stays invisible until the font file arrives. Add font-display: swap (or optional) to these @font-face rules. Only same-site stylesheets can be read, so third-party font CSS is not checked here.',
       null, names));
   }
+  // Downloaded but no text uses it: the face's FontFace status stayed "unloaded"
+  // while its file is in the network list (usually a preload, or a theme setting
+  // for a section the page does not show). Only faces with a known status count.
+  const downloaded = new Map(files.map((f) => [f.url, f]));
+  const preloads = arr(d.preloads).filter((p) => p && typeof p.url === 'string');
+  const preloadedUrls = new Set(preloads.filter((p) => p.as === 'font').map((p) => p.url));
+  // One file can serve several faces (a variable font listed once per weight, or a
+  // unicode-range subset): it is unused only when no face drawn on the page uses it.
+  const usedUrls = new Set(arr(fonts.faces).filter((f) => f && f.status === 'loaded').flatMap((f) => arr(f.urls)));
+  const wasted = (u) => downloaded.has(u) && !usedUrls.has(u);
+  const unused = arr(fonts.faces).filter((f) => f && typeof f.status === 'string' && f.status === 'unloaded' && arr(f.urls).some(wasted));
+  if (unused.length) {
+    const lines = [];
+    unused.forEach((f) => arr(f.urls).filter(wasted).forEach((u) => {
+      const line = `${f.family} · ${fileOf(u)} · ${kb(num(downloaded.get(u).bytes) ?? 0)} KB${preloadedUrls.has(u) ? ' · preloaded' : ''}`;
+      if (!lines.includes(line)) lines.push(line);
+    }));
+    out.push(finding('perf-font-unused', 'Font files no text uses', [...new Set(unused.map((f) => f.family))].join(', '), 'warning',
+      'These font files were downloaded, but no text on this page is drawn with them. A preload makes it worse: the file is fetched first, next to the files the first screen needs. Remove the preload, or change the theme setting that picks this font (check other templates first, it may be used elsewhere).',
+      null, lines));
+  }
   return out;
+}
+
+// Preloads nothing on the page used (fonts are judged in fontFindings).
+function preloadFindings(d) {
+  const unused = arr(d.preloads).filter((p) => p && typeof p.url === 'string' && p.used === false);
+  if (!unused.length) return [];
+  return [finding('perf-preload-unused', 'Preloads not used', plural(unused.length, 'file'), 'info',
+    'These files were preloaded (downloaded first, at high priority) but nothing on the page used them by the time of the audit. Chrome also warns about this in the Console. Remove the preload, or check whether a slider or script uses the file later.',
+    'Check by hand', unused.map((p) => `${p.as || '?'} · ${fileOf(p.url)}`))];
 }
 
 function confirmFindings() {
@@ -575,7 +669,7 @@ export function evaluatePerformance(data, ctx = {}) {
     { id: 'vitals', title: 'Core Web Vitals (this visit)', findings: vitalsFindings(d, c, revenueLive, cls, inp) },
     { id: 'lcp', title: 'LCP element', findings: lcpFindings(d, c) },
     { id: 'shifts', title: 'Layout shifts and animations', findings: shiftFindings(d, c, revenueLive, cls) },
-    { id: 'blocking', title: 'Render-blocking', findings: blockingFindings(d) },
+    { id: 'blocking', title: 'Render-blocking and preloads', findings: [...blockingFindings(d), ...preloadFindings(d)] },
     { id: 'main', title: 'Main thread', findings: mainThreadFindings(d) },
     { id: 'thirdparty', title: 'Third parties', findings: thirdPartyFindings(d) },
     { id: 'images', title: 'Images', findings: imageFindings(d) },

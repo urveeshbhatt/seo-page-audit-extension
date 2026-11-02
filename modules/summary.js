@@ -27,7 +27,7 @@ const IMPACT = {
   'rend-ai-ttfb': 29, 'rend-ai-stock': 26,
   'perf-anim-layout': 87, 'perf-lcp-loader': 84, 'perf-cls-limit': 9, 'perf-lcp-lazy': 86, 'perf-cls': 83, 'perf-lcp': 81, 'perf-inp': 80, 'perf-render-blocking': 61,
   'perf-main': 59, 'perf-dup-tags': 53, 'perf-lcp-discovery': 51, 'perf-fcp': 39, 'perf-img-size': 37, 'perf-img-lazy': 36,
-  'perf-font-display': 27, 'perf-fonts': 21, 'perf-anim-paint': 19, 'perf-3p': 16, 'perf-lcp-priority': 13, 'perf-img-big': 11,
+  'perf-font-display': 27, 'perf-fonts': 21, 'perf-anim-paint': 19, 'perf-3p': 16, 'perf-lcp-priority': 13, 'perf-img-big': 11, 'perf-img-format': 24, 'perf-font-unused': 23, 'perf-img-blurry': 12, 'perf-preload-unused': 10, 'perf-img-hidden': 9,
 };
 
 // Suggested verdicts. M6 will let the auditor override them.

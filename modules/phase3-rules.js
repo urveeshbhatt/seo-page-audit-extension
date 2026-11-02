@@ -9,6 +9,8 @@
 //                    reported not to run JavaScript or read JSON-LD (Resoneo, Jan 2026)
 
 import { finding, plural, isPrelaunch, REVENUE_TYPES } from './phase1-rules.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 const LISTING_TYPES = new Set(['category', 'location', 'homepage']);
 const pct = (a, b) => (b ? Math.round((a / b) * 100) : 0);
@@ -238,8 +240,11 @@ function confirmFindings(d) {
 
 // ---------------- public ----------------
 
-export function evaluateRendering(d, ctx = {}, extra = {}) {
-  const network = extra.network || null;
+export function evaluateRendering(data, context, extraData) {
+  const d = conform(data, SCHEMAS.rendering);
+  const ctx = contextOf(context);
+  const extra = extraData && typeof extraData === 'object' ? extraData : {};
+  const network = extra.network ? conform(extra.network, SCHEMAS.network) : null;
   const groups = [
     { id: 'strategy', title: 'How the page is built', findings: strategyFindings(d, ctx, network) },
     { id: 'ai', title: 'Google vs AI readers', findings: aiFindings(d, ctx, network) },

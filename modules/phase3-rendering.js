@@ -46,8 +46,12 @@ export async function collectRendering() {
     'header', 'nav', 'footer', '[role="banner"]', '[role="navigation"]', '[role="contentinfo"]',
     '[data-elementor-type="header"]', '[data-elementor-type="footer"]',
     '[class*="announcement"]', '[class*="topbar"]', '[class*="top-bar"]', '[class*="promo-bar"]', '[class*="marquee"]',
-    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]', '[id*="cart"]', '.widget_shopping_cart',
-    '[class*="cookie"]', '[id*="cookie"]', '[class*="cky-"]',
+    '[class*="mini-cart"]', '[class*="minicart"]', '[class*="cart-drawer"]', '[class*="side-cart"]',
+    // cart drawers and mini-carts, but not the buy button (Shopify: id "…__add-to-cart")
+    '[id*="cart"]:not([id*="add-to-cart" i]):not([id*="addtocart" i]):not([id*="add_to_cart" i])', '.widget_shopping_cart',
+    // CookieYes classes start with "cky-"; [class*="cky-"] also matched "sticky-"
+    // and removed Shopify's main product block (.sticky-content).
+    '[class*="cookie"]', '[id*="cookie"]', '[class^="cky-"]', '[class*=" cky-"]',
   ].join(',');
   const SKIP = 'script, style, noscript, template, svg';
 
@@ -205,15 +209,25 @@ export async function collectRendering() {
     return found;
   };
   // What a visitor can read on screen, minus header/menus/announcement bar/cart/footer.
+  // Read node by node: removing each zone's text by string replace removed the
+  // first match, which can be the main content when a sticky bar repeats it.
   const visibleText = (() => {
     if (!document.body) return '';
-    let text = norm(document.body.innerText);
-    document.body.querySelectorAll(NOT_CONTENT).forEach((el) => {
-      if (el.parentElement && el.parentElement.closest(NOT_CONTENT)) return; // outermost zones only
-      const t = norm(el.innerText);
-      if (t) text = text.replace(t, ' ');
-    });
-    return norm(text);
+    const parts = [];
+    const ok = new Map();
+    const keep = (el) => {
+      if (ok.has(el)) return ok.get(el);
+      const v = !el.closest(NOT_CONTENT) && !el.closest(SKIP)
+        && (el.checkVisibility ? el.checkVisibility({ visibilityProperty: true }) : el.getClientRects().length > 0);
+      ok.set(el, v);
+      return v;
+    };
+    const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (let n = tw.nextNode(); n && parts.length < 20000; n = tw.nextNode()) {
+      const el = n.parentElement;
+      if (el && n.nodeValue.trim() && keep(el)) parts.push(n.nodeValue);
+    }
+    return norm(parts.join(' '));
   })();
   const rawContentText = rawDoc ? textWithout(rawDoc.body, NOT_CONTENT) : '';
   if (offers.length) {
@@ -255,6 +269,14 @@ export async function collectRendering() {
   document.querySelectorAll('[data-href], [data-url], [data-link], [role="link"], [onclick*="location"], [onclick*="href"]').forEach((el) => {
     if (out.fakeLinks.length >= 30 || el.tagName === 'A' || NOT_CLICKABLE.has(el.tagName)) return;
     const target = el.getAttribute('data-href') || el.getAttribute('data-url') || el.getAttribute('data-link') || (el.getAttribute('onclick') || '').slice(0, 80);
+    // data-url is often what a script fetches, not where a click goes: Shopify
+    // section and API endpoints, JSON, or this same page (a filter's "Clear all").
+    if (!el.hasAttribute('data-href') && !el.hasAttribute('data-link') && el.hasAttribute('data-url')) {
+      try {
+        const u = new URL(target, location.href);
+        if (u.pathname === location.pathname || /\/recommendations\/|[?&]section_id=|\/search\/suggest|^\/cart(\/|\.js|$)|\.json$|\/api\//i.test(u.pathname + u.search)) return;
+      } catch { /* not a URL: keep it */ }
+    }
     out.fakeLinks.push({ tag: el.tagName.toLowerCase(), text: clip(norm(el.innerText || el.getAttribute('aria-label') || ''), 60), target: clip(target, 120) });
   });
 
@@ -278,8 +300,12 @@ export async function collectRendering() {
   const PANELS = '[role="tabpanel"], details, .tab-pane, .woocommerce-Tabs-panel, .elementor-tab-content, .e-n-accordion-item, .accordion-content, .accordion-body, .accordion-collapse, [class*="accordion"] [class*="content"], [class*="faq"] [class*="answer"]';
   const rawLower = rawDoc ? textWithout(rawDoc.body).toLowerCase() : '';
   const seen = new Set();
+  // Menus, drawers and dialogs use <details> too (Shopify's mobile menu, whose
+  // search results are filled in by JavaScript): they are not content panels.
+  const NOT_PANEL = 'header, nav, footer, dialog, [role="dialog"], [role="navigation"], [class*="menu"], [class*="drawer"]';
   document.querySelectorAll(PANELS).forEach((el) => {
     if (out.panels.length >= 15) return;
+    if (el.closest(NOT_PANEL)) return;
     const text = textWithout(el);
     if (text.length < 40) return;
     const probe = text.slice(0, 80).toLowerCase();

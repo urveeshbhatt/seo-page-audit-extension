@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perf good fixture: A2 Desi Cow Ghee 500 ml jar</title>
+  <meta name="description" content="Fixture page with no known performance problems for integration tests.">
+  <link rel="canonical" href="{{SITE}}/perf-good.html">
+  <link rel="preload" as="image" href="/img/hero.png" fetchpriority="high">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; }
+    .hero { width: 100%; max-width: 900px; height: auto; display: block; }
+    .badge { position: relative; overflow: hidden; width: 300px; height: 40px; background: #c90; }
+    .badge::after { content: ""; position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: rgba(255,255,255,.5); animation: shine 1.2s linear infinite; }
+    @keyframes shine { from { transform: translateX(-150%); } to { transform: translateX(310%); } }
+  </style>
+</head>
+<body>
+  <header><nav><a href="/perf-bad.html">Other page</a></nav></header>
+  <main>
+    <h1>A2 Desi Cow Ghee</h1>
+    <div class="badge">Member price</div>
+    <img class="hero" src="/img/hero.png" width="1000" height="700" fetchpriority="high" alt="Ghee jar">
+    <p class="price">Price ₹999. Bilona method, small batch, glass jar.</p>
+    <img src="/img/small.png" width="300" height="200" loading="lazy" alt="Small jar" style="margin-top:1500px">
+  </main>
+</body>
+</html>

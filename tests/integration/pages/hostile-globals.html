@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Hostile globals fixture: page rewrites built-ins</title>
+<meta name="description" content="This page overrides built-in functions to break scripts that run in the page's world.">
+<script>
+  // A badly written or hostile page: everything a naive audit script relies on is broken.
+  window.fetch = () => Promise.reject(new Error('fetch disabled by page'));
+  JSON.parse = () => { throw new Error('JSON.parse disabled'); };
+  JSON.stringify = () => '"hijacked"';
+  Array.prototype.map = function () { throw new Error('map disabled'); };
+  Array.from = () => [];
+  Object.keys = () => ['hijacked'];
+  document.querySelectorAll = () => { throw new Error('qsa disabled'); };
+  Document.prototype.querySelector = () => null;
+  window.PerformanceObserver = function () { throw new Error('PO disabled'); };
+  performance.getEntriesByType = () => { throw new Error('timeline disabled'); };
+  window.getComputedStyle = () => { throw new Error('gcs disabled'); };
+  Element.prototype.getBoundingClientRect = () => { throw new Error('rect disabled'); };
+  window.URL = function () { throw new Error('URL disabled'); };
+  Promise.all = () => new Promise(() => {}); // never resolves
+  setTimeout = () => 0; // eslint-disable-line no-global-assign
+</script></head>
+<body><h1>Hostile globals</h1><p>Price ₹999</p><img src="/img/small.png" alt="x"></body></html>

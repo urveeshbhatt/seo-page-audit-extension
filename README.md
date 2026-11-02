@@ -24,8 +24,9 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 2. Click the **Page Audit Lens** icon. The side panel opens
 3. Set the page context (page type, live or pre-launch, business model)
 4. Click **Audit this page**. The **Summary** tab opens with the overall verdict and the issues to fix first
-5. Open **Head**, **Body** or **Health** for the detail behind each finding. **Show on page** outlines the element on the page
-6. On **Report**, change any suggested verdict, add notes, then **Copy Markdown**, **Download .md** or **Download .csv**
+5. Open **Head**, **Body**, **Health** or any other tab for the detail behind each finding. **Show on page** outlines the element on the page
+6. To measure INP, tap a few things on the page (menu, size, add to cart), then press **Audit this page** again
+7. On **Report**, change any suggested verdict, add notes, then **Copy Markdown**, **Download .md** or **Download .csv**
 
 | Tab | What it checks |
 | --- | --- |
@@ -36,6 +37,7 @@ Crawlers report hundreds of issues. Most are noise: tracking pixels without alt 
 | Business | Checks for the chosen business model (see below), plus stricter E-E-A-T checks for YMYL topics |
 | Rendering | Server HTML vs rendered page: how the page is built (Next.js App/Pages Router, Nuxt, Shopify, WordPress…, empty app shell), build vs cache, title/description/canonical/robots/OG changed by JavaScript (incl. the noindex trap), schema price and stock in page text for AI readers, links only after JavaScript, fake links, "Load more" without page links, tab and accordion content in raw HTML. Separate verdicts for Google, AI crawlers and AI live fetchers |
 | Network | Status, HTTP version, compression, cache headers per layer (CDN + server cache), TTFB warm vs uncached, bot-protection walls, page weight, third parties, robots.txt (rules, CSS/JS blocks, AI bots, Content-Signal), sitemap (reads `.gz`, samples 10 URLs), lastmod, llms.txt. Optional redirect tests (see below) |
+| Performance | Core Web Vitals of this visit and the reasons behind them: LCP element and its four parts (TTFB, load delay, load time, render delay), lazy or late-found LCP image, loading screen as LCP, CLS session windows and what moved, animations that move layout (left/top/width) vs repaint vs composited, render-blocking files with time and owner, INP with input delay / processing / presentation, long animation frames grouped by script owner (Clarity, Meta, GTM…), third-party weight, duplicate GA4 / GTM / Clarity / Meta tags and scripts loaded twice, lazy images in the first screen, images without size, oversized images, font files and font-display. Lab data from your browser: confirm with PageSpeed Insights field data |
 | Report | Edit verdicts and notes, export to Markdown or CSV |
 
 If you switch to another tab, click the toolbar icon again (or press **Alt+Shift+A**) on that tab before auditing. This is a security feature (see below). Change the shortcut at `chrome://extensions/shortcuts`.
@@ -88,11 +90,18 @@ modules/
   phase2-rules.js        Phase 2 rules: document, caching, redirects, resources, robots/sitemap
   phase3-rendering.js    Phase 3 collector (injected): raw HTML vs rendered DOM
   phase3-rules.js        Phase 3 rules: strategy, Google vs AI readers, meta, links, panels
+  phase4-performance.js  Phase 4 collector (injected): performance timeline, LCP, shifts, interactions, long frames, animations
+  phase4-rules.js        Phase 4 rules: vitals, LCP parts, shifts, render-blocking, main thread, third parties, images, fonts
+  safe-evaluate.js       Safety net: a rules crash becomes one "could not judge" finding, not a failed audit
+  conform.js             Puts collector data into the expected shape before any rules run
+  schemas.js             Generated: shape of every collector's output (npm run build:schemas)
+scripts/                 capture-collector-outputs.mjs, build-schemas.mjs
   summary.js             Rules engine: suggested verdicts, ranking, overall verdict
   business-rules.js      Business-model and YMYL rules
   report.js              Markdown and CSV export (escaped)
   highlight.js           "Show on page" overlay (closed shadow root)
-tests/                   Golden tests from real pages (npm test)
+tests/                   Unit, golden and fuzz tests (npm test)
+tests/integration/       Real Chromium: collectors, full side-panel audits, hostile pages (npm run test:integration)
 icons/
 ```
 
@@ -110,16 +119,22 @@ Each learning phase becomes one module. Collector, rules and report stay the sam
 | M6 | Report: edit verdicts, copy, download, highlight on page | Done |
 | Phase 2 | Network tab: headers, cache layers, TTFB, robots.txt, sitemap, redirect tests | Done |
 | Phase 3 | Rendering tab: raw vs rendered, strategy, AI-reader visibility, JS links, pagination, panels | Done |
+| Phase 4 | Performance tab: Core Web Vitals with causes, render-blocking, long frames, third parties, images, fonts | Done |
 
-Later modules: performance and Core Web Vitals (Phase 4), mobile parity.
+Later modules: mobile parity, crawling at scale, log files.
 
 ## Tests
 
 ```
-npm test
+npm test                    # unit, golden and fuzz tests (no browser needed)
+npm install                 # once, for integration tests
+npx playwright install chromium
+npm run test:integration    # real Chromium: collectors, full side-panel audits, hostile pages
+npm run capture             # re-capture collector output on the local test pages
+npm run build:schemas       # rebuild modules/schemas.js after a collector change
 ```
 
-Rules are tested against real page data captured from a pre-launch D2C product page and a live B2B city page.
+Rules are tested against real page data captured from a pre-launch D2C product page, a live B2B city page and a live D2C product page with known performance problems. Every rules module is fuzzed with thousands of damaged captures and must never crash. Integration tests load the unpacked extension into Chromium and run complete audits on local fixture pages, including pages built to break it (40,000 elements, XSS strings, broken JSON-LD, strict CSP, a page that overrides `fetch`/`JSON`/`Array`, a page that navigates away mid-audit, JSON and image files).
 
 ## License
 

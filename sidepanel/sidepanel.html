@@ -25,7 +25,9 @@
     <button class="tab" role="tab" aria-selected="false" data-tab="business" disabled title="Run an audit first">Business</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="network" disabled title="Run an audit first">Network</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="rendering" disabled title="Run an audit first">Rendering</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="performance" disabled title="Run an audit first">Performance</button>
     <button class="tab" role="tab" aria-selected="false" data-tab="report" disabled title="Run an audit first">Report</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="site">Site</button>
   </nav>
 
   <main>
@@ -106,6 +108,7 @@
           <button type="button" class="btn-secondary" id="go-business" hidden>Business checks →</button>
           <button type="button" class="btn-secondary" id="go-network" hidden>Network checks →</button>
           <button type="button" class="btn-secondary" id="go-rendering" hidden>Rendering checks →</button>
+          <button type="button" class="btn-secondary" id="go-performance" hidden>Performance checks →</button>
         </div>
       </article>
     </section>
@@ -192,6 +195,35 @@
       </div>
       <div id="health-groups"></div>
     </section>
+    <section class="panel" id="panel-site" role="tabpanel" hidden>
+      <article class="card">
+        <h2 class="card-title">Site scan</h2>
+        <p class="hint">Checks many pages at once, from the sitemap (or this page's links if there is none): pages that do not load, redirects, noindex, canonicals, duplicate titles and descriptions, thin pages, H1s, broken internal links and pages nothing links to. Reads the server HTML only (no JavaScript), like a crawler's first look. Requests go only to this site, without your cookies, one page at a time. Nothing is stored.</p>
+        <div class="field">
+          <label for="site-limit">Pages to scan</label>
+          <select id="site-limit">
+            <option value="50">50 (about 30 seconds)</option>
+            <option value="100" selected>100</option>
+            <option value="300">300 (a few minutes)</option>
+          </select>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn-primary" id="site-run">Scan this site</button>
+          <button type="button" class="btn-secondary" id="site-stop" hidden>Stop</button>
+          <button type="button" class="btn-secondary" id="site-md" hidden>Download .md</button>
+        </div>
+        <p class="meta" id="site-status" role="status" aria-live="polite"></p>
+      </article>
+      <div class="counts" id="site-counts" aria-label="Finding counts"></div>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="site-hide-good">
+          <span>Hide passed checks</span>
+        </label>
+      </div>
+      <div id="site-groups"></div>
+    </section>
+
     <section class="panel" id="panel-network" role="tabpanel" hidden>
       <article class="card redirect-card">
         <h2 class="card-title">Redirect tests</h2>
@@ -221,6 +253,17 @@
         </label>
       </div>
       <div id="rendering-groups"></div>
+    </section>
+    <section class="panel" id="panel-performance" role="tabpanel" hidden>
+      <p class="hint">Core Web Vitals of this visit in your browser, and why: the LCP element and its parts, what moved, animations, render-blocking files, long frames by script owner, third parties, images and fonts. Google ranks with real-user data: confirm numbers in PageSpeed Insights. To measure INP, tap a few things on the page and press Audit again.</p>
+      <div class="counts" id="performance-counts" aria-label="Finding counts"></div>
+      <div class="filter-row">
+        <label class="toggle">
+          <input type="checkbox" id="performance-hide-good">
+          <span>Hide passed checks</span>
+        </label>
+      </div>
+      <div id="performance-groups"></div>
     </section>
   </main>
 

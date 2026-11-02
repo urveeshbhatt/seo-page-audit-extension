@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>{{SITE}}/site/index.html</loc></url>
+  <url><loc>{{SITE}}/site/ghee.html</loc><image:image><image:loc>{{SITE}}/img/hero.png</image:loc></image:image></url>
+  <url><loc>{{SITE}}/site/ghee-copy.html</loc></url>
+  <url><loc>{{SITE}}/site/honey.html</loc></url>
+  <url><loc>{{SITE}}/site/about.html</loc></url>
+  <url><loc>{{SITE}}/site/contact.html</loc></url>
+  <url><loc>{{SITE}}/site/shipping.html</loc></url>
+  <url><loc>{{SITE}}/site/demo.html</loc></url>
+  <url><loc>{{SITE}}/site/hidden.html</loc></url>
+  <url><loc>{{SITE}}/site/orphan.html</loc></url>
+  <url><loc>{{SITE}}/site/gone.html</loc></url>
+  <url><loc>{{SITE}}/site/old-ghee.html</loc></url>
+  <url><loc>https://other-site.example/page.html</loc></url>
+</urlset>

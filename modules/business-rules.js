@@ -2,6 +2,8 @@
 // of business. Same finding shape as the other rule files. Pure functions.
 
 import { finding, isPrelaunch } from './phase1-rules.js';
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
 
 export const MODELS = {
   d2c: 'D2C / ecommerce',
@@ -250,7 +252,9 @@ const MODEL_RULES = {
   content: ['Content and affiliate', contentFindings],
 };
 
-export function evaluateBusiness(s, ctx) {
+export function evaluateBusiness(data, context) {
+  const s = conform(data, SCHEMAS.signals);
+  const ctx = contextOf(context);
   const groups = [{ id: 'biz-contact', title: 'Contact paths', findings: contactFindings(s, ctx) }];
   const rule = MODEL_RULES[ctx.model];
   if (rule) groups.push({ id: `biz-${ctx.model}`, title: rule[0], findings: rule[1](s, ctx) });

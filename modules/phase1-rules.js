@@ -7,6 +7,9 @@
 //   label: short text on the pill (defaults by flag)
 //   why:   one line a client could read
 
+import { conform, contextOf } from './conform.js';
+import { SCHEMAS } from './schemas.js';
+
 export const REVENUE_TYPES = new Set(['product', 'service', 'location', 'category', 'homepage']);
 
 const DEFAULT_LABEL = {
@@ -91,7 +94,14 @@ function canonicalFindings(d, ctx) {
   if (!canonUrl) {
     return [finding('canonical', 'Canonical', canon, 'warning', 'Canonical is not a valid absolute URL.')];
   }
-  const pageUrl = new URL(d.url);
+  if (!/^https?:$/.test(canonUrl.protocol)) {
+    return [finding('canonical', 'Canonical', canon, 'critical', `Canonical is not a web address (${canonUrl.protocol}). Google ignores it, so this page has no working canonical. Point it to this page's own https URL.`)];
+  }
+  let pageUrl = null;
+  try { pageUrl = new URL(d.url); } catch { /* collector sent no usable page URL */ }
+  if (!pageUrl) {
+    return [finding('canonical', 'Canonical', canon, 'info', 'The page address could not be read, so the canonical could not be compared with it. Check by hand.', 'Check by hand')];
+  }
 
   if (canonUrl.hostname.replace(/^www\./, '') !== pageUrl.hostname.replace(/^www\./, '')) {
     return [finding('canonical', 'Canonical', canon, 'critical', 'Canonical points to another domain. This page tells Google it is a copy of that site. Common leftover after a migration.')];
@@ -288,7 +298,9 @@ function minorFindings(d) {
 
 // ---------------- public ----------------
 
-export function evaluateHead(d, ctx) {
+export function evaluateHead(data, context) {
+  const d = conform(data, SCHEMAS.head);
+  const ctx = contextOf(context);
   const groups = [
     { id: 'indexing', title: 'Indexing (Step 1)', findings: [...robotsFindings(d, ctx), ...canonicalFindings(d, ctx), ...viewportFindings(d)] },
     { id: 'snippet', title: 'Search snippet', findings: [...titleFindings(d), ...descriptionFindings(d, ctx)] },

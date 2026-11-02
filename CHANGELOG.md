@@ -1,5 +1,116 @@
 # Changelog
 
+## 1.6.0 (Phase 5: Site scan, and Phase 4 gaps)
+
+### New: Site tab (Phase 5, site-level crawl and indexing)
+
+One click scans up to 50, 100 or 300 pages of the site, from the sitemap (robots.txt "Sitemap:" lines, sitemap indexes and .xml.gz followed) or, with no sitemap, from the links on the open page. It reads the server HTML of each page (no JavaScript, like a crawler's first look), without cookies, one page at a time, and then checks the status of internal links found on those pages. Built from the hillshoporganics.com audit, where the big problems were site-wide:
+
+- **Sitemap**: found or not, sitemap files that fail, URLs on another domain, how much of the site was scanned
+- **Status and redirects**: listed URLs that return 404/5xx, listed URLs that redirect (list the final URL), non-HTML URLs
+- **Indexing signals**: noindex pages in the sitemap (meta or X-Robots-Tag; info before launch), canonical pointing to another page, pages without a canonical
+- **Titles and descriptions**: missing, duplicate (grouped, with the URLs), long (over 160 characters: Shopify's auto-filled 320)
+- **Content**: thin pages (under 150 words of main content, menus and footer not counted: empty demo collections, products without a description), missing or several H1s
+- **Internal links**: broken internal links with the pages linking to them, sitemap pages no scanned page links to (orphans), linked pages missing from the sitemap
+- A listed URL that redirects is reported once, as a redirect, not again as a duplicate of the page it lands on
+- Stop button, progress line, Markdown download
+
+### New checks in the Performance tab (Phase 4, Day 4 Parts 3 and 4)
+
+- **Why an image is too big**: each line now says the cause, the way the browser decides: "sizes says 412 px, shown at 200 px", "no file between 352 and 832 in srcset", or "no srcset: one file for every screen"
+- **True file width**: for srcset images Chrome's naturalWidth is density-corrected (it reports the slot, not the file). The collector now works out the real file width, so oversized srcset images (the common Shopify case) are no longer missed
+- **Images smaller than shown** (`perf-img-blurry`): the file has fewer pixels than the screen needs, so the photo looks soft (a product gallery's second photo getting the thumbnail file)
+- **Images not in WebP/AVIF** (`perf-img-format`): judged from what the server actually sent (Content-Type), not the file name: Shopify sends WebP for a ".png" URL
+- **Font files no text uses** (`perf-font-unused`): the file was downloaded (often preloaded) but its @font-face never drew any text
+- **Preloads not used** (`perf-preload-unused`): preloaded images, stylesheets and scripts nothing on the page used
+- **Images not measured** (`perf-img-hidden`): when a full-screen pop-up or a fading theme hides most images at audit time, the report says so instead of showing empty image checks
+
+### Fixed after a live test on 5 sites (2 Nov 2026)
+
+Tested at 412 × 823, DPR 2 on hillshoporganics.com, oliveshop.co, groomshopcompany.com, buranshvalley.com (WordPress, pre-launch) and pantryshop.co. Every problem below is now a test:
+
+- srcset written without a space after the commas (`a.webp 165w,b.webp 360w`, Shopify Dawn) was not read, so 10 product images were called "smaller than shown" (Groom Shop)
+- The `sizes` width was measured with an empty `<div>`, which Shopify Dawn hides (`div:empty { display: none }`), so the slot came out as 0 (Groom Shop)
+- A stylesheet preloaded for a web component's shadow root was called "not used" (Hill Shop, Horizon `overflow-list.css`)
+- One font file listed for several weights (variable font, unicode-range subsets) was called "unused" when only some weights draw text (Buranshvalley, Hanken Grotesk)
+- Images hidden behind a discount pop-up were silently skipped; now reported (Olive Shop)
+- An image too big for a reason neither rule caught now says what the browser did: "sizes says 207 px, so 414 px is needed at 2x: just over the 352 file, so the browser took 832" (Hill Shop footer logo), or that a larger cached file was reused
+- Site scan: Shopify login links (`/account`, `/customer_authentication/redirect`) redirect to another site and were called broken (Hill Shop, Groom Shop)
+- Site scan: product cards link to `/products/x?variant=123`, so linked products were called orphans (Hill Shop)
+- Site scan: before launch every page is noindex on purpose, so titles, descriptions, H1 and thin pages were skipped and shown as passed (Buranshvalley); they are now checked when Status is Pre-launch
+- Site scan: a search link that never answered stopped the whole scan (Pantry Shop `/search?q=`); every request now has a time limit, and search links are not checked
+- Site scan: a redirecting sitemap URL was listed as a second source of the same broken link
+- H1 and thin-page messages now say they read the HTML the server sends (text added later by JavaScript is not counted)
+
+## 1.5.1 (Shopify fixes from a live store audit)
+
+A full audit of a live Shopify store (Horizon theme) on 30 Oct 2026 found eight false alarms and one miss. Each one is now a test (`tests/platform-fixes.test.mjs` and the `shopify-horizon` integration page) and is fixed:
+
+- **"Script loaded twice" for module scripts.** Shopify prints the same `<script type="module">` next to every block; the browser loads and runs it once. Module scripts are now counted once (a classic `<script>` printed twice still counts, because it runs twice)
+- **CSS transitions reported as layout animations.** A 0.3 s border transition that happened to be running was flagged like a looping animation. Animations now carry a `kind`; transitions are left out
+- **"No brand" on Shopify products.** Shopify writes `ProductGroup` (with brand) and one `Product` per variant (without). The group is now read as the product, with the variants' price range
+- **"Schema price not on the page" while the price was shown.** The cookie-banner selector `[class*="cky-"]` also matched `sticky-`, which hid Shopify's main product block. Fixed in Body and Rendering, and page text is now read node by node instead of removing repeated text by string replace
+- **"Analytics: none detected" (critical) on Shopify.** Shopify runs tracking apps and custom pixels in a sandbox. The Health tab now lists the store's pixels (from `webPixelsConfigList`), treats a Google tag inside a pixel as tracking, and otherwise asks to check Settings → Customer events. Live non-Shopify pages without analytics stay critical, without the "before launch" wording
+- **Cloudflare cache-rule advice on Shopify.** Shopify (detected from `powered-by` / `x-shopid`) manages HTML caching itself: now an info note, no advice to change it
+- **"Combine files with your cache plugin" on Shopify.** Now an info note: remove unused apps and sections instead. Other sites get "cache plugin (WordPress) or build tool"
+- **Mobile menu reported as a content panel loaded by JavaScript**, and **"no buy button"** next to a visible "Add to cart": menus, drawers and dialogs are no longer panels, and the buy-button check reads the fixed page text
+- **Missed: broken call / WhatsApp links.** New `links-badcontact` finding: two numbers in one `tel:` or `wa.me` link, or a `wa.me` number without the country code
+
+Found while re-checking the fixed version on the same store:
+
+- **"No buy button" next to a visible "Add to cart".** The mini-cart selector `[id*="cart"]` also matched Shopify's buy button (`id="…__add-to-cart"`). Add-to-cart ids are now kept as page content
+- **Product image gallery reported as "custom elements with no readable text".** Large custom elements that hold images or video (Shopify's `<slideshow-slide>`) are no longer flagged
+- **A long list of identical Shopify pixels** (one store had 10 custom pixels): repeated pixels are now one line with a count
+- **Shopify's `data-url` endpoints reported as "clickable elements that are not links".** `data-url` pointing to a section/API endpoint (`/recommendations/`, `section_id=`, JSON) or to the same page (a filter's "Clear all") is what a script fetches, not a link
+
+## 1.5.0 (Phase 4: Performance)
+
+New **Performance** tab, built from the Phase 4 (Core Web Vitals) learning and checked against a live D2C product page.
+
+- **Core Web Vitals of this visit**: LCP, CLS (largest session window, 1 s gap, 5 s cap, shifts after input ignored) and INP (slowest interaction, 1 outlier ignored per 50), FCP, with web.dev thresholds. Poor LCP, CLS or INP is critical on live revenue pages. Every audit reminds that Google ranks with field data (CrUX) and shows where to confirm it
+- **LCP element and its four parts**: TTFB, resource load delay, load duration, render delay, with advice for the biggest part. Flags a lazy-loaded LCP image (critical on live revenue pages, launch blocker before launch), an LCP image found late (`data-src` or a long load delay), missing `fetchpriority="high"`, and a **loading screen or spinner as the LCP** (found on a live Shopify store)
+- **Layout shifts and animations**: what moved (selectors, shift count and value), CSS animations that change layout (`left`, `top`, `width`, `margin`… a layout shift every frame), animations that repaint (`box-shadow`, `background-position`) and composited ones (`transform`, `opacity`, never flagged). Discrete properties like `z-index` are ignored. Warns when Chrome's 150-shift buffer is full, so CLS may be higher than shown
+- **Render-blocking files** with time, owner (first-party or vendor) and file type; Early Hints files are labelled by extension, not "JS"
+- **Main thread**: long animation frames (LoAF) grouped by owner (Google Tag Manager / gtag, Meta Pixel, Microsoft Clarity, this site…), forced-layout time and invokers. Frames caused by browser extensions, including this one, are not blamed on the site. Performance data is read before the other collectors run
+- **INP phases**: input delay, processing and presentation, with entries of one tap (pointerdown, pointerup, click) combined, so a slow click handler shows as processing
+- **Third parties**: requests and size per vendor; "size hidden" when the vendor sends no Timing-Allow-Origin. Platform CDNs (Shopify, WordPress.com…) count as first-party
+- **Duplicate tags**: several GA4 IDs, a GA4 ID loaded twice, several GTM containers, Clarity projects or Meta pixels, and any script URL loaded twice
+- **Images**: lazy images in the first screen, images without width/height or aspect-ratio (SVG exempt), files much larger than their display size
+- **Fonts**: font files and size, `font-display` missing / auto / block on readable `@font-face` rules
+- **Show on page** works for Performance findings (new `css` target kind; invalid selectors find nothing)
+
+### Fixed (found while trying to break the extension)
+
+- **JSON, images, PDFs and text files were audited as web pages** and got fake critical findings. The panel now says the tab shows a file, not a web page
+- **A page that navigated during the audit was reported as "Done"** with sections from two different pages. The panel now warns and asks to run the audit again
+- **One section's rules crashing stopped the whole audit.** Every section is now judged through a safety net: a crash becomes one "Checks could not run" finding and the other tabs still work. Fuzz tests measure how often each module needs it
+- **Canonical `javascript:` / `data:` / `mailto:` was reported as "points to another domain".** It is now "not a web address"
+- **`<script>` text inside a heading was read as heading text** (false "H1 missing in raw HTML")
+- **Manifest description was longer than the Chrome Web Store limit (132 characters).** Shortened; a packaging test now checks limits, versions, permissions and CSP
+- **Health tab advised "turn on CSS Combine" for LiteSpeed.** On Buranshvalley that made one late file and CLS 0.838. It now advises Load CSS Asynchronously + Generate Critical CSS and warns about Combine
+
+### Hardened: all rules modules survive bad data
+
+- Fuzz testing found ~180 places where the older rules (Head, Body, Health, Business, Network, Rendering) crashed on a wrong type, a missing key or an odd value. Every `evaluate*()` now first passes its input through `conform()` with a schema of that collector's output (`modules/schemas.js`), so arrays are arrays, text is text and missing keys get a safe default. Where a collector sends `null` on purpose (Network timings, Rendering meta tags), `null` is kept
+- Schemas are inferred from 50 real captures: the live Buranshvalley, Cowork Co and Ghee Shop pages plus every collector run on six local test pages (`npm run capture`, `npm run build:schemas`). A test proves `conform()` returns real captures unchanged, and another fails if the schemas fall out of date
+- Two value bugs fixed: a heading level outside 1–6 crashed the outline, and an unreadable page URL crashed the canonical check
+- Result: 0 crashes in 12,000 damaged inputs per run, and 0 under a harsher run (20% of keys dropped, 25% replaced with junk). `safeEvaluate()` stays in the side panel as a last line of defence
+
+### Fixed after verifying on live sites (Ghee Shop, Buranshvalley, Pantry Shop, Olive Shop, example.com)
+
+The extension's own code was run on five live sites and every finding was checked against the browser's raw data. Real problems matched (layout animation, LCP element, render-blocking files, duplicate scripts, INP). Five false alarms and one miss were fixed:
+
+- **"LCP image found late" because of `data-src`**: WooCommerce keeps the zoom file in `data-src` while `src` loads normally. Now flagged only when the image really started late
+- **Images in a closed menu or a slider slide off screen reported as "above the fold"**: images clipped by a parent with `overflow: hidden`, hidden with `opacity: 0`, or off screen to the left/right are no longer counted
+- **Zoom layers reported as "images without size"**: `position: absolute/fixed` images cannot push content, so they are skipped
+- **Icon fonts inlined as `data:` URIs asked for `font-display`**: they are never downloaded, so they are skipped (as in Lighthouse)
+- **"Larger than shown" listed 127 small thumbnails**: now needs at least 2x the pixels and 200 px extra
+- **Missed: Google Ads `AW-` tag loaded twice**: any Google tag ID (G-, AW-, GT-, DC-) requested twice is now reported
+
+### Tests
+
+- 144 unit, golden, fuzz, schema and packaging tests (`npm test`) and 23 integration tests in real Chromium (including a page of false-positive traps) (`npm run test:integration`): collectors on fixture pages, the full side-panel flow with the unpacked extension, "Show on page", and hostile pages (40,000 elements and 13,000 animations, XSS strings, `__proto__` in JSON-LD, broken and deeply nested JSON-LD, strict CSP, a page that overrides `fetch`, `JSON`, `Array`, `querySelectorAll`, `PerformanceObserver` and timers, a busy main thread, quirks mode, mid-audit navigation, JSON / image / text files)
+
 ## 1.4.1 (fix)
 
 - **Network tab: TTFB was missing when run from the extension.** Requests made by an injected collector run in the extension's isolated world and do not appear in the page's Performance timeline, so the warm and uncached TTFB samples came back empty. TTFB is now timed directly (request start until the response headers arrive) whenever no Performance entry exists. Found by running the full side-panel flow in Chromium, not just the collectors

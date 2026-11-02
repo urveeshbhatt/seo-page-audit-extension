@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Perf traps fixture: things that look bad but are fine</title>
+  <style>
+    /* icon font inlined as a data: URI (Swiper does this): never downloaded */
+    @font-face { font-family: 'trap-icons'; src: url("data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAZgABAAAAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA") format('woff'); }
+    body { margin: 0; font-family: system-ui, sans-serif; }
+    .gallery { position: relative; width: 600px; overflow: hidden; }
+    .gallery img.main { width: 600px; height: auto; display: block; }
+    /* WooCommerce zoom layer: absolute, invisible until hover */
+    .gallery img.zoomImg { position: absolute; top: 0; left: 0; opacity: 0; }
+    /* closed mobile menu: height 0 + overflow hidden */
+    .drawer { position: absolute; top: 40px; left: 0; height: 0; overflow: hidden; }
+    /* slider: next slide is off screen to the right */
+    .next-slide { position: absolute; top: 60px; left: 120vw; }
+    .icon { font-family: 'trap-icons'; }
+  </style>
+</head>
+<body>
+  <div class="drawer"><img src="/img/small.png?menu" loading="lazy" alt="menu" width="300" height="200"></div>
+  <h1>Traps <span class="icon">a</span></h1>
+  <div class="gallery">
+    <!-- WooCommerce: data-src is the full-size zoom file, src loads right away -->
+    <img class="main" src="/img/hero.png" data-src="/img/hero.png?full" data-large_image="/img/hero.png?full" width="1000" height="700" fetchpriority="high" alt="jar">
+    <img class="zoomImg" src="/img/hero.png?zoom" alt="">
+  </div>
+  <div class="next-slide"><img src="/img/small.png?slide" loading="lazy" alt="slide 2" width="300" height="200"></div>
+</body>
+</html>

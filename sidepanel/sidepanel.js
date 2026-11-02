@@ -17,7 +17,12 @@ import { evaluateNetwork } from '../modules/phase2-rules.js';
 import { runRedirectTests, originsFor } from '../modules/phase2-redirects.js';
 import { collectRendering } from '../modules/phase3-rendering.js';
 import { evaluateRendering } from '../modules/phase3-rules.js';
+import { collectPerformance } from '../modules/phase4-performance.js';
+import { evaluatePerformance } from '../modules/phase4-rules.js';
+import { collectSiteUrls, scanPages, checkLinks } from '../modules/phase5-site.js';
+import { evaluateSite, linksToCheck, siteToMarkdown } from '../modules/phase5-rules.js';
 import { buildSummary, VERDICTS } from '../modules/summary.js';
+import { safeEvaluate } from '../modules/safe-evaluate.js';
 import { toMarkdown, toCsv, fileStem } from '../modules/report.js';
 import { highlightTargets, clearHighlights } from '../modules/highlight.js';
 
@@ -41,6 +46,7 @@ const ui = {
   goBusiness: $('go-business'),
   goNetwork: $('go-network'),
   goRendering: $('go-rendering'),
+  goPerformance: $('go-performance'),
   redirRun: $('redir-run'),
   redirRevoke: $('redir-revoke'),
   redirStatus: $('redir-status'),
@@ -72,6 +78,7 @@ const views = {
   business: { evaluate: evaluateBusiness, counts: $('business-counts'), groups: $('business-groups'), hideGood: $('business-hide-good'), data: null, result: null },
   network: { evaluate: evaluateNetwork, counts: $('network-counts'), groups: $('network-groups'), hideGood: $('network-hide-good'), data: null, result: null },
   rendering: { evaluate: evaluateRendering, counts: $('rendering-counts'), groups: $('rendering-groups'), hideGood: $('rendering-hide-good'), data: null, result: null },
+  performance: { evaluate: evaluatePerformance, counts: $('performance-counts'), groups: $('performance-groups'), hideGood: $('performance-hide-good'), data: null, result: null },
 };
 let redirects = null; // redirect test results for the current audit (in memory only)
 
@@ -228,7 +235,9 @@ function judge(name, context) {
   const extra = name === 'body' ? views.head.data
     : name === 'network' ? { head: views.head.data, redirects }
       : name === 'rendering' ? { network: views.network.data } : undefined;
-  view.result = view.evaluate(view.data, context, extra);
+  // One section's rules crashing on odd page data must not stop the audit.
+  view.result = safeEvaluate(view.evaluate, view.data, context, extra);
+  if (view.result.error) console.warn(`[Page Audit Lens] ${name} rules:`, view.result.error);
   renderView(view);
 }
 
@@ -246,9 +255,10 @@ Object.values(views).forEach((view) => {
 
 // Changing the context re-judges the same data, no need to audit again.
 ui.form.addEventListener('change', () => {
-  if (!Object.values(views).some((v) => v.data)) return;
+  if (!Object.values(views).some((v) => v.data)) { judgeSite(); return; }
   const context = readContext();
   Object.keys(views).forEach((name) => judge(name, context));
+  judgeSite();
   renderSummary();
   renderReport();
   const c = totals();
@@ -260,6 +270,7 @@ ui.goHealth.addEventListener('click', () => showTab('health'));
 ui.goBusiness.addEventListener('click', () => showTab('business'));
 ui.goNetwork.addEventListener('click', () => showTab('network'));
 ui.goRendering.addEventListener('click', () => showTab('rendering'));
+ui.goPerformance.addEventListener('click', () => showTab('performance'));
 
 // ---------------- show on page ----------------
 
@@ -581,10 +592,21 @@ async function runAudit(event) {
     if (tab.url && RESTRICTED.test(tab.url)) throw new Error('cannot be scripted');
 
     const context = readContext();
+    // Performance is read first, before the other collectors run their own
+    // code on the page's main thread (their work would show up as long frames).
+    let perfData = null;
+    let perfError = null;
+    try { perfData = await runInTab(tab.id, collectPerformance); } catch (e) { perfError = e; }
     const [basics, head] = await Promise.all([
       runInTab(tab.id, collectBasics),
       runInTab(tab.id, collectHead),
     ]);
+    // Chrome shows JSON, images, PDFs and plain text inside a generated page.
+    // Auditing that page would report nonsense (no title, no H1, "critical").
+    if (basics.contentType && !/^(text\/html|application\/xhtml\+xml)$/i.test(basics.contentType)) {
+      setStatus(`This tab shows a ${basics.contentType} file, not a web page. Open an HTML page to audit.`, true);
+      return;
+    }
 
     renderBasics(basics);
     lastUrl = basics.url;
@@ -614,6 +636,18 @@ async function runAudit(event) {
       ['business', collectSignals, ui.goBusiness],
       ['rendering', collectRendering, ui.goRendering],
     ];
+    views.performance.data = perfData;
+    views.performance.result = null;
+    if (perfData) {
+      judge('performance', context);
+      enableTab('performance');
+      ui.goPerformance.hidden = false;
+    } else {
+      if (perfError && !friendlyError(perfError).startsWith('No access')) console.error('[Page Audit Lens] performance', perfError);
+      failed.push('performance');
+      views.performance.counts.replaceChildren();
+      views.performance.groups.replaceChildren(el('p', 'hint', 'The performance checks failed on this page. Other tabs are still valid.'));
+    }
     await Promise.all(sections.map(async ([name, collector, button]) => {
       const view = views[name];
       view.data = null;
@@ -657,6 +691,15 @@ async function runAudit(event) {
       views.network.groups.replaceChildren(el('p', 'hint', 'The network checks failed on this page. Other tabs are still valid.'));
     }
 
+    // The tab may have navigated while collectors were running (redirect, SPA
+    // route change, user click). Then sections describe different pages.
+    const noHash = (u) => String(u || '').split('#')[0];
+    const now = await chrome.tabs.get(tab.id).catch(() => null);
+    if (now && now.url && noHash(now.url) !== noHash(lastUrl)) {
+      setStatus(`The page changed during the audit (now ${now.url.slice(0, 120)}). Results may mix two pages: run the audit again.`, true);
+      return;
+    }
+
     if (failed.length) {
       setStatus(`Done, but ${failed.join(' and ')} checks failed on this page. See the other tabs.`, true);
       return;
@@ -677,6 +720,75 @@ async function runAudit(event) {
 }
 
 ui.form.addEventListener('submit', runAudit);
+
+// ---------------- site scan (Phase 5) ----------------
+// Separate from the page audit: the user starts it, it can be stopped, and it
+// never feeds the page Summary. Batches keep the progress line moving.
+
+const site = {
+  run: $('site-run'), stop: $('site-stop'), md: $('site-md'), limit: $('site-limit'), status: $('site-status'),
+  view: { evaluate: evaluateSite, counts: $('site-counts'), groups: $('site-groups'), hideGood: $('site-hide-good'), data: null, result: null },
+  stopped: false,
+};
+site.view.hideGood.addEventListener('change', () => { if (site.view.result) renderView(site.view); });
+
+function judgeSite() {
+  if (!site.view.data) return;
+  site.view.result = safeEvaluate(evaluateSite, site.view.data, readContext());
+  renderView(site.view);
+}
+
+async function runSiteScan() {
+  site.run.disabled = true;
+  site.stop.hidden = false;
+  site.md.hidden = true;
+  site.stopped = false;
+  site.view.data = null;
+  site.view.result = null;
+  site.view.counts.replaceChildren();
+  site.view.groups.replaceChildren();
+  site.status.textContent = 'Reading robots.txt and the sitemap…';
+  try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (!tab || tab.id === undefined) throw new Error('No active tab found.');
+    if (tab.url && RESTRICTED.test(tab.url)) throw new Error('cannot be scripted');
+    const d = await runInTab(tab.id, collectSiteUrls, [Number(site.limit.value) || 100]);
+    d.pages = [];
+    d.linkChecks = [];
+    const total = d.urls.length;
+    for (let i = 0; i < total && !site.stopped; i += 10) {
+      site.status.textContent = `Scanning pages: ${i} of ${total}${d.source === 'links' ? ' (no sitemap found: using this page\'s links)' : ''}…`;
+      d.pages.push(...await runInTab(tab.id, scanPages, [d.urls.slice(i, i + 10)]));
+    }
+    const todo = site.stopped ? [] : linksToCheck(d, 100);
+    for (let i = 0; i < todo.length && !site.stopped; i += 20) {
+      site.status.textContent = `Checking internal links found on those pages: ${i} of ${todo.length}…`;
+      d.linkChecks.push(...await runInTab(tab.id, checkLinks, [todo.slice(i, i + 20)]));
+    }
+    site.view.data = d;
+    judgeSite();
+    const c = site.view.result.counts;
+    site.status.textContent = `${site.stopped ? 'Stopped early. ' : ''}Scanned ${d.pages.length} of ${d.totalListed || total} URLs and checked ${d.linkChecks.length} more links. ${c.critical} critical, ${c.warning} to check, ${c.good} passed.`;
+    site.md.hidden = false;
+  } catch (error) {
+    const message = friendlyError(error);
+    if (!message.startsWith('No access') && !message.startsWith('Chrome does not allow')) console.error('[Page Audit Lens] site scan', error);
+    site.status.textContent = message.replace(/^Audit failed/, 'Scan failed');
+  } finally {
+    site.run.disabled = false;
+    site.stop.hidden = true;
+  }
+}
+
+site.run.addEventListener('click', runSiteScan);
+site.stop.addEventListener('click', () => { site.stopped = true; site.status.textContent = 'Stopping after this batch…'; });
+site.md.addEventListener('click', () => {
+  if (!site.view.result || !site.view.data) return;
+  const origin = site.view.data.origin || '';
+  const md = siteToMarkdown(site.view.result, { title: `Site scan: ${origin}`, url: origin, date: today(), version: chrome.runtime.getManifest().version });
+  download(md, `${fileStem(origin, today())}-site-scan.md`, 'text/markdown;charset=utf-8');
+  toast('Site scan downloaded.');
+});
 
 // ---------------- redirect tests (optional access, asked per site) ----------------
 
